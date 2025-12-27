@@ -1,7 +1,17 @@
--   Add sql.js as the db
--   Set up TypeScript
--   Set up a modular folder-file structure
--   A feature list
 -   A logo
 -   Config file for github releases
 -   A svg icon for all actions in the sidebar
+-   Have an api endpoint in vercel maybe
+
+-   built-in event timers (Fiestas, farming contests (selectable crops), fallen stars, dark auctions etc.)
+-   mayors page (Current mayor and perks, last election results, next election candidates and votes etc.)
+-   news, derailious videos, cowshed, popular reddit posts in one page
+-   auction house sell alarms
+-   item price checkers
+-   improved PV (Vs skycrypt)
+-   forge tracker that notifies when the forge is over, will check it from the api
+-   calculate NW with the items in your island chests,
+-   add skyhelper bot features,
+-   maybe a team chat in-app
+-   minion market
+-   everything in mlg portfolio site and planned 

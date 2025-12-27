@@ -7,15 +7,30 @@
 	</head>
 	<body>
 		<div id="sidebar">
-			<div><img src="icons/home.svg" width="40" height="40" alt="Home" /> <button>Home</button></div>
-			<div><img src="icons/settings.svg" width="40" height="40" alt="Settings" /> <button>Settings</button></div>
+			<button onclick="renderPage('mainmenu')">
+				<img src="icons/home.svg" width="40" height="40" alt="Home" />
+				<div>Home</div>
+			</button>
+			<button onclick="renderPage('settings')">
+				<img src="icons/settings.svg" width="40" height="40" alt="Settings" />
+				<div>Settings</div>
+			</button>
 		</div>
 		<div id="main">
 			<h1>Skyblock</h1>
 			<img src="/icons/logo.gif" alt="Neutralinojs" />
 		</div>
-		<script src="/dist/neutralino.js"></script>
-		<script src="/dist/test.js"></script>
-		<script src="/javascript/appsetup.js"></script>
+		<!-- Neutralino Stuff-->
+		<script src="dist/neutralino.js"></script>
+		<script src="dist/test.js"></script>
+
+		<!-- Database Setup -->
+		<script src="sqljs/sql-wasm.js"></script>
+		<script src="javascript/initialisedatabase.js"></script>
+
+        <!-- Other Custom Stuff-->
+		<script src="javascript/mainmenu.js"></script>
+		<script src="javascript/appsetup.js"></script>
+		<script src="javascript/helpers.js"></script>
 	</body>
 </html>

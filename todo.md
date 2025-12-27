@@ -1,3 +1,6 @@
+-   Add sql.js as the db
+-   Set up TypeScript
+-   Set up a modular folder-file structure
 -   A feature list
 -   A logo
 -   Config file for github releases

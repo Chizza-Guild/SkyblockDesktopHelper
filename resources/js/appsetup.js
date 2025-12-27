@@ -64,6 +64,3 @@ if (NL_OS != "Darwin") {
 	// TODO: Fix https://github.com/neutralinojs/neutralinojs/issues/615
 	setTray();
 }
-
-// Display app information
-showInfo();

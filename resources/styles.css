@@ -1,24 +1,45 @@
 * {
     box-sizing: border-box;
     margin: 0;
-    padding: 0  ;
+    padding: 0;
 }
 
 body {
-    background-color: white;
     display: flex;
     flex-direction: row;
+    height: 100dvh;
+    background-color: white;
 }
 
 #sidebar {
     display: flex;
     flex-direction: column;
-    width: 10vw;
-    height: 100dvh;
-    transition: all 0.25s ease-in-out;
+    max-width: 40px;
+    height: 100%;
+    overflow: hidden;
     background-color: pink;
+    transition: max-width 1s ease-in-out;
+    padding: 4px 4px 4px 0;
 }
 
 #sidebar:hover {
-    width: 20vw;
+    max-width: 1000px;
+}
+
+#sidebar > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+    width: max-content;
+    cursor: pointer;
+    color: white;
+}
+
+#sidebar button {
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    font-size: 3vw;
+    cursor: pointer;
 }

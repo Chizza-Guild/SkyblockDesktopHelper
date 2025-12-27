@@ -1,0 +1,4 @@
+-   A feature list
+-   A logo
+-   Config file for github releases
+-   A svg icon for all actions in the sidebar

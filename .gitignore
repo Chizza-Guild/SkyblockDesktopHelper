@@ -1,7 +1,7 @@
 # Builds
 /bin
 /dist
-/resources/js/dist
+/resources/dist
 
 # Neutralinojs related files
 neutralino.js

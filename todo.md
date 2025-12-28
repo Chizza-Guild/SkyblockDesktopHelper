@@ -6,7 +6,7 @@
 -   built-in event timers (Fiestas, farming contests (selectable crops), fallen stars, dark auctions etc.)
 -   mayors page (Current mayor and perks, last election results, next election candidates and votes etc.)
 -   news, derailious videos, cowshed, popular reddit posts in one page
--   auction house sell alarms
+-   auction house sell alarms (ryry)
 -   item price checkers
 -   improved PV (Vs skycrypt)
 -   forge tracker that notifies when the forge is over, will check it from the api

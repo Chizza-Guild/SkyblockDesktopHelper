@@ -10,6 +10,7 @@ neutralino.js
 .tmp/
 *.tmp
 .lite_workspace.lua
+.env
 
 # Node modules
 /node_modules

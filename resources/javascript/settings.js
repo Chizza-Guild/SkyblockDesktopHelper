@@ -1,32 +1,59 @@
+let playerNameVar;
+let apiKeyVar;
+let uuidVar;
+
 async function saveSettings() {
 	try {
 		const name = document.getElementById("sbNameInput").value;
 		const apiKey = document.getElementById("apiKeyInput").value;
 
-		db.run("DELETE FROM user_info");
+		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid) VALUES (1, ?, ?, NULL)", [name, apiKey]);
 		await saveDb();
-		db.run("INSERT INTO user_info (name, apiKey) VALUES (?, ?)", [name, apiKey]);
-		await saveDb();
+
 		alert("Settings saved successfully!");
 	} catch (err) {
-		console.error("Failed to save settings:", err);
+		console.error(err);
 		alert("Failed to save settings!");
 	}
 }
 
 async function loadSettings() {
-    await sleep(50);
+	await sleep(50);
 
-	const res = db.exec("SELECT name, apiKey FROM user_info LIMIT 1");
-	const name = res.length ? res[0].values[0][0] : "";
-	const apiKey = res.length ? res[0].values[0][1] : "";
-	document.getElementById("sbNameInput").value = name;
-	document.getElementById("apiKeyInput").value = apiKey;
+	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
+	if (!res.length) return;
+    console.log(res);
+
+	const [id, name, apiKey, uuid] = res[0].values[0];
+
+	if (currentPage === "settings") {
+		document.getElementById("sbNameInput").value = name || "";
+		document.getElementById("apiKeyInput").value = apiKey || "";
+	}
+
+	playerNameVar = name;
+	apiKeyVar = apiKey;
+
+	if (name && !uuid) {
+		uuidVar = await getPlayerUuid(name);
+	} else {
+		uuidVar = uuid;
+	}
 }
 
+async function getPlayerUuid(playerName) {
+	try {
+		const response = await fetch(CoflnetUrl + "/search/player/" + encodeURIComponent(playerName));
+		const players = await response.json();
+		const output = players[0].uuid;
 
-// Expose functions to the global window so inline handlers work
-window.saveSettings = saveSettings;
-window.loadSettings = loadSettings;
+		db.run("UPDATE user_info SET uuid = ? WHERE id = 1", [output]);
+		await saveDb();
 
+		return output;
+	} catch (error) {
+		alert(error);
+	}
+}
 
+loadSettings();

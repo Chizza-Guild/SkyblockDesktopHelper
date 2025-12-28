@@ -1,5 +1,6 @@
-let currentPage = "mainmenu"; // Not used yet
 const mainDiv = document.getElementById("main");
+
+let currentPage = "mainmenu";
 
 function renderPage(page) {
 	currentPage = page;
@@ -8,16 +9,17 @@ function renderPage(page) {
 		.then(response => response.text())
 		.then(html => {
 			mainDiv.innerHTML = html;
-			// Page-specific initialization
-			if (page === 'settings' && typeof window.loadSettings === 'function') {
-				window.loadSettings();
-			}
-			if (page === 'auctionNotifier') {
-				const cb = document.getElementById('aucNotyBtn');
+
+			if (page == "settings") {
+				loadSettings();
+			} else if (page === "auctionNotifier") {
+				const cb = document.getElementById("aucNotyBtn");
 				if (cb) {
-					cb.checked = localStorage.getItem('auctionNotifierSubscribed') === 'true';
+					cb.checked = localStorage.getItem("auctionNotifierSubscribed") === "true";
 				}
-				if (typeof window.updateCheckbox === 'function') window.updateCheckbox();
+				if (typeof window.updateCheckbox === "function") window.updateCheckbox();
 			}
 		});
 }
+
+renderPage("mainmenu");

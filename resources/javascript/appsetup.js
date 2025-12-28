@@ -64,3 +64,7 @@ if (NL_OS != "Darwin") {
 	// TODO: Fix https://github.com/neutralinojs/neutralinojs/issues/615
 	setTray();
 }
+
+async function sendNotification(title, body) {
+	await Neutralino.os.showNotification(`${title}`, `${body}`);
+}

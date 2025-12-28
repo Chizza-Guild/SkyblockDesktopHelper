@@ -23,4 +23,7 @@ async function loadSettings() {
 	document.getElementById("apiKeyInput").value = apiKey;
 }
 
+
 loadSettings();
+
+

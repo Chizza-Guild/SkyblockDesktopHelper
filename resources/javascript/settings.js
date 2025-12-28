@@ -1,3 +1,5 @@
+const CoflnetUrl = "https://sky.coflnet.com/api";
+
 let playerNameVar;
 let apiKeyVar;
 let uuidVar;
@@ -23,8 +25,6 @@ async function saveSettings() {
 }
 
 async function loadSettings() {
-	await sleep(50);
-
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
 	console.log(res);
@@ -60,5 +60,3 @@ async function getPlayerUuid(playerName) {
 		alert(error);
 	}
 }
-
-loadSettings();

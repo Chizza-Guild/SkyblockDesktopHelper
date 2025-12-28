@@ -21,3 +21,13 @@ async function loadJSFile(filename, extension) {
 		document.body.appendChild(script);
 	});
 }
+
+// lets user get the saved settings on the db.
+function getSavedSettings() {
+  const res = db.exec("SELECT name, apiKey FROM user_info LIMIT 1");
+  const name = res.length ? (res[0].values[0][0] ?? "") : "";
+  const apiKey = res.length ? (res[0].values[0][1] ?? "") : "";
+  return { name, apiKey };
+}
+
+window.getSavedSettings = getSavedSettings();

@@ -4,6 +4,7 @@ async function saveSettings() {
 		const apiKey = document.getElementById("apiKeyInput").value;
 
 		db.run("DELETE FROM user_info");
+		await saveDb();
 		db.run("INSERT INTO user_info (name, apiKey) VALUES (?, ?)", [name, apiKey]);
 		await saveDb();
 		alert("Settings saved successfully!");
@@ -24,6 +25,8 @@ async function loadSettings() {
 }
 
 
-loadSettings();
+// Expose functions to the global window so inline handlers work
+window.saveSettings = saveSettings;
+window.loadSettings = loadSettings;
 
 

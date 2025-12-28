@@ -30,4 +30,4 @@ function getSavedSettings() {
   return { name, apiKey };
 }
 
-window.getSavedSettings = getSavedSettings();
+window.getSavedSettings = getSavedSettings;

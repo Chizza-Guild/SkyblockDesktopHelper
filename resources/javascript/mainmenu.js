@@ -16,6 +16,10 @@ function renderPage(page) {
 			} else if (page === "auctionNotifier") {
                 loadJSFile("auctionNotifier","js")
 				document.getElementById("aucNotyBtn").checked = auctionNotifierVar;
+			} else if (page === "itemTracker") {
+				if (typeof initItemTracker === "function") {
+					initItemTracker();
+				}
 			}
 		});
 }

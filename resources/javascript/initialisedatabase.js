@@ -39,6 +39,8 @@ let saveDb;
 		await saveDb();
 
 		console.log("Database initialized successfully!");
+
+		loadSettings();
 	} catch (err) {
 		console.error("Initialization failed:", err);
 	}

@@ -1,5 +1,3 @@
-const CoflnetUrl = "https://sky.coflnet.com/api";
-
 let activeAuctionsId = new Set();
 let subscribed = false;
 let currentAuctions;

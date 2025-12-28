@@ -1,0 +1,49 @@
+<h1>Item Price Tracker</h1>
+
+<div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
+	<div style="border: 1px solid #ccc; padding: 15px; border-radius: 5px">
+		<h2>Add Item to Track</h2>
+		<form id="addItemForm" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px">
+			<div>
+				<label for="itemTagInput">Select Item:</label>
+				<input list="itemsList" id="itemTagInput" required style="width: 100%; padding: 5px" placeholder="Start typing to search..." onchange="updatePriceType()" oninput="updatePriceType()" />
+				<datalist id="itemsList"></datalist>
+			</div>
+
+			<div>
+				<label>Price Type:</label>
+				<div id="priceTypeDisplay" style="padding: 5px; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 3px; font-weight: bold">
+					Select an item to see price type
+				</div>
+			</div>
+
+			<div>
+				<label for="thresholdTypeSelect">Alert When Price:</label>
+				<select id="thresholdTypeSelect" required style="width: 100%; padding: 5px">
+					<option value="below">Goes Below</option>
+					<option value="above">Goes Above</option>
+				</select>
+			</div>
+
+			<div>
+				<label for="thresholdPriceInput">Threshold Price:</label>
+				<input type="number" id="thresholdPriceInput" required min="0" step="0.01" style="width: 100%; padding: 5px" />
+			</div>
+
+			<button type="submit" style="padding: 10px; cursor: pointer; background-color: #4CAF50; color: white; border: none; border-radius: 3px">
+				Add Item
+			</button>
+		</form>
+	</div>
+
+	<div>
+		<div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 10px">
+			<h2>Tracked Items</h2>
+			<div style="display: flex; flex-direction: row; align-items: center; gap: 10px">
+				<input type="checkbox" id="trackerActiveBtn" onchange="togglePriceTracking()" />
+				<div>Enable Price Tracking</div>
+			</div>
+		</div>
+		<div id="trackedItemsList" style="display: flex; flex-direction: column; gap: 10px"></div>
+	</div>
+</div>

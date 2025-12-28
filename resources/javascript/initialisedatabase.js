@@ -44,6 +44,19 @@ let saveDb;
 		db.run("CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY, auctionNotifier INTEGER)");
 		await saveDb();
 
+		// TRACKED ITEMS TABLE FOR PRICE TRACKING
+		db.run(`CREATE TABLE IF NOT EXISTS tracked_items (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			item_tag TEXT NOT NULL,
+			item_name TEXT NOT NULL,
+			price_type TEXT NOT NULL,
+			threshold_type TEXT NOT NULL,
+			threshold_price REAL NOT NULL,
+			is_active INTEGER DEFAULT 1,
+			created_at TEXT DEFAULT CURRENT_TIMESTAMP
+		)`);
+		await saveDb();
+
 		console.log("Database initialized successfully!");
 
 		loadUserSettings();

@@ -8,6 +8,11 @@ async function saveSettings() {
 		const apiKey = document.getElementById("apiKeyInput").value;
 
 		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid) VALUES (1, ?, ?, NULL)", [name, apiKey]);
+
+		if (name != playerNameVar) await getPlayerUuid(name);
+		playerNameVar = name;
+		apiKeyVar = apiKey;
+
 		await saveDb();
 
 		alert("Settings saved successfully!");
@@ -22,7 +27,7 @@ async function loadSettings() {
 
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
-    console.log(res);
+	console.log(res);
 
 	const [id, name, apiKey, uuid] = res[0].values[0];
 

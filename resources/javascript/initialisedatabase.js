@@ -33,6 +33,11 @@ let saveDb;
 		db.run("CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY, name TEXT, apiKey TEXT)");
 		await saveDb();
 
+		const cols = db.exec("PRAGMA table_info(user_info)")[0].values;
+		const hasUuid = cols.some(c => c[1] == "uuid");
+		if (!hasUuid) db.run("ALTER TABLE user_info ADD COLUMN uuid TEXT");
+		await saveDb();
+
 		console.log("Database initialized successfully!");
 	} catch (err) {
 		console.error("Initialization failed:", err);

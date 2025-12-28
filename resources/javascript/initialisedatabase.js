@@ -30,17 +30,24 @@ let saveDb;
 			return Neutralino.filesystem.writeBinaryFile(dbPath, db.export());
 		};
 
+		// USER INFO TABLE HERE
 		db.run("CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY, name TEXT, apiKey TEXT)");
 		await saveDb();
 
+		// ADDS NEW COLUMNS TO USER INFO TABLE
 		const cols = db.exec("PRAGMA table_info(user_info)")[0].values;
 		const hasUuid = cols.some(c => c[1] == "uuid");
 		if (!hasUuid) db.run("ALTER TABLE user_info ADD COLUMN uuid TEXT");
 		await saveDb();
 
+		// FEATURE ACTIVATION TABLE HERE
+		db.run("CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY, auctionNotifier INTEGER)");
+		await saveDb();
+
 		console.log("Database initialized successfully!");
 
-		loadSettings();
+		loadUserSettings();
+		loadFeatureSettings();
 	} catch (err) {
 		console.error("Initialization failed:", err);
 	}

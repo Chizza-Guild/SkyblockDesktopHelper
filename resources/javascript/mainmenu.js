@@ -10,14 +10,12 @@ function renderPage(page) {
 		.then(html => {
 			mainDiv.innerHTML = html;
 
-			if (page == "settings") {
-				loadSettings();
+			if (page == "settings" && db) {
+				loadUserSettings();
+				loadFeatureSettings();
 			} else if (page === "auctionNotifier") {
-				const cb = document.getElementById("aucNotyBtn");
-				if (cb) {
-					cb.checked = localStorage.getItem("auctionNotifierSubscribed") === "true";
-				}
-				if (typeof window.updateCheckbox === "function") window.updateCheckbox();
+                loadJSFile("auctionNotifier","js")
+				document.getElementById("aucNotyBtn").checked = auctionNotifierVar;
 			}
 		});
 }

@@ -9,7 +9,6 @@ async function loadJSFile(filename, extension) {
 		const src = `/${extension == ".ts" ? "dist" : "javascript"}/${filename}.${extension}`;
 
 		if (Array.from(document.scripts).find(script => script.src.includes(src))) {
-			if (filename == "settings") loadSettings();
 			resolve();
 			return;
 		}

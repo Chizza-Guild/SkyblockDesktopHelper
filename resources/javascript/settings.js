@@ -3,8 +3,9 @@ const CoflnetUrl = "https://sky.coflnet.com/api";
 let playerNameVar;
 let apiKeyVar;
 let uuidVar;
+let auctionNotifierVar;
 
-async function saveSettings() {
+async function saveUserSettings() {
 	try {
 		const name = document.getElementById("sbNameInput").value;
 		const apiKey = document.getElementById("apiKeyInput").value;
@@ -18,20 +19,19 @@ async function saveSettings() {
 		await saveDb();
 
 		alert("Settings saved successfully!");
-	} catch (err) {
-		console.error(err);
-		alert("Failed to save settings!");
+	} catch (error) {
+		alert(`Failed to save settings: ${error}`);
 	}
 }
 
-async function loadSettings() {
+async function loadUserSettings() {
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
-	console.log(res);
 
 	const [id, name, apiKey, uuid] = res[0].values[0];
+	console.log(`Loaded User Settings: ${res[0].values[0]}`);
 
-	if (currentPage === "settings") {
+	if (currentPage == "settings") {
 		document.getElementById("sbNameInput").value = name || "";
 		document.getElementById("apiKeyInput").value = apiKey || "";
 	}
@@ -44,6 +44,29 @@ async function loadSettings() {
 	} else {
 		uuidVar = uuid;
 	}
+}
+
+async function saveFeatureSettings() {
+	try {
+		db.run("INSERT OR REPLACE INTO features (id, auctionNotifier) VALUES (1, ?)", [auctionNotifierVar]);
+		await saveDb();
+	} catch (error) {
+		alert(`Failed to save settings: ${error}`);
+	}
+}
+
+async function loadFeatureSettings() {
+	const res = db.exec("SELECT * FROM features WHERE id = 1");
+	if (!res.length) return;
+
+	const [id, auctionNotifier] = res[0].values[0];
+	console.log(`Loaded Feature Settings: ${res[0].values[0]}`);
+
+	if (currentPage == "auctionNotifier") {
+		document.getElementById("aucNotyBtn").checked = auctionNotifier;
+	}
+
+	auctionNotifierVar = auctionNotifier;
 }
 
 async function getPlayerUuid(playerName) {

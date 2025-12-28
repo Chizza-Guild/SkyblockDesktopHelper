@@ -1,13 +1,12 @@
 let activeAuctionsId = new Set();
-let subscribed = false;
 let currentAuctions;
 let previousAuctions;
 
-async function fetchActiveAuctionData(playerUuid) {
+async function fetchActiveAuctionData() {
 	let fetchedAuctions = [];
 	// loops through maximum of 35
 	outer: for (let depth = 1; depth <= 4; depth++) {
-		const response = await fetch(CoflnetUrl + "/player/" + encodeURIComponent(playerUuid) + "/auctions?page=" + depth);
+		const response = await fetch(CoflnetUrl + "/player/" + encodeURIComponent(uuidVar) + "/auctions?page=" + depth);
 
 		if (!response.ok) {
 			const text = await response.text().catch(() => "");
@@ -63,21 +62,23 @@ function getNewAuctions(currentAuctions, previousAuctions) {
 	return newAuc;
 }
 
-function updateCheckbox() {
-	subscribed = document.getElementById("aucNotyBtn").checked;
-	localStorage.setItem("auctionNotifierSubscribed", subscribed ? "true" : "false");
+function auctionNotifierFunc() {
+	auctionNotifierVar = auctionNotifierVar == 0 ? 1 : 0; // Swap from 0 to 1 or the opposite, SQLite doesnt have booleans
+	alert(`${auctionNotifierVar == 1 ? "Started watching for sold auctions!" : "Stopped watching for sold auctions :("}`);
+	saveFeatureSettings();
 }
 
 async function main() {
-	alert(`${subscribed ? "Started watching for sold auctions!" : "Stopped watching for sold auctions :("}`);
-	previousAuctions = await fetchActiveAuctionData(uuidVar);
-	while (subscribed) {
+	previousAuctions = await fetchActiveAuctionData();
+	while (auctionNotifierVar == 1) {
 		try {
-			currentAuctions = await fetchActiveAuctionData(uuidVar);
-			console.log(currentAuctions);
+			currentAuctions = await fetchActiveAuctionData();
+			console.log("CurrentActions", currentAuctions);
+
 			let endedAuctions = [];
 			endedAuctions = getEndedAuctions(currentAuctions, previousAuctions);
-			console.log(endedAuctions);
+			console.log("EndedAuctions:", endedAuctions);
+
 			for (const ended of endedAuctions) {
 				sendNotification("Auction Ended!", "");
 			}
@@ -90,6 +91,8 @@ async function main() {
 		await sleep(2 * 10 * 1000); // 2 min pause
 	}
 }
+
+main();
 
 /* 
     Order

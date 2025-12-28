@@ -3,6 +3,96 @@ let priceCheckInterval = null;
 let lastNotifiedPrices = new Map(); // Track last notified price to avoid spam
 let allItems = []; // Store fetched items from API
 
+// Minecraft color code mapping
+const MINECRAFT_COLORS = {
+	"0": "#000000", // Black
+	"1": "#0000AA", // Dark Blue
+	"2": "#00AA00", // Dark Green
+	"3": "#00AAAA", // Dark Aqua
+	"4": "#AA0000", // Dark Red
+	"5": "#AA00AA", // Dark Purple
+	"6": "#FFAA00", // Gold
+	"7": "#AAAAAA", // Gray
+	"8": "#555555", // Dark Gray
+	"9": "#5555FF", // Blue
+	"a": "#55FF55", // Green
+	"b": "#55FFFF", // Aqua
+	"c": "#FF5555", // Red
+	"d": "#FF55FF", // Light Purple
+	"e": "#FFFF55", // Yellow
+	"f": "#FFFFFF", // White
+};
+
+const MINECRAFT_FORMATS = {
+	"l": "font-weight: bold",
+	"o": "font-style: italic",
+	"n": "text-decoration: underline",
+	"m": "text-decoration: line-through",
+};
+
+// Convert Minecraft color codes to HTML
+function minecraftToHTML(text) {
+	if (!text || typeof text !== "string") return text;
+
+	// Replace § with & if needed for compatibility
+	text = text.replace(/&/g, "§");
+
+	let result = "";
+	let currentColor = "";
+	let currentFormats = [];
+	let i = 0;
+
+	while (i < text.length) {
+		if (text[i] === "§" && i + 1 < text.length) {
+			const code = text[i + 1].toLowerCase();
+
+			// Close previous span if exists
+			if (currentColor || currentFormats.length > 0) {
+				result += "</span>";
+			}
+
+			if (code === "r") {
+				// Reset formatting
+				currentColor = "";
+				currentFormats = [];
+			} else if (MINECRAFT_COLORS[code]) {
+				// Color code
+				currentColor = MINECRAFT_COLORS[code];
+				currentFormats = [];
+			} else if (MINECRAFT_FORMATS[code]) {
+				// Format code
+				currentFormats.push(MINECRAFT_FORMATS[code]);
+			}
+
+			// Open new span with current styling
+			if (currentColor || currentFormats.length > 0) {
+				let style = "";
+				if (currentColor) style += `color: ${currentColor};`;
+				if (currentFormats.length > 0) style += currentFormats.join(";");
+				result += `<span style="${style}">`;
+			}
+
+			i += 2; // Skip § and code character
+		} else {
+			result += text[i];
+			i++;
+		}
+	}
+
+	// Close any remaining open span
+	if (currentColor || currentFormats.length > 0) {
+		result += "</span>";
+	}
+
+	return result;
+}
+
+// Strip Minecraft color codes for plain text display
+function stripMinecraftCodes(text) {
+	if (!text || typeof text !== "string") return text;
+	return text.replace(/[§&][0-9a-fk-or]/gi, "");
+}
+
 // Initialize when page loads
 async function initItemTracker() {
 	await fetchAllItems();
@@ -70,14 +160,19 @@ function populateItemsList() {
 		return;
 	}
 
-	// Sort items alphabetically by name
-	const sortedItems = [...allItems].sort((a, b) => a.name.localeCompare(b.name));
+	// Sort items alphabetically by name (stripped of color codes for sorting)
+	const sortedItems = [...allItems].sort((a, b) => {
+		const nameA = stripMinecraftCodes(a.name);
+		const nameB = stripMinecraftCodes(b.name);
+		return nameA.localeCompare(nameB);
+	});
 
 	sortedItems.forEach(item => {
 		const option = document.createElement("option");
 		option.value = item.tag;
-		// Show name, tag, and type (Bazaar/Auction) in the dropdown
-		option.textContent = `${item.name} - [${item.type}] (${item.tag})`;
+		// Strip color codes for datalist (doesn't support HTML)
+		const cleanName = stripMinecraftCodes(item.name);
+		option.textContent = `${cleanName} - [${item.type}] (${item.tag})`;
 		datalist.appendChild(option);
 	});
 }
@@ -181,7 +276,7 @@ function loadTrackedItems() {
 			itemDiv.innerHTML = `
 				<div style="display: flex; justify-content: space-between; align-items: center;">
 					<div>
-						<strong>${itemName}</strong> (${itemTag})<br>
+						<strong>${minecraftToHTML(itemName)}</strong> (${itemTag})<br>
 						<small>
 							${priceType === "bazaar" ? "Bazaar" : "Auction BIN"} -
 							Alert when ${thresholdType} ${thresholdPrice.toLocaleString()} coins
@@ -275,7 +370,7 @@ async function checkAllTrackedPrices() {
 				// Small delay between requests to respect rate limits
 				await sleep(500);
 			} catch (err) {
-				console.error(`Failed to check price for ${itemName}:`, err);
+				console.error(`Failed to check price for ${stripMinecraftCodes(itemName)}:`, err);
 			}
 		}
 	} catch (err) {
@@ -287,7 +382,7 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 	const currentPrice = await fetchItemPrice(itemTag, priceType);
 
 	if (currentPrice === null) {
-		console.log(`Could not fetch price for ${itemName}`);
+		console.log(`Could not fetch price for ${stripMinecraftCodes(itemName)}`);
 		return;
 	}
 
@@ -306,10 +401,12 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 			return; // Don't spam notifications for similar prices
 		}
 
-		const message = `${itemName} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
+		// Strip color codes for notification (OS notifications are plain text)
+		const cleanName = stripMinecraftCodes(itemName);
+		const message = `${cleanName} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
 		await sendNotification("Price Alert!", message);
 		lastNotifiedPrices.set(id, currentPrice);
-		console.log(`Notification sent for ${itemName}: ${message}`);
+		console.log(`Notification sent for ${cleanName}: ${message}`);
 	}
 }
 

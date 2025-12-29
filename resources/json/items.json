@@ -2,6 +2,8 @@
     "npc_sell_price": {
         "COBBLESTONE": 1,
         "OBSIDIAN": 7,
-        "GLOWSTONE_DUST": 2
+        "GLOWSTONE_DUST": 2,
+        "GRAVEL": 3,
+        "FLINT" : 4
     }
 }

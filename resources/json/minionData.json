@@ -431,5 +431,65 @@
         {
             "item_1": "0.2_MINING"
         }
-    }
+    },
+    {
+        "name": "Sand Minion",
+        "tiers": 11,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1":26,
+            "tier_2": 26,
+            "tier_3": 24,
+            "tier_4": 24,
+            "tier_5": 22,
+            "tier_6": 22,
+            "tier_7": 19,
+            "tier_8": 19,
+            "tier_9": 16,
+            "tier_10": 16,
+            "tier_11": 13
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_SAND",
+            "tier_2": "160_SAND",
+            "tier_3": "320_SAND",
+            "tier_4": "512_SAND",
+            "tier_5": "8_ENCHANTED_SAND",
+            "tier_6": "16_ENCHANTED_SAND",
+            "tier_7": "32_ENCHANTED_SAND",
+            "tier_8": "64_ENCHANTED_SAND",
+            "tier_9": "128_ENCHANTED_SAND",
+            "tier_10": "256_ENCHANTED_SAND",
+            "tier_11": "512_ENCHANTED_SAND"
+        },
+
+        "drops": 
+        { 
+            "item_1": "SAND~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_SAND~160"
+        },
+
+        "dropsDoubleCompacted": {
+            
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.2_MINING"
+        }
+    },
 ]

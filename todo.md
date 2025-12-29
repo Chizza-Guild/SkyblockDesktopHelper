@@ -27,3 +27,4 @@
 -   MLG --> Drop calculator with fortune & pristine
 -   MLG --> Compost Profit Calculator
 -   RYRY --> Carpentry skill calculator
+-   RYRY --> Minion slot calculator

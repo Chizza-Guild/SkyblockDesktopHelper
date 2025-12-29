@@ -12,14 +12,23 @@ async function saveUserSettings() {
 
 		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid) VALUES (1, ?, ?, NULL)", [name, apiKey]);
 
-		if (name != playerNameVar) await getPlayerUuid(name);
+		if (name != playerNameVar) {
+			console.log("Fetching new UUID for:", name);
+			uuidVar = await getPlayerUuid(name);
+			console.log("New UUID:", uuidVar);
+		}
+		
 		playerNameVar = name;
 		apiKeyVar = apiKey;
 
 		await saveDb();
 
+		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar);
+
 		alert("Settings saved successfully!");
+		
 	} catch (error) {
+		console.error("Error in saveUserSettings:", error);
 		alert(`Failed to save settings: ${error}`);
 	}
 }

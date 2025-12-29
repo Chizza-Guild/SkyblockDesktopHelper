@@ -3,6 +3,9 @@ const mainDiv = document.getElementById("main");
 let currentPage = "mainmenu";
 
 function renderPage(page) {
+	if (currentPage === "forgetimer") {
+		stopForgeTimer();
+	}
 	currentPage = page;
 
 	fetch(`/pages/${page}.html`)
@@ -20,6 +23,15 @@ function renderPage(page) {
 				if (typeof initItemTracker === "function") {
 					initItemTracker();
 				}
+			} else if (page === "forgetimer") {
+				setTimeout(() => {
+					if (typeof loadForgeData === "function") {
+						loadForgeData();
+					}
+					if (typeof startForgeTimer === "function") {
+						startForgeTimer();
+					}
+				}, 100);
 			}
 		});
 }

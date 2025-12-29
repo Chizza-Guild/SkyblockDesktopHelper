@@ -1,7 +1,10 @@
 ### In Progress
 -   auction house sell alarms (ryry) (MOSTLY DONE)
 -   forge tracker that notifies when the forge is over, will check it from the api
--   A svg icon for all actions in the sidebar
+-   Greenhouse Calculator by mlg
+-   Give "No Internet Connection" error on some features
+-   Change tray icon logo and app name
+-   Create a check when trying to load .ts files, if it cant find it, make an alert saying they need to npx tsc
 
 ### Not started
 -   Config file for github releases, so we have app updates rolling on version updates
@@ -14,7 +17,6 @@
 -   MLG --> calculate NW with the items in your island chests,
 -   add skyhelper bot features,
 -   RYRY --> minion market --> needs supabase
--   MLG --> greenhouse helper (2d visualised plot) and guide
 -   Farming helper, speed/pitch guide and profit calculator from farming fortune and blocks per second
 -   MLG --> NPC buy Bazaar Sell flips
 -   MLG --> Bazaar buy npc sell flips

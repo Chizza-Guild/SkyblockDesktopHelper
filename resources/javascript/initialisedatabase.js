@@ -57,6 +57,16 @@ let saveDb;
 		)`);
 		await saveDb();
 
+		// ADDS NEW COLUMNS TO TRACKED ITEMS TABLE
+		const trackedItemsCols = db.exec("PRAGMA table_info(tracked_items)");
+		if (trackedItemsCols.length > 0) {
+			const hasOrderType = trackedItemsCols[0].values.some(c => c[1] == "order_type");
+			if (!hasOrderType) {
+				db.run("ALTER TABLE tracked_items ADD COLUMN order_type TEXT DEFAULT 'buy'");
+				await saveDb();
+			}
+		}
+
 		console.log("Database initialized successfully!");
 
 		loadUserSettings();

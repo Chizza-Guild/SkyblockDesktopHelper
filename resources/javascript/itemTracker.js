@@ -192,7 +192,16 @@ function updatePriceType() {
 
 	if (foundItem) {
 		if (foundItem.type === "BAZAAR") {
-			priceTypeDisplay.textContent = "Bazaar (Instant Buy Price)";
+			// For bazaar items, show a dropdown to select buy or sell order
+			priceTypeDisplay.innerHTML = `
+				<div style="display: flex; align-items: center; gap: 10px;">
+					<span style="font-weight: bold; color: #1976d2;">Bazaar</span>
+					<select id="orderTypeSelect" style="flex: 1; padding: 5px; background-color: #e3f2fd; border: 1px solid #1976d2; border-radius: 3px; font-weight: bold; color: #1976d2;">
+						<option value="buy">Buy Order (Instant Buy)</option>
+						<option value="sell">Sell Order (Instant Sell)</option>
+					</select>
+				</div>
+			`;
 			priceTypeDisplay.style.backgroundColor = "#e3f2fd";
 			priceTypeDisplay.style.color = "#1976d2";
 		} else if (foundItem.type === "AUCTION") {
@@ -231,11 +240,20 @@ async function handleAddItem(event) {
 	// Convert API type (BAZAAR/AUCTION) to internal price type (bazaar/bin)
 	const priceType = foundItem.type === "BAZAAR" ? "bazaar" : "bin";
 
+	// Get order type for bazaar items (buy or sell)
+	let orderType = "buy"; // Default to buy
+	if (foundItem.type === "BAZAAR") {
+		const orderTypeSelect = document.getElementById("orderTypeSelect");
+		if (orderTypeSelect) {
+			orderType = orderTypeSelect.value;
+		}
+	}
+
 	try {
 		db.run(
-			`INSERT INTO tracked_items (item_tag, item_name, price_type, threshold_type, threshold_price, is_active)
-			 VALUES (?, ?, ?, ?, ?, 1)`,
-			[itemTag, itemName, priceType, thresholdType, thresholdPrice]
+			`INSERT INTO tracked_items (item_tag, item_name, price_type, threshold_type, threshold_price, is_active, order_type)
+			 VALUES (?, ?, ?, ?, ?, 1, ?)`,
+			[itemTag, itemName, priceType, thresholdType, thresholdPrice, orderType]
 		);
 		await saveDb();
 
@@ -268,22 +286,33 @@ function loadTrackedItems() {
 		listContainer.innerHTML = "";
 
 		items.forEach(item => {
-			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, isActive, createdAt] = item;
+			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, isActive, createdAt, orderType] = item;
+
+			// Default to 'buy' if orderType is null (for backward compatibility)
+			const actualOrderType = orderType || 'buy';
 
 			const itemDiv = document.createElement("div");
 			itemDiv.style.cssText = "border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #f9f9f9";
+
+			// Build price type display text
+			let priceTypeText;
+			if (priceType === "bazaar") {
+				priceTypeText = `Bazaar (${actualOrderType === 'sell' ? 'Sell Order' : 'Buy Order'})`;
+			} else {
+				priceTypeText = "Auction BIN";
+			}
 
 			itemDiv.innerHTML = `
 				<div style="display: flex; justify-content: space-between; align-items: center;">
 					<div>
 						<strong>${minecraftToHTML(itemName)}</strong> (${itemTag})<br>
 						<small>
-							${priceType === "bazaar" ? "Bazaar" : "Auction BIN"} -
+							${priceTypeText} -
 							Alert when ${thresholdType} ${thresholdPrice.toLocaleString()} coins
 						</small>
 					</div>
 					<div style="display: flex; gap: 10px;">
-						<button onclick="checkItemPrice('${itemTag}', '${priceType}')"
+						<button onclick="checkItemPrice('${itemTag}', '${priceType}', '${actualOrderType}')"
 							style="padding: 5px 10px; cursor: pointer; background-color: #2196F3; color: white; border: none; border-radius: 3px;">
 							Check Now
 						</button>
@@ -363,10 +392,13 @@ async function checkAllTrackedPrices() {
 		const items = result[0].values;
 
 		for (const item of items) {
-			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice] = item;
+			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, isActive, createdAt, orderType] = item;
+
+			// Default to 'buy' if orderType is null (for backward compatibility)
+			const actualOrderType = orderType || 'buy';
 
 			try {
-				await checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice);
+				await checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice, actualOrderType);
 				// Small delay between requests to respect rate limits
 				await sleep(500);
 			} catch (err) {
@@ -378,8 +410,8 @@ async function checkAllTrackedPrices() {
 	}
 }
 
-async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice) {
-	const currentPrice = await fetchItemPrice(itemTag, priceType);
+async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice, orderType = "buy") {
+	const currentPrice = await fetchItemPrice(itemTag, priceType, orderType);
 
 	if (currentPrice === null) {
 		console.log(`Could not fetch price for ${stripMinecraftCodes(itemName)}`);
@@ -403,18 +435,26 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 
 		// Strip color codes for notification (OS notifications are plain text)
 		const cleanName = stripMinecraftCodes(itemName);
-		const message = `${cleanName} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
+
+		// Build order type text for bazaar items
+		let orderTypeText = '';
+		if (priceType === "bazaar") {
+			orderTypeText = ` (${orderType === 'sell' ? 'Sell Order' : 'Buy Order'})`;
+		}
+
+		const message = `${cleanName}${orderTypeText} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
 		await sendNotification("Price Alert!", message);
 		lastNotifiedPrices.set(id, currentPrice);
 		console.log(`Notification sent for ${cleanName}: ${message}`);
 	}
 }
 
-async function checkItemPrice(itemTag, priceType) {
+async function checkItemPrice(itemTag, priceType, orderType = "buy") {
 	try {
-		const price = await fetchItemPrice(itemTag, priceType);
+		const price = await fetchItemPrice(itemTag, priceType, orderType);
 		if (price !== null) {
-			alert(`Current price: ${price.toLocaleString()} coins`);
+			const orderTypeText = priceType === "bazaar" ? ` (${orderType === 'sell' ? 'Sell Order' : 'Buy Order'})` : '';
+			alert(`Current price${orderTypeText}: ${price.toLocaleString()} coins`);
 		} else {
 			alert("Could not fetch price. Please check the item tag and try again.");
 		}
@@ -424,7 +464,7 @@ async function checkItemPrice(itemTag, priceType) {
 	}
 }
 
-async function fetchItemPrice(itemTag, priceType) {
+async function fetchItemPrice(itemTag, priceType, orderType = "buy") {
 	try {
 		if (priceType === "bazaar") {
 			// Fetch bazaar price
@@ -436,8 +476,15 @@ async function fetchItemPrice(itemTag, priceType) {
 			}
 
 			const data = await response.json();
-			// Return the instant buy price (what a player would pay to buy instantly)
-			return data.buyPrice || data.quickStatus?.buyPrice || null;
+
+			// Return the appropriate price based on order type
+			if (orderType === "sell") {
+				// Sell order = instant sell price (what a player would receive selling instantly)
+				return data.sellPrice || data.quickStatus?.sellPrice || null;
+			} else {
+				// Buy order = instant buy price (what a player would pay to buy instantly)
+				return data.buyPrice || data.quickStatus?.buyPrice || null;
+			}
 		} else if (priceType === "bin") {
 			// Fetch auction BIN price
 			const response = await fetch(`${CoflnetUrl}/auctions/tag/${encodeURIComponent(itemTag)}/active/bin`);

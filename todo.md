@@ -28,3 +28,4 @@
 -   MLG --> Compost Profit Calculator
 -   RYRY --> Carpentry skill calculator
 -   RYRY --> Minion slot calculator
+-   RYRY --> Discord notifications.

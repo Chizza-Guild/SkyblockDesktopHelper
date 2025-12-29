@@ -1693,61 +1693,333 @@
     },
 
     {
-    "name": "Cocoa Beans Minion",
-    "tiers": 12,
-    "tier_12_cost_coins": 0,
-    "tier_12_cost_pelts": 75,
-    "supercompactable": true,
-    "autosmeltable": false,
-    "specialized_fuel_catagory": {},
-    "specialized_upgrade_catagory": {
-        "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        "name": "Cocoa Beans Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 27,
+            "tier_2": 27,
+            "tier_3": 25,
+            "tier_4": 25,
+            "tier_5": 23,
+            "tier_6": 23,
+            "tier_7": 21,
+            "tier_8": 21,
+            "tier_9": 18,
+            "tier_10": 18,
+            "tier_11": 15,
+            "tier_12": 12
+        },
+        "craftCost": 
+        {
+            "tier_1": "80_COCOA_BEANS",
+            "tier_2": "160_COCOA_BEANS",
+            "tier_3": "320_COCOA_BEANS",
+            "tier_4": "512_COCOA_BEANS",
+            "tier_5": "8_ENCHANTED_COCOA_BEANS",
+            "tier_6": "24_ENCHANTED_COCOA_BEANS",
+            "tier_7": "64_ENCHANTED_COCOA_BEANS",
+            "tier_8": "128_ENCHANTED_COCOA_BEANS",
+            "tier_9": "256_ENCHANTED_COCOA_BEANS",
+            "tier_10": "512_ENCHANTED_COCOA_BEANS",
+            "tier_11": "8_ENCHANTED_COOKIE",
+            "tier_12": "16_ENCHANTED_COOKIE"
+        },
+        "drops": 
+        { 
+            "item_1": "COCOA_BEANS~3~100"
+        },
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_COCOA_BEANS~160"
+        },
+        "dropsDoubleCompacted": {
+        },
+        "skillExp": 
+        {
+            "item_1": "0.3_FARMING"
+        }
     },
-    "crystal_type": "FARMING",
-    "aplicable_pet_boost": "RABBIT",
-    "speeds": 
+
     {
-        "tier_1": 27,
-        "tier_2": 27,
-        "tier_3": 25,
-        "tier_4": 25,
-        "tier_5": 23,
-        "tier_6": 23,
-        "tier_7": 21,
-        "tier_8": 21,
-        "tier_9": 18,
-        "tier_10": 18,
-        "tier_11": 15,
-        "tier_12": 12
+        "name": "Sugar Cane Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 22,
+            "tier_2": 22,
+            "tier_3": 20,
+            "tier_4": 20,
+            "tier_5": 18,
+            "tier_6": 18,
+            "tier_7": 16,
+            "tier_8": 16,
+            "tier_9": 14.5,
+            "tier_10": 14.5,
+            "tier_11": 12,
+            "tier_12": 9
+        },
+        "craftCost": 
+        {
+            "tier_1": "128_SUGAR_CANE",
+            "tier_2": "256_SUGAR_CANE",
+            "tier_3": "512_SUGAR_CANE",
+            "tier_4": "8_SUGAR_CANE",
+            "tier_5": "24_ENCHANTED_SUGAR",
+            "tier_6": "64_ENCHANTED_SUGAR",
+            "tier_7": "128_ENCHANTED_SUGAR",
+            "tier_8": "256_ENCHANTED_SUGAR",
+            "tier_9": "512_ENCHANTED_SUGAR",
+            "tier_10": "8_ENCHANTED_SUGAR_CANE",
+            "tier_11": "16_ENCHANTED_SUGAR_CANE",
+            "tier_12": "32_ENCHANTED_SUGAR_CANE"
+        },
+        "drops": 
+        { 
+            "item_1": "SUGAR_CANE~3~100"
+        },
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_SUGAR~160"
+        },
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_SUGAR_CANE~160"
+        },
+        "skillExp": 
+        {
+            "item_1": "0.1_FARMING"
+        }
+    }, {
+        "name": "Netherwart Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 50,
+            "tier_2": 50,
+            "tier_3": 47,
+            "tier_4": 47,
+            "tier_5": 44,
+            "tier_6": 44,
+            "tier_7": 41,
+            "tier_8": 41,
+            "tier_9": 38,
+            "tier_10": 38,
+            "tier_11": 32,
+            "tier_12": 27
+        },
+        "craftCost": 
+        {
+            "tier_1": "80_NETHER_STALK",
+            "tier_2": "160_NETHER_STALK",
+            "tier_3": "320_NETHER_STALK",
+            "tier_4": "512_NETHER_STALK",
+            "tier_5": "8_ENCHANTED_NETHER_STALK",
+            "tier_6": "16_ENCHANTED_NETHER_STALK",
+            "tier_7": "32_ENCHANTED_NETHER_STALK",
+            "tier_8": "64_ENCHANTED_NETHER_STALK",
+            "tier_9": "128_ENCHANTED_NETHER_STALK",
+            "tier_10": "256_ENCHANTED_NETHER_STALK",
+            "tier_11": "512_ENCHANTED_NETHER_STALK",
+            "tier_12": "1024_ENCHANTED_NETHER_STALK"
+        },
+        "drops": 
+        { 
+            "item_1": "NETHER_STALK~3~100"
+        },
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_NETHER_STALK~160"
+        },
+        "dropsDoubleCompacted": {
+            "item_1": "MUTANT_NETHER_STALK~160"
+        },
+        "skillExp": 
+        {
+            "item_1": "0.2_FARMING"
+        }
     },
-    "craftCost": 
+
     {
-        "tier_1": "80_COCOA_BEANS",
-        "tier_2": "160_COCOA_BEANS",
-        "tier_3": "320_COCOA_BEANS",
-        "tier_4": "512_COCOA_BEANS",
-        "tier_5": "8_ENCHANTED_COCOA_BEANS",
-        "tier_6": "24_ENCHANTED_COCOA_BEANS",
-        "tier_7": "64_ENCHANTED_COCOA_BEANS",
-        "tier_8": "128_ENCHANTED_COCOA_BEANS",
-        "tier_9": "256_ENCHANTED_COCOA_BEANS",
-        "tier_10": "512_ENCHANTED_COCOA_BEANS",
-        "tier_11": "8_ENCHANTED_COOKIE",
-        "tier_12": "16_ENCHANTED_COOKIE"
+        "name": "Flower",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FORAGING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 30,
+            "tier_2": 29,
+            "tier_3": 28,
+            "tier_4": 27,
+            "tier_5": 26,
+            "tier_6": 25,
+            "tier_7": 24,
+            "tier_8": 23,
+            "tier_9": 22,
+            "tier_10": 20,
+            "tier_11": 18,
+            "tier_12": 15
+        },
+        "craftCost": 
+        {
+            "tier_1": "BOUGHT_FROM_MARKET",
+            "tier_2": "160_DANDELION",
+            "tier_3": "320_DANDELION",
+            "tier_4": "512_DANDELION",
+            "tier_5": "8_ENCHANTED_DANDELION",
+            "tier_6": "24_ENCHANTED_DANDELION",
+            "tier_7": "64_ENCHANTED_DANDELION",
+            "tier_8": "128_ENCHANTED_DANDELION",
+            "tier_9": "256_ENCHANTED_DANDELION",
+            "tier_10": "512_ENCHANTED_DANDELION",
+            "tier_11": "8_ENCHANTED_POPPY",
+            "tier_12": "16_ENCHANTED_POPPY"
+        },
+        "drops": 
+        {
+            "item_1": "YELLOW_FLOWER~1~35",
+            "item_2": "RED_ROSE~1~15",
+            "item_3": "RED_ROSE:2~1~4.2",
+            "item_4": "RED_ROSE:3~1~4.2",
+            "item_5": "RED_ROSE:1~1~4.2",
+            "item_6": "RED_ROSE:8~1~4.2",
+            "item_7": "RED_ROSE:4~1~4.2",
+            "item_8": "RED_ROSE:5~1~4.2",
+            "item_9": "RED_ROSE:6~1~4.2",
+            "item_10": "RED_ROSE:7~1~4.2",
+            "item_11": "DOUBLE_PLANT:1~1~4.2",
+            "item_12": "DOUBLE_PLANT:5~1~4.2",
+            "item_13": "DOUBLE_PLANT:4~1~4.2"
+        },
+        "dropsCompacted": { 
+            "item_1": "YELLOW_FLOWER~160",
+            "item_2": "RED_ROSE~576"
+        },
+        "dropsDoubleCompacted": {
+        },
+        "skillExp": 
+        {
+            "item_1": "0.1_FORAGING",
+            "item_2": "0.1_FORAGING",
+            "item_3": "0.1_FORAGING",
+            "item_4": "0.1_FORAGING",
+            "item_5": "0.1_FORAGING",
+            "item_6": "0.1_FORAGING",
+            "item_7": "0.1_FORAGING",
+            "item_8": "0.1_FORAGING",
+            "item_9": "0.1_FORAGING",
+            "item_10": "0.1_FORAGING",
+            "item_11": "0.1_FORAGING",
+            "item_12": "0.1_FORAGING",
+            "item_13": "0.1_FORAGING"
+        }
     },
-    "drops": 
-    { 
-        "item_1": "COCOA_BEANS~3~100"
-    },
-    "dropsCompacted": {
-        "item_1": "ENCHANTED_COCOA_BEANS~160"
-    },
-    "dropsDoubleCompacted": {
-    },
-    "skillExp": 
     {
-        "item_1": "0.2_FARMING"
-    }
+  "name": "Fishing",
+  "tiers": 12,
+  "tier_12_cost_coins": 0,
+  "tier_12_cost_pelts": 0,
+  "supercompactable": true,
+  "autosmeltable": false,
+  "specialized_fuel_catagory": {},
+  "specialized_upgrade_catagory": {},
+  "crystal_type": "FISHING",
+  "aplicable_pet_boost": "SQUID",
+  "speeds": {
+    "tier_1": 75,
+    "tier_2": 75,
+    "tier_3": 72,
+    "tier_4": 72,
+    "tier_5": 68,
+    "tier_6": 68,
+    "tier_7": 62.5,
+    "tier_8": 62.5,
+    "tier_9": 53,
+    "tier_10": 53,
+    "tier_11": 35,
+    "tier_12": 30
+  },
+  "craftCost": {
+    "tier_1": "64_RAW_COD+1_FISHING_ROD",
+    "tier_2": "128_RAW_COD",
+    "tier_3": "256_RAW_COD",
+    "tier_4": "512_RAW_COD",
+    "tier_5": "8_ENCHANTED_RAW_COD",
+    "tier_6": "24_ENCHANTED_RAW_COD",
+    "tier_7": "64_ENCHANTED_RAW_COD",
+    "tier_8": "128_ENCHANTED_RAW_COD",
+    "tier_9": "256_ENCHANTED_RAW_COD",
+    "tier_10": "512_ENCHANTED_RAW_COD",
+    "tier_11": "8_ENCHANTED_COOKED_FISH",
+    "tier_12": "1_FISHING_MINION_XII_UPGRADE_STONE"
+  },
+  "drops": {
+    "item_1": "RAW_FISH~1~50",
+    "item_2": "RAW_FISH:1~1~25",
+    "item_3": "RAW_FISH:3~1~12",
+    "item_4": "RAW_FISH:2~1~4",
+    "item_5": "PRISMARINE_CRYSTALS~1~3",
+    "item_6": "PRISMARINE_SHARD~1~3",
+    "item_7": "SPONGE~1~3"
+  },
+  "dropsCompacted": {
+    "item_1": "ENCHANTED_RAW_FISH~160",
+    "item_2": "ENCHANTED_RAW_FISH:1~160",
+    "item_3": "ENCHANTED_RAW_FISH:3~160",
+    "item_4": "ENCHANTED_RAW_FISH:2~160",
+    "item_5": "ENCHANTED_PRISMARINE_CRYSTALS~80",
+    "item_6": "ENCHANTED_PRISMARINE_SHARD~80",
+    "item_7": "ENCHANTED_SPONGE~40"
+  },
+  "dropsDoubleCompacted": {
+    "item_1": "ENCHANTED_COOKED_FISH~160",
+    "item_2": "ENCHANTED_COOKED_SALMON~160",
+    "item_3": "ENCHANTED_WET_SPONGE~40"
+  },
+  "skillExp": {
+    "item_1": "0.5_FISHING",
+    "item_2": "0.7_FISHING",
+    "item_3": "1_FISHING",
+    "item_4": "2_FISHING",
+    "item_5": "0.5_FISHING",
+    "item_6": "0.5_FISHING",
+    "item_7": "0.5_FISHING"
+  }
 }
+
 
 ]

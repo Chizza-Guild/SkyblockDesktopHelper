@@ -4,6 +4,7 @@ let previousAuctions = [];
 
 async function getActiveAuctions(apiKey, playerUuid) {
 	const url = `https://api.hypixel.net/skyblock/auction?key=${apiKey}&player=${playerUuid}`;
+	document.getElementById("currentAuctionsList").innerHTML = "";
 
 	try {
 		const response = await fetch(url);
@@ -21,12 +22,16 @@ async function getActiveAuctions(apiKey, playerUuid) {
 					const currentBid = auc.highest_bid_amount ?? auc.starting_bid ?? 0;
 					const starting = auc.starting_bid ?? 0;
 					const tier = auc.tier ?? "";
-					console.log(`Item: ${auc.item_name ?? "<unknown>"}`);
-					console.log(`Current Bid: ${Number(currentBid).toLocaleString()} coins`);
-					console.log(`Item Price: ${Number(starting).toLocaleString()} coins`);
-					console.log(`Rarity: ${tier}`);
-					console.log(`Ends in: ${Math.round(((auc.end ?? now) - now) / 60000)} minutes`);
-					console.log("---");
+					document.getElementById("currentAuctionsList").innerHTML += `
+                        <div class="auction-item">
+                            <h3>${auc.item_name ?? "&lt;unknown&gt;"}</h3>
+                            <h4>Current Bid: ${Number(currentBid).toLocaleString()} coins</h4>
+                            <h4>Item Price: ${Number(starting).toLocaleString()} coins</h4>
+                            <h5>Rarity: ${tier}</h5>
+                            <h5>Ends in: ${Math.round(((auc.end ?? now) - now) / 60000)} minutes</h5>
+                            <hr>
+                        </div>
+                    `;
 				} catch (e) {
 					console.warn("Logging auction failed for entry, continuing", e, auc);
 				}
@@ -132,7 +137,7 @@ async function main() {
 			console.log(endedAuctions);
 
 			if (endedAuctions.length > 0) {
-				sendNotification("Auction sold!", `${endedAuctions[0].item_name} sold for ${endedAuctions[0].starting_bid}`);
+				sendNotification("Auction sold!", `${endedAuctions[0].item_name} sold for ${endedAuctions[0].starting_bid} coins.`);
 			}
 
 			// IMPORTANT: copy array, don’t reference

@@ -3,6 +3,9 @@ const mainDiv = document.getElementById("main");
 let currentPage = "mainmenu";
 
 async function renderPage(page) {
+    // The "db" here basically checks if the database has finished loading
+	if (db && !redirectToSettings(page)) return renderPage("settings");
+
 	currentPage = page;
 
 	await fetch(`/pages/${page}.html`)
@@ -20,12 +23,30 @@ async function renderPage(page) {
 	} else if (page == "itemTracker") {
 		await loadJSFile("itemTracker", "js");
 		initItemTracker();
-	} else if (page == "forgetimer") {
-		await loadJSFile("forgetimer", "js");
+	} else if (page == "forgeTimer") {
+		await loadJSFile("forgeTimer", "js");
 		stopForgeTimer();
 		loadForgeData();
 		startForgeTimer();
 	}
+}
+
+function redirectToSettings(page) {
+	let canContinue = true;
+
+	if (!apiKeyVar) {
+		if (page == "auctionNotifier" || page == "forgeTimer") {
+			alert("An API Key is needed for this feature!");
+			canContinue = false;
+		}
+	} else if (!playerNameVar) {
+		if (page == "auctionNotifier" || page == "forgeTimer") {
+			alert("A player name is needed for this feature!");
+			canContinue = false;
+		}
+	}
+
+	return canContinue;
 }
 
 renderPage("mainmenu");

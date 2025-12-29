@@ -6,6 +6,8 @@
 -   Change tray icon logo and app name
 -   Create a check when trying to load .ts files, if it cant find it, make an alert saying they need to npx tsc
 -   Greenhouse Sources: http://t0r0nt0.dev/ && https://skymutations.eu/
+-   Add a 24h timer for the API key. Add the timer as timestamp to the db.
+-   In auctionnotifier get line 24 to 29 to html
 
 ### Not started
 -   Config file for github releases, so we have app updates rolling on version updates

@@ -1,0 +1,435 @@
+[
+    {
+        "name": "Cobblestone Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 14,
+            "tier_2": 14,
+            "tier_3": 12,
+            "tier_4": 12,
+            "tier_5": 10,
+            "tier_6": 10,
+            "tier_7": 9,
+            "tier_8": 9,
+            "tier_9": 8,
+            "tier_10": 8,
+            "tier_11": 7,
+            "tier_12": 6
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_COBBLESTONE",
+            "tier_2": "160_COBBLESTONE",
+            "tier_3": "320_COBBLESTONE",
+            "tier_4": "512_COBBLESTONE",
+            "tier_5": "8_ENCHANTED_COBBLESTONE",
+            "tier_6": "16_ENCHANTED_COBBLESTONE",
+            "tier_7": "32_ENCHANTED_COBBLESTONE",
+            "tier_8": "64_ENCHANTED_COBBLESTONE",
+            "tier_9": "128_ENCHANTED_COBBLESTONE",
+            "tier_10": "256_ENCHANTED_COBBLESTONE",
+            "tier_11": "512_ENCHANTED_COBBLESTONE",
+            "tier_12": "1024_ENCHANTED_COBBLESTONE"
+        },
+
+        "drops": 
+        { 
+            "item_1": "COBBLESTONE~10~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_COBBLESTONE~160"
+        },
+
+        "dropsDoubleCompacted": {
+            
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.10_MINING"
+        }
+    },
+
+    {
+        "name": "Obsidian Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 45,
+            "tier_2": 45,
+            "tier_3": 42,
+            "tier_4": 42,
+            "tier_5": 39,
+            "tier_6": 39,
+            "tier_7": 35,
+            "tier_8": 35,
+            "tier_9": 30,
+            "tier_10": 30,
+            "tier_11": 24,
+            "tier_12": 21
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_OBSIDIAN",
+            "tier_2": "160_OBSIDIAN",
+            "tier_3": "320_OBSIDIAN",
+            "tier_4": "512_OBSIDIAN",
+            "tier_5": "8_ENCHANTED_OBSIDIAN",
+            "tier_6": "16_ENCHANTED_OBSIDIAN",
+            "tier_7": "32_ENCHANTED_OBSIDIAN",
+            "tier_8": "64_ENCHANTED_OBSIDIAN",
+            "tier_9": "128_ENCHANTED_OBSIDIAN",
+            "tier_10": "256_ENCHANTED_OBSIDIAN",
+            "tier_11": "512_ENCHANTED_OBSIDIAN",
+            "tier_12": "1024_ENCHANTED_OBSIDIAN"
+        },
+
+        "drops": 
+        { 
+            "item_1": "OBSIDIAN~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_OBSIDIAN~160"
+        },
+
+        "dropsDoubleCompacted": {
+            
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.4_MINING"
+        }
+    },
+
+    {
+        "name": "Glowstone Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 25,
+            "tier_2": 25,
+            "tier_3": 23,
+            "tier_4": 23,
+            "tier_5": 21,
+            "tier_6": 19,
+            "tier_7": 19,
+            "tier_8": 19,
+            "tier_9": 16,
+            "tier_10": 16,
+            "tier_11": 13,
+            "tier_12": 11
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "128_GLOWSTONE_DUST",
+            "tier_2": "256_GLOWSTONE_DUST",
+            "tier_3": "512_GLOWSTONE_DUST",
+            "tier_4": "8_ENCHANTED_GLOWSTONE_DUST",
+            "tier_5": "24_ENCHANTED_GLOWSTONE_DUST",
+            "tier_6": "64_ENCHANTED_GLOWSTONE_DUST",
+            "tier_7": "128_ENCHANTED_GLOWSTONE_DUST",
+            "tier_8": "256_ENCHANTED_GLOWSTONE_DUST",
+            "tier_9": "512_ENCHANTED_GLOWSTONE_DUST",
+            "tier_10": "8_ENCHANTED_GLOWSTONE",
+            "tier_11": "16_ENCHANTED_GLOWSTONE",
+            "tier_12": "32_ENCHANTED_GLOWSTONE"
+        },
+
+        "drops": 
+        { 
+            "item_1": "GLOWSTONE_DUST~3~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_GLOWSTONE_DUST~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_GLOWSTONE~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.4_MINING"
+        }
+    },
+    {
+        "name": "Gravel Minion",
+        "tiers": 11,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "FLINT_SHOVEL"
+        },
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 26,
+            "tier_2": 26,
+            "tier_3": 24,
+            "tier_4": 24,
+            "tier_5": 22,
+            "tier_6": 22,
+            "tier_7": 19,
+            "tier_8": 19,
+            "tier_9": 16,
+            "tier_10": 16,
+            "tier_11": 13
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_GRAVEL",
+            "tier_2": "160_GRAVEL",
+            "tier_3": "320_GRAVEL",
+            "tier_4": "512_GRAVEL",
+            "tier_5": "8_ENCHANTED_FLINT",
+            "tier_6": "16_ENCHANTED_FLINT",
+            "tier_7": "32_ENCHANTED_FLINT",
+            "tier_8": "64_ENCHANTED_FLINT",
+            "tier_9": "128_ENCHANTED_FLINT",
+            "tier_10": "256_ENCHANTED_FLINT",
+            "tier_11": "512_ENCHANTED_FLINT"
+        },
+
+        "drops": 
+        { 
+            "item_1": "GRAVEL~1~100"
+        },
+
+        "dropsCompacted": {
+        },
+
+        "dropsDoubleCompacted": {
+            
+        },
+
+        "skillExp": 
+        {
+            "item_1": "0.2_MINING"
+        }
+    },
+    {
+        "name": "Sand Minion",
+        "tiers": 11,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1":26,
+            "tier_2": 26,
+            "tier_3": 24,
+            "tier_4": 24,
+            "tier_5": 22,
+            "tier_6": 22,
+            "tier_7": 19,
+            "tier_8": 19,
+            "tier_9": 16,
+            "tier_10": 16,
+            "tier_11": 13
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_SAND",
+            "tier_2": "160_SAND",
+            "tier_3": "320_SAND",
+            "tier_4": "512_SAND",
+            "tier_5": "8_ENCHANTED_SAND",
+            "tier_6": "16_ENCHANTED_SAND",
+            "tier_7": "32_ENCHANTED_SAND",
+            "tier_8": "64_ENCHANTED_SAND",
+            "tier_9": "128_ENCHANTED_SAND",
+            "tier_10": "256_ENCHANTED_SAND",
+            "tier_11": "512_ENCHANTED_SAND"
+        },
+
+        "drops": 
+        { 
+            "item_1": "SAND~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_SAND~160"
+        },
+
+        "dropsDoubleCompacted": {
+            
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.2_MINING"
+        }
+    },
+    {
+        "name": "Red Sand Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 26,
+            "tier_2": 25,
+            "tier_3": 24,
+            "tier_4": 23,
+            "tier_5": 22,
+            "tier_6": 21,
+            "tier_7": 20,
+            "tier_8": 19,
+            "tier_9": 18,
+            "tier_10": 16,
+            "tier_11": 13,
+            "tier_12": 11
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_SAND:1",
+            "tier_2": "256_SAND:1",
+            "tier_3": "512_SAND:1",
+            "tier_4": "15_ENCHANTED_MYCELIUM",
+            "tier_5": "32_ENCHANTED_MYCELIUM",
+            "tier_6": "64_ENCHANTED_MYCELIUM",
+            "tier_7": "128_ENCHANTED_MYCELIUM",
+            "tier_8": "256_ENCHANTED_MYCELIUM",
+            "tier_9": "512_ENCHANTED_MYCELIUM",
+            "tier_10": "8_ENCHANTED_MYCELIUM_CUBE",
+            "tier_11": "16_ENCHANTED_MYCELIUM_CUBE",
+            "tier_12": "32_ENCHANTED_MYCELIUM_CUBE"
+        },
+
+        "drops": 
+        { 
+            "item_1": "SAND:1~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_MYCELIUM~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_MYCELIUM_CUBE~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.2_MINING"
+        }
+    },
+    {
+        "name": "Red Sand Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 26,
+            "tier_2": 25,
+            "tier_3": 24,
+            "tier_4": 23,
+            "tier_5": 22,
+            "tier_6": 21,
+            "tier_7": 20,
+            "tier_8": 19,
+            "tier_9": 18,
+            "tier_10": 16,
+            "tier_11": 13,
+            "tier_12": 11
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_MYCELIUM",
+            "tier_2": "256_MYCELIUM",
+            "tier_3": "512_MYCELIUM",
+            "tier_4": "15_ENCHANTED_MYCELIUM",
+            "tier_5": "32_ENCHANTED_MYCELIUM",
+            "tier_6": "64_ENCHANTED_MYCELIUM",
+            "tier_7": "128_ENCHANTED_MYCELIUM",
+            "tier_8": "256_ENCHANTED_MYCELIUM",
+            "tier_9": "512_ENCHANTED_MYCELIUM",
+            "tier_10": "8_ENCHANTED_MYCELIUM_CUBE",
+            "tier_11": "16_ENCHANTED_MYCELIUM_CUBE",
+            "tier_12": "32_ENCHANTED_MYCELIUM_CUBE"
+        },
+
+        "drops": 
+        { 
+            "item_1": "MYCELIUM~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_MYCELIUM~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_MYCELIUM_CUBE~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.2_MINING"
+        }
+    }
+]

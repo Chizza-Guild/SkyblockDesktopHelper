@@ -1,66 +1,118 @@
-let activeAuctionsId = new Set();
-let currentAuctions;
-let previousAuctions;
+const notifiedAuctions = new Set();
+let currentAuctions = [];
+let previousAuctions = [];
 
-async function fetchActiveAuctionData() {
-	let fetchedAuctions = [];
-	// loops through maximum of 35
-	outer: for (let depth = 1; depth <= 4; depth++) {
-		const response = await fetch(CoflnetUrl + "/player/" + encodeURIComponent(uuidVar) + "/auctions?page=" + depth);
+// Ensure some globals exist to avoid hard failures when this file is loaded early
+if (typeof auctionNotifierVar === 'undefined') window.auctionNotifierVar = 0;
+if (typeof apiKeyVar === 'undefined') window.apiKeyVar = null;
+if (typeof uuidVar === 'undefined') window.uuidVar = null;
 
-		if (!response.ok) {
-			const text = await response.text().catch(() => "");
-			throw new Error(`Auction fetch failed ${response.status}: ${text}`);
-		}
+async function getActiveAuctions(apiKey, playerUuid) {
+    const url = `https://api.hypixel.net/skyblock/auction?key=${apiKey}&player=${playerUuid}`;
 
-		const data = await response.json();
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
 
-		// response can be array or object depending on API version
-		const items = Array.isArray(data) ? data : data?.auctions ?? data?.items ?? [];
+        if (data && data.success && Array.isArray(data.auctions)) {
+            const now = Date.now();
 
-		// filter to auction-like entries (field names vary)
-		const auctions = items.filter(x => x && (x.auctionUuid || x.auctionId || x.uuid || x.id));
+            // Filter: Only shows auctions that haven't ended yet
+            const activeAuctions = data.auctions.filter(auc => (auc && (auc.end ?? 0) > now));
 
-		for (const auction of auctions) {
-			let auctionId = auction.auctionId;
+            // Defensive logging - avoid calling methods on undefined
+            activeAuctions.forEach(auc => {
+                try {
+                    const currentBid = (auc.highest_bid_amount ?? auc.starting_bid ?? 0);
+                    const starting = (auc.starting_bid ?? 0);
+                    const tier = (auc.tier ?? "");
+                    console.log(`Item: ${auc.item_name ?? "<unknown>"}`);
+                    console.log(`Current Bid: ${Number(currentBid).toLocaleString()} coins`);
+                    console.log(`Item Price: ${Number(starting).toLocaleString()} coins`);
+                    console.log(`Rarity: ${tier}`);
+                    console.log(`Ends in: ${Math.round(((auc.end ?? now) - now) / 60000)} minutes`);
+                    console.log('---');
+                } catch (e) {
+                    console.warn('Logging auction failed for entry, continuing', e, auc);
+                }
+            });
 
-			if (fetchedAuctions.includes(auctionId)) {
-				break outer; // since it repeats that means weve hit all the active auctions.
-			} else {
-				fetchedAuctions.push(auctionId);
-			}
-		}
-	}
+            return activeAuctions;
+        }
 
-	return fetchedAuctions;
+        console.error("API Error or unexpected response shape:", data && data.cause ? data.cause : data);
+    } catch (error) {
+        console.error("Request failed:", error);
+    }
+
+    // On any error, return an empty array so callers can continue safely
+    return [];
 }
+
 
 async function getDetailedAuctionData(auctionId) {
-	const url = CoflnetUrl + "/auction/" + auctionId;
-	const response = await fetch(url);
+    const base = (typeof CoflnetUrl !== 'undefined' && CoflnetUrl) ? CoflnetUrl : 'https://sky.coflnet.com/api';
+    const url = base + "/auction/" + auctionId;
+    const response = await fetch(url);
 
-	return response.json();
+    return response.json();
 }
 
-function getEndedAuctions(currentAuctions, previousAuctions) {
-	const ended = [];
-
-	for (const id of previousAuctions) {
-		if (!currentAuctions.includes(id)) ended.push(id);
-	}
-
-	return ended;
+function _getId(a) {
+        return a?.uuid ?? a?.auctionUuid ?? a?.auctionId ?? a?.id ?? null;
 }
 
-function getNewAuctions(currentAuctions, previousAuctions) {
-	const newAuc = [];
-
-	for (const id of currentAuctions) {
-		if (!previousAuctions.includes(id)) newAuc.push(id);
-	}
-
-	return newAuc;
+function getEndedAuctions(currentAuctions = [], previousAuctions = []) {
+    const currentIds = new Set(currentAuctions.map(a => _getId(a)).filter(Boolean));
+    return previousAuctions.filter(a => {
+            const id = _getId(a);
+            return id && !currentIds.has(id);
+    });
 }
+
+function getNewAuctions(currentAuctions = [], previousAuctions = []) {
+    const prevIds = new Set(previousAuctions.map(a => _getId(a)).filter(Boolean));
+    return currentAuctions.filter(a => {
+        const id = _getId(a);
+        return id && !prevIds.has(id);
+    });
+}
+
+let lastNotifyTime = 0;
+const NOTIFY_COOLDOWN = 0;
+
+async function sendNotification(title, body, force = false) {
+  const now = Date.now();
+
+  if (!force && now - lastNotifyTime < NOTIFY_COOLDOWN) {
+    console.log("Notification skipped (cooldown)");
+    return;
+  }
+
+    try {
+        // Support both possible API signatures (positional or object)
+        const notifyFn = Neutralino?.os?.showNotification;
+        if (typeof notifyFn === 'function') {
+                // Try object form first
+                try {
+                        await notifyFn({ title: String(title), content: String(body) });
+                } catch (e) {
+                        // Try positional fallback
+                        await notifyFn(String(title), String(body));
+                }
+        } else {
+                throw new Error('Neutralino.os.showNotification is not available');
+        }
+
+        lastNotifyTime = now; // update ONLY after success
+        console.log("Notification sent:", title);
+        return true;
+    } catch (err) {
+        console.error("Notification error:", err);
+        return false;
+    }
+}
+
 
 function auctionNotifierFunc() {
 	auctionNotifierVar = auctionNotifierVar == 0 ? 1 : 0; // Swap from 0 to 1 or the opposite, SQLite doesnt have booleans
@@ -69,30 +121,46 @@ function auctionNotifierFunc() {
 }
 
 async function main() {
-	previousAuctions = await fetchActiveAuctionData();
-	while (auctionNotifierVar == 1) {
-		try {
-			currentAuctions = await fetchActiveAuctionData();
-			console.log("CurrentActions", currentAuctions);
+    if (!apiKeyVar || !uuidVar) {
+        console.error('Missing apiKeyVar or uuidVar — auction notifier cannot start');
+        return;
+    }
 
-			let endedAuctions = [];
-			endedAuctions = getEndedAuctions(currentAuctions, previousAuctions);
-			console.log("EndedAuctions:", endedAuctions);
+    previousAuctions = await getActiveAuctions(apiKeyVar, uuidVar);
 
-			for (const ended of endedAuctions) {
-				sendNotification("Auction Ended!", "");
-			}
-		} catch (err) {
-			console.error(err);
-		}
+    await sendNotification(
+        "Auction Tracker Started",
+        "Tracking auctions",
+        true
+    );
 
-		previousAuctions = currentAuctions;
-		currentAuctions = [];
-		await sleep(2 * 10 * 1000); // 2 min pause
-	}
+    while (auctionNotifierVar == 1) {
+        try {
+            currentAuctions = await getActiveAuctions(apiKeyVar, uuidVar);
+            console.log(currentAuctions);
+
+            const endedAuctions = getEndedAuctions(currentAuctions, previousAuctions);
+            console.log(endedAuctions);
+
+            if (endedAuctions.length > 0) {
+                sendNotification("Auction sold!", `${endedAuctions[0].item_name} sold for ${endedAuctions[0].starting_bid}`);
+            }
+
+        // IMPORTANT: copy array, don’t reference
+            previousAuctions = [...currentAuctions];
+        } catch (err) {
+            console.error("Loop error:", err);
+        }
+
+        await sleep(2 * 5 * 1000); // 2 minutes
+    }
+}
+async function start() {
+    await Neutralino.init();
+    await main();
 }
 
-main();
+start();
 
 /* 
     Order

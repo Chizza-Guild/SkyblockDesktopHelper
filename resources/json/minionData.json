@@ -433,7 +433,564 @@
         }
     },
     {
-        "name": "Sand Minion",
+        "name": "Clay Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "FISHING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1":32,
+            "tier_2": 32,
+            "tier_3": 30,
+            "tier_4": 30,
+            "tier_5": 27.5,
+            "tier_6": 27.5,
+            "tier_7": 24,
+            "tier_8": 24,
+            "tier_9": 20,
+            "tier_10": 20,
+            "tier_11": 16,
+            "tier_12": 14
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_CLAY_BALL",
+            "tier_2": "160_CLAY_BALL",
+            "tier_3": "320_CLAY_BALL",
+            "tier_4": "512_CLAY_BALL",
+            "tier_5": "8_ENCHANTED_CLAY_BALL",
+            "tier_6": "16_ENCHANTED_CLAY_BALL",
+            "tier_7": "32_ENCHANTED_CLAY_BALL",
+            "tier_8": "64_ENCHANTED_CLAY_BALL",
+            "tier_9": "128_ENCHANTED_CLAY_BALL",
+            "tier_10": "256_ENCHANTED_CLAY_BALL",
+            "tier_11": "512_ENCHANTED_CLAY_BALL", 
+            "tier_12": "1_GENERATOR_UPGRADE_STONE_CLAY_12"
+        },
+
+        "drops": 
+        { 
+            "item_1": "CLAY_BALL~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_CLAYBALL~160"
+        },
+
+        "dropsDoubleCompacted": {
+            
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.2_FISHING"
+        }
+    },{
+        "name": "Ice Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 1000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1":14,
+            "tier_2": 14,
+            "tier_3": 12,
+            "tier_4": 12,
+            "tier_5": 10,
+            "tier_6": 10,
+            "tier_7": 9,
+            "tier_8": 9,
+            "tier_9": 8,
+            "tier_10": 8,
+            "tier_11": 7,
+            "tier_12": 6
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_ICE",
+            "tier_2": "160_ICE",
+            "tier_3": "320_ICE",
+            "tier_4": "512_ICE",
+            "tier_5": "128_PACKED_ICE",
+            "tier_6": "256_PACKED_ICE",
+            "tier_7": "512_PACKED_ICE",
+            "tier_8": "64_ENCHANTED_ICE",
+            "tier_9": "128_ENCHANTED_ICE",
+            "tier_10": "256_ENCHANTED_ICE",
+            "tier_11": "512_ENCHANTED_ICE", 
+            "tier_12": "1024_ENCHANTED_ICE"
+        },
+
+        "drops": 
+        { 
+            "item_1": "ICE~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_ICE~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_PACKED_ICE~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.5_MINING"
+        }
+    },{
+        "name": "Snow Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 1000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "KRAMPUS_HELMET"
+        },
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1":14,
+            "tier_2": 14,
+            "tier_3": 12,
+            "tier_4": 12,
+            "tier_5": 10,
+            "tier_6": 10,
+            "tier_7": 9,
+            "tier_8": 9,
+            "tier_9": 8,
+            "tier_10": 8,
+            "tier_11": 7,
+            "tier_12": 6
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "BOUGHT_FROM_MARKET",
+            "tier_2": "32_SNOW_BLOCK",
+            "tier_3": "64_SNOW_BLOCK",
+            "tier_4": "128_SNOW_BLOCK",
+            "tier_5": "256_PACKED_SNOW",
+            "tier_6": "512_PACKED_SNOW",
+            "tier_7": "8_ENCHANTED_SNOW_BLOCK",
+            "tier_8": "64_ENCHANTED_SNOW_BLOCK",
+            "tier_9": "128_ENCHANTED_SNOW_BLOCK",
+            "tier_10": "256_ENCHANTED_SNOW_BLOCK",
+            "tier_11": "512_ENCHANTED_SNOW_BLOCK", 
+            "tier_12": "1024_ENCHANTED_SNOW_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "SNOW_BALL~4~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_SNOW_BLOCK~640"
+        },
+
+        "dropsDoubleCompacted": {
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.1_MINING"
+        }
+    },{
+        "name": "Coal Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 45,
+            "tier_2": 45,
+            "tier_3": 42,
+            "tier_4": 42,
+            "tier_5": 39,
+            "tier_6": 39,
+            "tier_7": 35,
+            "tier_8": 35,
+            "tier_9": 30,
+            "tier_10": 30,
+            "tier_11": 24,
+            "tier_12": 21
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_COAL",
+            "tier_2": "160_COAL",
+            "tier_3": "320_COAL",
+            "tier_4": "512_COAL",
+            "tier_5": "8_ENCHANTED_COAL",
+            "tier_6": "24_ENCHANTED_COAL",
+            "tier_7": "64_ENCHANTED_COAL",
+            "tier_8": "128_ENCHANTED_COAL",
+            "tier_9": "256_ENCHANTED_COAL",
+            "tier_10": "512_ENCHANTED_COAL",
+            "tier_11": "8_ENCHANTED_COAL_BLOCK",
+            "tier_12": "16_ENCHANTED_COAL_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "COAL~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_COAL~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_COAL_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.3_MINING"
+        }
+    },
+    
+    {
+        "name": "Iron Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": true,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 17,
+            "tier_2": 15,
+            "tier_3": 15,
+            "tier_4": 14,
+            "tier_5": 14,
+            "tier_6": 14,
+            "tier_7": 12,
+            "tier_8": 12,
+            "tier_9": 10,
+            "tier_10": 10,
+            "tier_11": 8,
+            "tier_12": 7
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_IRON_INGOT",
+            "tier_2": "160_IRON_INGOT",
+            "tier_3": "320_IRON_INGOT",
+            "tier_4": "512_IRON_INGOT",
+            "tier_5": "8_ENCHANTED_IRON_INGOT",
+            "tier_6": "24_ENCHANTED_IRON_INGOT",
+            "tier_7": "64_ENCHANTED_IRON_INGOT",
+            "tier_8": "128_ENCHANTED_IRON_INGOT",
+            "tier_9": "256_ENCHANTED_IRON_INGOT",
+            "tier_10": "512_ENCHANTED_IRON_INGOT",
+            "tier_11": "8_ENCHANTED_IRON_BLOCK",
+            "tier_12": "16_ENCHANTED_IRON_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "IRON_ORE~1~100",
+            "item_2": "IRON_INGOT"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_IRON_INGOT~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_IRON_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.3_MINING"
+        }
+    },
+    {
+        "name": "Diamond Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 29,
+            "tier_2": 29,
+            "tier_3": 27,
+            "tier_4": 27,
+            "tier_5": 25,
+            "tier_6": 25,
+            "tier_7": 22,
+            "tier_8": 22,
+            "tier_9": 19,
+            "tier_10": 19,
+            "tier_11": 15,
+            "tier_12": 12
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_DIAMOND",
+            "tier_2": "160_DIAMOND",
+            "tier_3": "320_DIAMOND",
+            "tier_4": "512_DIAMOND",
+            "tier_5": "8_ENCHANTED_DIAMOND",
+            "tier_6": "24_ENCHANTED_DIAMOND",
+            "tier_7": "64_ENCHANTED_DIAMOND",
+            "tier_8": "128_ENCHANTED_DIAMOND",
+            "tier_9": "256_ENCHANTED_DIAMOND",
+            "tier_10": "512_ENCHANTED_DIAMOND",
+            "tier_11": "8_ENCHANTED_DIAMOND_BLOCK",
+            "tier_12": "16_ENCHANTED_DIAMOND_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "DIAMOND~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_DIAMOND~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_DIAMOND_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.4_MINING"
+        }
+    },
+    {
+        "name": "Lapis Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 29,
+            "tier_2": 29,
+            "tier_3": 27,
+            "tier_4": 27,
+            "tier_5": 25,
+            "tier_6": 25,
+            "tier_7": 22,
+            "tier_8": 22,
+            "tier_9": 19,
+            "tier_10": 19,
+            "tier_11": 15,
+            "tier_12": 12
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "256_INK_SACK:4",
+            "tier_2": "512_INK_SACK:4",
+            "tier_3": "8_ENCHANTED_LAPIS_LAZULI",
+            "tier_4": "24_ENCHANTED_LAPIS_LAZULI",
+            "tier_5": "64_ENCHANTED_LAPIS_LAZULI",
+            "tier_6": "128_ENCHANTED_LAPIS_LAZULI",
+            "tier_7": "256_ENCHANTED_LAPIS_LAZULI",
+            "tier_8": "512_ENCHANTED_LAPIS_LAZULI",
+            "tier_9": "8_ENCHANTED_LAPIS_LAZULI_BLOCK",
+            "tier_10": "16_ENCHANTED_LAPIS_LAZULI_BLOCK",
+            "tier_11": "32_ENCHANTED_LAPIS_LAZULI_BLOCK",
+            "tier_12": "64_ENCHANTED_LAPIS_LAZULI_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "LAPIS~4.5~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_LAPIS_LAZULI~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_LAPIS_LAZULI_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.1_MINING"
+        }
+    },
+    {
+        "name": "Redstone Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 29,
+            "tier_2": 29,
+            "tier_3": 27,
+            "tier_4": 27,
+            "tier_5": 25,
+            "tier_6": 25,
+            "tier_7": 23,
+            "tier_8": 23,
+            "tier_9": 21,
+            "tier_10": 21,
+            "tier_11": 18,
+            "tier_12": 16
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "128_REDSTONE",
+            "tier_2": "256_REDSTONE",
+            "tier_3": "512_REDSTONE",
+            "tier_4": "8_ENCHANTED_REDSTONE",
+            "tier_5": "24_ENCHANTED_REDSTONE",
+            "tier_6": "64_ENCHANTED_REDSTONE",
+            "tier_7": "128_ENCHANTED_REDSTONE",
+            "tier_8": "256_ENCHANTED_REDSTONE",
+            "tier_9": "512_ENCHANTED_REDSTONE",
+            "tier_10": "8_ENCHANTED_REDSTONE_BLOCK",
+            "tier_11": "16_ENCHANTED_REDSTONE_BLOCK",
+            "tier_12": "32_ENCHANTED_REDSTONE_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "REDSTONE~4.5~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_REDSTONE~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_REDSTONE_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.2_MINING"
+        }
+    },
+    {
+        "name": "Quartz Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 22.5,
+            "tier_2": 22.5,
+            "tier_3": 21,
+            "tier_4": 21,
+            "tier_5": 19,
+            "tier_6": 19,
+            "tier_7": 17,
+            "tier_8": 17,
+            "tier_9": 14.5,
+            "tier_10": 14.5,
+            "tier_11": 11.5,
+            "tier_12": 10
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_QUARTZ",
+            "tier_2": "160_QUARTZ",
+            "tier_3": "320_QUARTZ",
+            "tier_4": "512_QUARTZ",
+            "tier_5": "8_ENCHANTED_QUARTZ",
+            "tier_6": "24_ENCHANTED_QUARTZ",
+            "tier_7": "64_ENCHANTED_QUARTZ",
+            "tier_8": "128_ENCHANTED_QUARTZ",
+            "tier_9": "256_ENCHANTED_QUARTZ",
+            "tier_10": "512_ENCHANTED_QUARTZ",
+            "tier_11": "8_ENCHANTED_QUARTZ_BLOCK",
+            "tier_12": "16_ENCHANTED_QUARTZ_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "QUARTZ~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_QUARTZ~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_QUARTZ_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.3_MINING"
+        }
+    },{
+        "name": "End Stone Minion",
         "tiers": 11,
         "tier_12_cost_coins": 0,
         "tier_12_cost_pelts": 0,
@@ -445,7 +1002,7 @@
         "aplicable_pet_boost": "NONE",
         "speeds": 
         {
-            "tier_1":26,
+            "tier_1": 26,
             "tier_2": 26,
             "tier_3": 24,
             "tier_4": 24,
@@ -461,26 +1018,473 @@
     
         "craftCost": 
         {
-            "tier_1": "80_SAND",
-            "tier_2": "160_SAND",
-            "tier_3": "320_SAND",
-            "tier_4": "512_SAND",
-            "tier_5": "8_ENCHANTED_SAND",
-            "tier_6": "16_ENCHANTED_SAND",
-            "tier_7": "32_ENCHANTED_SAND",
-            "tier_8": "64_ENCHANTED_SAND",
-            "tier_9": "128_ENCHANTED_SAND",
-            "tier_10": "256_ENCHANTED_SAND",
-            "tier_11": "512_ENCHANTED_SAND"
+            "tier_1": "80_ENDER_STONE",
+            "tier_2": "160_ENDER_STONE",
+            "tier_3": "320_ENDER_STONE",
+            "tier_4": "512_ENDER_STONE",
+            "tier_5": "8_ENCHANTED_ENDSTONE",
+            "tier_6": "16_ENCHANTED_ENDSTONE",
+            "tier_7": "32_ENCHANTED_ENDSTONE",
+            "tier_8": "64_ENCHANTED_ENDESTONE",
+            "tier_9": "128_ENCHANTED_ENDSTONE",
+            "tier_10": "256_ENCHANTED_ENDSTONE",
+            "tier_11": "512_ENCHANTED_ENDSTONE"
         },
 
         "drops": 
         { 
-            "item_1": "SAND~1~100"
+            "item_1": "ENDER_STONE~1~100"
         },
 
         "dropsCompacted": {
-            "item_1": "ENCHANTED_SAND~160"
+            "item_1": "ENCHANTED_ENDSTONE~160"
+        },
+
+        "dropsDoubleCompacted": {
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.4_MINING"
+        }
+    },
+    {
+        "name": "End Stone Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 80,
+            "tier_2": 80,
+            "tier_3": 75,
+            "tier_4": 75,
+            "tier_5": 70,
+            "tier_6": 70,
+            "tier_7": 65,
+            "tier_8": 65,
+            "tier_9": 60,
+            "tier_10": 60,
+            "tier_11": 55,
+            "tier_12": 50
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_MITHRIL_ORE",
+            "tier_2": "160_MITHRIL_ORE",
+            "tier_3": "320_MITHRIL_ORE",
+            "tier_4": "512_MITHRIL_ORE",
+            "tier_5": "8_ENCHANTED_MITHRIL",
+            "tier_6": "24_ENCHANTED_MITHRIL",
+            "tier_7": "64_ENCHANTED_MITHRIL",
+            "tier_8": "128_ENCHANTED_MITHRIL",
+            "tier_9": "256_ENCHANTED_MITHRIL",
+            "tier_10": "512_ENCHANTED_MITHRIL",
+            "tier_11": "8_REFINED_MITHRIL",
+            "tier_12":  "16_REFINED_MITHRIL"
+        },
+
+        "drops": 
+        { 
+            "item_1": "MITHRIL_ORE~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_MITHRIL~160"
+        },
+
+        "dropsDoubleCompacted": {
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.4_MINING"
+        }
+    },
+    {
+        "name": "Hardstone Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 2000000,
+        "tier_12_cost_pelts": 0,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {},
+        "crystal_type": "MINING",
+        "aplicable_pet_boost": "NONE",
+        "speeds": 
+        {
+            "tier_1": 14,
+            "tier_2": 14,
+            "tier_3": 12,
+            "tier_4": 12,
+            "tier_5": 10,
+            "tier_6": 10,
+            "tier_7": 9,
+            "tier_8": 9,
+            "tier_9": 8,
+            "tier_10": 8,
+            "tier_11": 7,
+            "tier_12": 6
+        },
+    
+        "craftCost": 
+        {
+            "tier_1": "256_HARD_STONE",
+            "tier_2": "512_HARD_STONE",
+            "tier_3": "8_ENCHANTED_HARD_STONE",
+            "tier_4": "16_ENCHANTED_HARD_STONE",
+            "tier_5": "32_ENCHANTED_HARD_STONE",
+            "tier_6": "64_ENCHANTED_HARD_STONE",
+            "tier_7": "128_ENCHANTED_HARD_STONE",
+            "tier_8": "256_ENCHANTED_HARD_STONE",
+            "tier_9": "512_ENCHANTED_HARD_STONE",
+            "tier_10": "4_CONCENTRATED_STONE",
+            "tier_11": "8_CONCENTRATED_STONE",
+            "tier_12": "16_CONCENTRATED_STONE"
+        },
+
+        "drops": 
+        { 
+            "item_1": "HARD_STONE~4.5~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_HARD_STONE~576"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "CONCENTRATED_STONE~576"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.1_MINING"
+        }
+    },
+    
+    {
+        "name": "Wheat Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1":15,
+            "tier_2": 15,
+            "tier_3": 13,
+            "tier_4": 13,
+            "tier_5": 11,
+            "tier_6": 11,
+            "tier_7": 10,
+            "tier_8": 10,
+            "tier_9": 9,
+            "tier_10": 9,
+            "tier_11": 8,
+            "tier_12": 7
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_WHEAT",
+            "tier_2": "160_WHEAT",
+            "tier_3": "320_WHEAT",
+            "tier_4": "512_WHEAT",
+            "tier_5": "8_ENCHANTED_WHEAT",
+            "tier_6": "16_ENCHANTED_WHEAT",
+            "tier_7": "32_ENCHANTED_WHEAT",
+            "tier_8": "64_ENCHANTED_WHEAT",
+            "tier_9": "128_ENCHANTED_WHEAT",
+            "tier_10": "256_ENCHANTED_WHEAT",
+            "tier_11": "512_ENCHANTED_WHEAT", 
+            "tier_12": "1024_ENCHANTED_WHEAT"
+        },
+
+        "drops": 
+        { 
+            "item_1": "WHEAT~1~100",
+            "item_2": "SEEDS~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_WHEAT~160",
+            "item_2": "ENCHANTED_SEEDS~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_HAY_BALE~160",
+            "item_2": "BOX_OF_SEEDS~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.2_FARMING",
+            "item_2": "0.1_FARMING"
+        }
+    },
+    {
+        "name": "Wheat Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1":24,
+            "tier_2": 24,
+            "tier_3": 22.5,
+            "tier_4": 22.5,
+            "tier_5": 21,
+            "tier_6": 21,
+            "tier_7": 18.5,
+            "tier_8": 18.5,
+            "tier_9": 16,
+            "tier_10": 16,
+            "tier_11": 13,
+            "tier_12": 10
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "256_MELON",
+            "tier_2": "512_MELON",
+            "tier_3": "128_MELON_BLOCK",
+            "tier_4": "256_MELON_BLOCK",
+            "tier_5": "512_MELON_BLOCK",
+            "tier_6": "64_ENCHANTED_MELON",
+            "tier_7": "128_ENCHANTED_MELON",
+            "tier_8": "256_ENCHANTED_MELON",
+            "tier_9": "512_ENCHANTED_MELON",
+            "tier_10": "8_ENCHANTED_MELON_BLOCK",
+            "tier_11": "16_ENCHANTED_MELON_BLOCK", 
+            "tier_12": "32_ENCHANTED_MELON_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "MELON~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_MELON~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_MELON_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.2_FARMING"
+        }
+    },
+    {
+        "name": "Melon Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1":24,
+            "tier_2": 24,
+            "tier_3": 22.5,
+            "tier_4": 22.5,
+            "tier_5": 21,
+            "tier_6": 21,
+            "tier_7": 18.5,
+            "tier_8": 18.5,
+            "tier_9": 16,
+            "tier_10": 16,
+            "tier_11": 13,
+            "tier_12": 10
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "256_MELON",
+            "tier_2": "512_MELON",
+            "tier_3": "128_MELON_BLOCK",
+            "tier_4": "256_MELON_BLOCK",
+            "tier_5": "512_MELON_BLOCK",
+            "tier_6": "64_ENCHANTED_MELON",
+            "tier_7": "128_ENCHANTED_MELON",
+            "tier_8": "256_ENCHANTED_MELON",
+            "tier_9": "512_ENCHANTED_MELON",
+            "tier_10": "8_ENCHANTED_MELON_BLOCK",
+            "tier_11": "16_ENCHANTED_MELON_BLOCK", 
+            "tier_12": "32_ENCHANTED_MELON_BLOCK"
+        },
+
+        "drops": 
+        { 
+            "item_1": "MELON~5~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_MELON~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_MELON_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.1_FARMING"
+        }
+    },
+    
+    {
+        "name": "Pumpkin Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 32,
+            "tier_2": 32,
+            "tier_3": 30,
+            "tier_4": 30,
+            "tier_5": 27,
+            "tier_6": 27,
+            "tier_7": 24,
+            "tier_8": 24,
+            "tier_9": 20,
+            "tier_10": 20,
+            "tier_11": 16,
+            "tier_12": 12
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_PUMPKIN",
+            "tier_2": "160_PUMPKIN",
+            "tier_3": "320_PUMPKIN",
+            "tier_4": "512_PUMPKIN",
+            "tier_5": "8_PUMPKIN",
+            "tier_6": "16_ENCHANTED_PUMPKIN",
+            "tier_7": "32_ENCHANTED_PUMPKIN",
+            "tier_8": "64_ENCHANTED_PUMPKIN",
+            "tier_9": "128_ENCHANTED_PUMPKIN",
+            "tier_10": "256_ENCHANTED_PUMPKIN",
+            "tier_11": "512_ENCHANTED_PUMPKIN", 
+            "tier_12": "1024_ENCHANTED_PUMPKIN"
+        },
+
+        "drops": 
+        { 
+            "item_1": "PUMPKIN~1~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_PUMPKIN~160"
+        },
+
+        "dropsDoubleCompacted": {
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.3_FARMING"
+        }
+    },
+
+    {
+        "name": "Carrot Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 20,
+            "tier_2": 20,
+            "tier_3": 18,
+            "tier_4": 18,
+            "tier_5": 16,
+            "tier_6": 16,
+            "tier_7": 14,
+            "tier_8": 14,
+            "tier_9": 12,
+            "tier_10": 12,
+            "tier_11": 10,
+            "tier_12": 8
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "128_CARROT",
+            "tier_2": "256_CARROT",
+            "tier_3": "512_CARROT",
+            "tier_4": "8_ENCHANTED_CARROT",
+            "tier_5": "24_ENCHANTED_CARROT",
+            "tier_6": "64_ENCHANTED_CARROT",
+            "tier_7": "128_ENCHANTED_CARROT",
+            "tier_8": "256_ENCHANTED_CARROT",
+            "tier_9": "512_ENCHANTED_CARROT",
+            "tier_10": "8_ENCHANTED_GOLDEN_CARROT",
+            "tier_11": "16_ENCHANTED_GOLDEN_CARROT", 
+            "tier_12": "32_ENCHANTED_GOLDEN_CARROT"
+        },
+
+        "drops": 
+        { 
+            "item_1": "CARROT~3~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_CARROT~160"
         },
 
         "dropsDoubleCompacted": {
@@ -489,7 +1493,261 @@
         
         "skillExp": 
         {
-            "item_1": "0.2_MINING"
+            "item_1": "0.1_FARMING"
         }
     },
+    {
+        "name": "Potato Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 20,
+            "tier_2": 20,
+            "tier_3": 18,
+            "tier_4": 18,
+            "tier_5": 16,
+            "tier_6": 16,
+            "tier_7": 14,
+            "tier_8": 14,
+            "tier_9": 12,
+            "tier_10": 12,
+            "tier_11": 10,
+            "tier_12": 8
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "128_POTATO",
+            "tier_2": "256_POTATO",
+            "tier_3": "512_POTATO",
+            "tier_4": "8_ENCHANTED_POTATO",
+            "tier_5": "24_ENCHANTED_POTATO",
+            "tier_6": "64_ENCHANTED_POTATO",
+            "tier_7": "128_ENCHANTED_POTATO",
+            "tier_8": "256_ENCHANTED_POTATO",
+            "tier_9": "512_ENCHANTED_POTATO",
+            "tier_10": "8_ENCHANTED_BAKED_POTATO",
+            "tier_11": "16_ENCHANTED_BAKED_POTATO", 
+            "tier_12": "32_ENCHANTED_BAKED_POTATO"
+        },
+
+        "drops": 
+        { 
+            "item_1": "POTATO~3~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_POTATO~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_BAKED_POTATO~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.1_FARMING"
+        }
+    },
+    {
+        "name": "Mushroom Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 30,
+            "tier_2": 30,
+            "tier_3": 28,
+            "tier_4": 28,
+            "tier_5": 26,
+            "tier_6": 26,
+            "tier_7": 23,
+            "tier_8": 23,
+            "tier_9": 20,
+            "tier_10": 20,
+            "tier_11": 16,
+            "tier_12": 12
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "80_RED_MUSHROOM",
+            "tier_2": "160_RED_MUSHROOM",
+            "tier_3": "320_RED_MUSHROOM",
+            "tier_4": "512_ENCHANTED_RED_MUSHROOM",
+            "tier_5": "8_ENCHANTED_RED_MUSHROOM",
+            "tier_6": "16_ENCHANTED_RED_MUSHROOM",
+            "tier_7": "32_ENCHANTED_RED_MUSHROOM",
+            "tier_8": "64_ENCHANTED_RED_MUSHROOM",
+            "tier_9": "128_ENCHANTED_RED_MUSHROOM",
+            "tier_10": "256_ENCHANTED_RED_MUSHROOM",
+            "tier_11": "512_ENCHANTED_RED_MUSHROOM", 
+            "tier_12": "512_ENCHANTED_RED_MUSHROOM&512_ENCHANTED_BROWN_MUSHROOM"
+        },
+
+        "drops": 
+        { 
+            "item_1": "RED_MUSHROOM~3~50",
+            "item_2": "BROWN_MUSHROOM~3~50"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_RED_MUSHROOM~160",
+            "item_2": "ENCHANTED_BROWN_MUSHROOM~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_RED_MUSHROOM_BLOCK~160",
+            "item_2": "ENCHANTED_BROWN_MUSHROOM_BLOCK~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.3_FARMING",
+            "item_2": "0.3_FARMING"
+        }
+    },{
+        "name": "Cactus Minion",
+        "tiers": 12,
+        "tier_12_cost_coins": 0,
+        "tier_12_cost_pelts": 75,
+        "supercompactable": true,
+        "autosmeltable": false,
+        "specialized_fuel_catagory": {},
+        "specialized_upgrade_catagory": {
+            "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+        },
+        "crystal_type": "FARMING",
+        "aplicable_pet_boost": "RABBIT",
+        "speeds": 
+        {
+            "tier_1": 27,
+            "tier_2": 27,
+            "tier_3": 25,
+            "tier_4": 25,
+            "tier_5": 23,
+            "tier_6": 23,
+            "tier_7": 21,
+            "tier_8": 21,
+            "tier_9": 18,
+            "tier_10": 18,
+            "tier_11": 15,
+            "tier_12": 12
+        }
+        ,
+    
+        "craftCost": 
+        {
+            "tier_1": "128_CACTUS",
+            "tier_2": "256_CACTUS",
+            "tier_3": "512_CACTUS",
+            "tier_4": "8_ENCHANTED_CACTUS_GREEN",
+            "tier_5": "24_ENCHANTED_CACTUS_GREEN",
+            "tier_6": "64_ENCHANTED_CACTUS_GREEN",
+            "tier_7": "128_ENCHANTED_CACTUS_GREEN",
+            "tier_8": "256_ENCHANTED_CACTUS_GREEN",
+            "tier_9": "512_ENCHANTED_CACTUS_GREEN",
+            "tier_10": "8_ENCHANTED_CACTUS",
+            "tier_11": "16_ENCHANTED_CACTUS", 
+            "tier_12": "32_ENCHANTED_CACTUS"
+        },
+
+        "drops": 
+        { 
+            "item_1": "CACTUS~3~100"
+        },
+
+        "dropsCompacted": {
+            "item_1": "ENCHANTED_CACTUS_GREEN~160"
+        },
+
+        "dropsDoubleCompacted": {
+            "item_1": "ENCHANTED_CACTUS~160"
+        },
+        
+        "skillExp": 
+        {
+            "item_1": "0.3_FARMING"
+        }
+    },
+
+    {
+    "name": "Cocoa Beans Minion",
+    "tiers": 12,
+    "tier_12_cost_coins": 0,
+    "tier_12_cost_pelts": 75,
+    "supercompactable": true,
+    "autosmeltable": false,
+    "specialized_fuel_catagory": {},
+    "specialized_upgrade_catagory": {
+        "upgrade_1": "BERBERIS_FUEL_INJECTOR"
+    },
+    "crystal_type": "FARMING",
+    "aplicable_pet_boost": "RABBIT",
+    "speeds": 
+    {
+        "tier_1": 27,
+        "tier_2": 27,
+        "tier_3": 25,
+        "tier_4": 25,
+        "tier_5": 23,
+        "tier_6": 23,
+        "tier_7": 21,
+        "tier_8": 21,
+        "tier_9": 18,
+        "tier_10": 18,
+        "tier_11": 15,
+        "tier_12": 12
+    },
+    "craftCost": 
+    {
+        "tier_1": "80_COCOA_BEANS",
+        "tier_2": "160_COCOA_BEANS",
+        "tier_3": "320_COCOA_BEANS",
+        "tier_4": "512_COCOA_BEANS",
+        "tier_5": "8_ENCHANTED_COCOA_BEANS",
+        "tier_6": "24_ENCHANTED_COCOA_BEANS",
+        "tier_7": "64_ENCHANTED_COCOA_BEANS",
+        "tier_8": "128_ENCHANTED_COCOA_BEANS",
+        "tier_9": "256_ENCHANTED_COCOA_BEANS",
+        "tier_10": "512_ENCHANTED_COCOA_BEANS",
+        "tier_11": "8_ENCHANTED_COOKIE",
+        "tier_12": "16_ENCHANTED_COOKIE"
+    },
+    "drops": 
+    { 
+        "item_1": "COCOA_BEANS~3~100"
+    },
+    "dropsCompacted": {
+        "item_1": "ENCHANTED_COCOA_BEANS~160"
+    },
+    "dropsDoubleCompacted": {
+    },
+    "skillExp": 
+    {
+        "item_1": "0.2_FARMING"
+    }
+}
+
 ]

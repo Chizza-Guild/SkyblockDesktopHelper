@@ -5,6 +5,7 @@
 -   Give "No Internet Connection" error on some features
 -   Change tray icon logo and app name
 -   Create a check when trying to load .ts files, if it cant find it, make an alert saying they need to npx tsc
+-   Greenhouse Sources: http://t0r0nt0.dev/ && https://skymutations.eu/
 
 ### Not started
 -   Config file for github releases, so we have app updates rolling on version updates

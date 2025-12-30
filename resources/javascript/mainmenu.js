@@ -34,6 +34,9 @@ async function renderPage(page) {
 	} else if (page == "greenhouse") {
 		await loadJSFile("greenhouse", "ts");
 		displayGreenhouse(greenhouseNo1);
+	} else if (page == "discordTest") {
+		await loadJSFile("discordTest", "js");
+		sendDiscordMessage();
 	}
 }
 

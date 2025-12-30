@@ -1,3 +1,5 @@
+const greenhouseLayout = document.getElementById("greenhouseLayout");
+
 /*
 TODO List:
 
@@ -6,8 +8,7 @@ Mutation Name - Icon Webp (Check if we can ditch png) - Growing Conditions - Rar
 Copper when analysed - Aura buffs - Growth Phase Amount - If it needs water - Short ID - Size - Growth Surface
 In a separate place: Planted time in unix - Unlocked by player
 
-Create a matrix where each space is a plot. We will need three since three greenhouse slots. Save these to the
-database somehow.
+Save greenhouse layouts to the database on change.
 
 Feature idea: Show how much time until next growth phase.
 Feature idea: Show what crops can currently grow in a specific plot with details, and why can't they grow.
@@ -16,8 +17,41 @@ Feature idea: Make it fill the remaining space most optimally (profit).
 
 */
 
-let greenHouseNo1: number = [5][5]; // Fill this with 0, the middle will have 1 in a plus shape.
-// I forgot how large was the greenhouse so i will change "5"
+let greenhouseNo1: number[][] = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
+let greenhouseNo2: number[][] = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
+let greenhouseNo3: number[][] = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
+
+function unlockGreenhouse(greenhouse: number[][]) {
+	greenhouse[4][4] = 1;
+	greenhouse[4][5] = 1;
+	greenhouse[5][5] = 1;
+	greenhouse[5][4] = 1;
+	greenhouse[3][4] = 1;
+	greenhouse[3][5] = 1;
+	greenhouse[6][4] = 1;
+	greenhouse[6][5] = 1;
+	greenhouse[4][3] = 1;
+	greenhouse[4][6] = 1;
+	greenhouse[5][3] = 1;
+	greenhouse[5][6] = 1;
+}
+
+function displayGreenhouse(greenhouse: number[][]) {
+	greenhouseLayout!.innerText = "";
+
+	for (let i = 0; i < 10; i++) {
+		for (let j = 0; j < 10; j++) {
+			greenhouseLayout!.innerText += `${greenhouse[i][j]}`;
+			greenhouseLayout!.innerText += `${j == 9 ? "\n" : ","}`;
+		}
+	}
+}
+
+// Immediately unlock the first plots of the first greenhouse and display it
+unlockGreenhouse(greenhouseNo1);
+displayGreenhouse(greenhouseNo1);
+
+// When you unlock a greenhouuse, the middle will be automatically unlocked.
 // Later the greenhouse plot data will be loaded from the database.
 // 0: Not Unlocked
 // 1: Unlocked but empty plots

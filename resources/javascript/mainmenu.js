@@ -28,6 +28,9 @@ async function renderPage(page) {
 		stopForgeTimer();
 		loadForgeData();
 		startForgeTimer();
+	} else if (page == "minionProfitCalculator") {
+		await loadJSFile("minionProfitCalculator", "js");
+		loadMinionData();
 	}
 }
 

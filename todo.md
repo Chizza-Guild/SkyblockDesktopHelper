@@ -28,4 +28,4 @@
 -   MLG --> Compost Profit Calculator
 -   RYRY --> Carpentry skill calculator
 -   RYRY --> Minion slot calculator
--   RYRY --> Discord notifications.
+-   RYRY --> Discord notifications. Make a seperate script that can make and create channels in a server and get the webhooks, store the webhooks on supabase and encrypt them and decrypt. If somone happens to get the token, just regenerate them with the bot and re upload to supabase.

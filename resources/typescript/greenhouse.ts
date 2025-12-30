@@ -1,5 +1,3 @@
-const greenhouseLayout = document.getElementById("greenhouseLayout");
-
 /*
 TODO List:
 
@@ -37,19 +35,17 @@ function unlockGreenhouse(greenhouse: number[][]) {
 }
 
 function displayGreenhouse(greenhouse: number[][]) {
-	greenhouseLayout!.innerText = "";
+	document.getElementById("greenhouseLayout")!.innerText = "";
 
 	for (let i = 0; i < 10; i++) {
 		for (let j = 0; j < 10; j++) {
-			greenhouseLayout!.innerText += `${greenhouse[i][j]}`;
-			greenhouseLayout!.innerText += `${j == 9 ? "\n" : ","}`;
+			document.getElementById("greenhouseLayout")!.innerText += `${greenhouse[i][j]}${j == 9 ? "\n" : ","}`;
 		}
 	}
 }
 
 // Immediately unlock the first plots of the first greenhouse and display it
 unlockGreenhouse(greenhouseNo1);
-displayGreenhouse(greenhouseNo1);
 
 // When you unlock a greenhouuse, the middle will be automatically unlocked.
 // Later the greenhouse plot data will be loaded from the database.

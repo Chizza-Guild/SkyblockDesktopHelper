@@ -33,6 +33,7 @@ async function renderPage(page) {
 		loadMinionData();
 	} else if (page == "greenhouse") {
 		await loadJSFile("greenhouse", "ts");
+		displayGreenhouse(greenhouseNo1);
 	}
 }
 

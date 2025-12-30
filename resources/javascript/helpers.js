@@ -5,8 +5,8 @@ async function sleep(ms) {
 // This function helps to load the JS files just when you are about the use it instead of the launch,
 // resulting in faster launch times.
 async function loadJSFile(filename, extension) {
+    // DO NOT MODIFY THIS FUNCTION!!
 	const src = `/${extension == "ts" ? "dist" : "javascript"}/${filename}.js`;
-	console.log(src);
 
 	if (extension == "ts") {
 		const exists = await Neutralino.filesystem

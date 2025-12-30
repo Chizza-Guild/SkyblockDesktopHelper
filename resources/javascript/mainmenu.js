@@ -3,7 +3,7 @@ const mainDiv = document.getElementById("main");
 let currentPage = "mainmenu";
 
 async function renderPage(page) {
-    // The "db" here basically checks if the database has finished loading
+	// The "db" here basically checks if the database has finished loading
 	if (db && !redirectToSettings(page)) return renderPage("settings");
 
 	currentPage = page;
@@ -31,6 +31,8 @@ async function renderPage(page) {
 	} else if (page == "minionProfitCalculator") {
 		await loadJSFile("minionProfitCalculator", "js");
 		loadMinionData();
+	} else if (page == "greenhouse") {
+		await loadJSFile("greenhouse", "ts");
 	}
 }
 

@@ -443,7 +443,7 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 		}
 
 		const message = `${cleanName}${orderTypeText} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
-		await sendNotification("Price Alert!", message);
+		await sendNotification("Price Alert!", message, true);
 		lastNotifiedPrices.set(id, currentPrice);
 		console.log(`Notification sent for ${cleanName}: ${message}`);
 	}

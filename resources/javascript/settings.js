@@ -10,16 +10,16 @@ async function saveUserSettings() {
 	try {
 		const name = document.getElementById("sbNameInput").value;
 		const apiKey = document.getElementById("apiKeyInput").value;
-		const discordId = document.getElementById("discordIdInput")
+		const discordId = document.getElementById("discordIdInput").value;
 
-		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, discordId, uuid) VALUES (1, ?, ?, ?, NULL)", [name, apiKey, discordId]);
+		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId) VALUES (1, ?, ?, NULL, ?)", [name, apiKey, discordId]);
 
 		if (name != playerNameVar) {
 			console.log("Fetching new UUID for:", name);
 			uuidVar = await getPlayerUuid(name);
 			console.log("New UUID:", uuidVar);
 		}
-		
+
 		playerNameVar = name;
 		apiKeyVar = apiKey;
 		discordIdVar = discordId;
@@ -29,7 +29,6 @@ async function saveUserSettings() {
 		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordId:", discordIdVar);
 
 		alert("Settings saved successfully!");
-		
 	} catch (error) {
 		console.error("Error in saveUserSettings:", error);
 		alert(`Failed to save settings: ${error}`);
@@ -40,7 +39,7 @@ async function loadUserSettings() {
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
-	const [id, name, apiKey, discordId, uuid] = res[0].values[0];
+	const [id, name, apiKey, uuid, discordId] = res[0].values[0];
 	console.log(`Loaded User Settings: ${res[0].values[0]}`);
 
 	if (currentPage == "settings") {

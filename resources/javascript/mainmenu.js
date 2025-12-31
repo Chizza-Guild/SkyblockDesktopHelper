@@ -36,7 +36,6 @@ async function renderPage(page) {
 		displayGreenhouse(greenhouseNo1);
 	} else if (page == "discordTest") {
 		await loadJSFile("discordTest", "js");
-	
 	}
 }
 
@@ -48,9 +47,18 @@ function redirectToSettings(page) {
 			alert("An API Key is needed for this feature!");
 			canContinue = false;
 		}
-	} else if (!playerNameVar) {
+	}
+	
+    if (!playerNameVar) {
 		if (page == "auctionNotifier" || page == "forgeTimer") {
 			alert("A player name is needed for this feature!");
+			canContinue = false;
+		}
+	}
+	
+    if (!discordIdVar) {
+		if (page == "discordTest") {
+			alert("A Discord User ID is needed for this feature!");
 			canContinue = false;
 		}
 	}

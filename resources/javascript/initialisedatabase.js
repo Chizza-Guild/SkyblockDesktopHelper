@@ -31,13 +31,15 @@ let saveDb;
 		};
 
 		// USER INFO TABLE HERE
-		db.run("CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY, name TEXT, apiKey TEXT, discordId INTEGER)");
+        // You can't just add the new variables here ryry use the part below
+		db.run("CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY, name TEXT, apiKey TEXT)");
 		await saveDb();
 
 		// ADDS NEW COLUMNS TO USER INFO TABLE
 		const cols = db.exec("PRAGMA table_info(user_info)")[0].values;
-		const hasUuid = cols.some(c => c[1] == "uuid");
-		if (!hasUuid) db.run("ALTER TABLE user_info ADD COLUMN uuid TEXT");
+		if (!cols.some(c => c[1] == "uuid")) db.run("ALTER TABLE user_info ADD COLUMN uuid TEXT");
+		if (!cols.some(c => c[1] == "discordId")) db.run("ALTER TABLE user_info ADD COLUMN discordId INTEGER");
+
 		await saveDb();
 
 		// FEATURE ACTIVATION TABLE HERE

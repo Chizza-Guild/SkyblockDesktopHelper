@@ -31,7 +31,7 @@ let saveDb;
 		};
 
 		// USER INFO TABLE HERE
-		db.run("CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY, name TEXT, apiKey TEXT)");
+		db.run("CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY, name TEXT, apiKey TEXT, discordId INTEGER)");
 		await saveDb();
 
 		// ADDS NEW COLUMNS TO USER INFO TABLE

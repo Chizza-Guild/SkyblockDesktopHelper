@@ -3,28 +3,39 @@ const CoflnetUrl = "https://sky.coflnet.com/api";
 let playerNameVar;
 let apiKeyVar;
 let uuidVar;
+let webhookURL;
 let auctionNotifierVar;
 let discordIdVar;
-
+let privateWebhookURLVar;
 async function saveUserSettings() {
 	try {
 		const name = document.getElementById("sbNameInput").value;
 		const apiKey = document.getElementById("apiKeyInput").value;
 		const discordId = document.getElementById("discordIdInput").value;
 
-		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId) VALUES (1, ?, ?, NULL, ?)", [name, apiKey, discordId]);
-
+		// added placeholders
+		db.run(
+			"INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL) VALUES (?, ?, ?, ?, ?, ?)",
+			[1, name, apiKey, null, discordId, null]
+		);
 		if (name != playerNameVar) {
 			console.log("Fetching new UUID for:", name);
 			uuidVar = await getPlayerUuid(name);
 			console.log("New UUID:", uuidVar);
 		}
 
+		if (discordId) {
+			console.log("creating private server");
+			privateWebhookURLVar = await createDiscordChannel(discordId);
+			console.log("private channel webhook is :" + privateWebhookURLVar);
+		}
+ 
 		playerNameVar = name;
 		apiKeyVar = apiKey;
 		discordIdVar = discordId;
 
 		await saveDb();
+		
 
 		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordId:", discordIdVar);
 
@@ -39,7 +50,7 @@ async function loadUserSettings() {
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
-	const [id, name, apiKey, uuid, discordId] = res[0].values[0];
+	const [id, name, apiKey, uuid, discordId, webhookURL] = res[0].values[0];
 	console.log(`Loaded User Settings: ${res[0].values[0]}`);
 
 	if (currentPage == "settings") {
@@ -51,6 +62,14 @@ async function loadUserSettings() {
 	playerNameVar = name;
 	apiKeyVar = apiKey;
 	discordIdVar = discordId;
+
+	if (privateWebhookURLVar != webhookURL && discordId != null) {
+			console.log("creating private server");
+			privateWebhookURLVar = createDiscordChannel(discordId);
+			console.log("private channel webhook is :" + privateWebhookURLVar);
+	} else {
+		privateWebhookURLVar = webhookURL;
+	}
 
 	if (name && !uuid) {
 		uuidVar = await getPlayerUuid(name);

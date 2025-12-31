@@ -77,40 +77,6 @@ function getNewAuctions(currentAuctions = [], previousAuctions = []) {
 	});
 }
 
-let lastNotifyTime = 0;
-const NOTIFY_COOLDOWN = 0;
-
-async function sendNotification(title, body, force = false) {
-	const now = Date.now();
-
-	if (!force && now - lastNotifyTime < NOTIFY_COOLDOWN) {
-		console.log("Notification skipped (cooldown)");
-		return;
-	}
-
-	try {
-		// Support both possible API signatures (positional or object)
-		const notifyFn = Neutralino?.os?.showNotification;
-		if (typeof notifyFn === "function") {
-			// Try object form first
-			try {
-				await notifyFn({ title: String(title), content: String(body) });
-			} catch (e) {
-				// Try positional fallback
-				await notifyFn(String(title), String(body));
-			}
-		} else {
-			throw new Error("Neutralino.os.showNotification is not available");
-		}
-
-		lastNotifyTime = now; // update ONLY after success
-		console.log("Notification sent:", title);
-		return true;
-	} catch (err) {
-		console.error("Notification error:", err);
-		return false;
-	}
-}
 
 function auctionNotifierFunc() {
 	auctionNotifierVar = auctionNotifierVar == 0 ? 1 : 0; // Swap from 0 to 1 or the opposite, SQLite doesnt have booleans
@@ -126,7 +92,7 @@ async function main() {
 
 	previousAuctions = await getActiveAuctions(apiKeyVar, uuidVar);
 
-	await sendNotification("Auction Tracker Started", "Tracking auctions", true);
+	await sendNotification("Auction Tracker Started", "Tracking auctions");
 
 	while (auctionNotifierVar == 1) {
 		try {
@@ -146,7 +112,7 @@ async function main() {
 			console.error("Loop error:", err);
 		}
 
-		await sleep(2 * 5 * 1000); // 2 minutes
+		await sleep(2 * 15 * 1000); // 30 sec
 	}
 }
 async function start() {

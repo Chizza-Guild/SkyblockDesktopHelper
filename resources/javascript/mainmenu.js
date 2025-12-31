@@ -15,8 +15,10 @@ async function renderPage(page) {
 		});
 
 	if (page == "settings" && db) {
+		await loadJSFile("discordTest", "js");
 		loadUserSettings();
 		loadFeatureSettings();
+
 	} else if (page == "auctionNotifier") {
 		await loadJSFile("auctionNotifier", "js");
 		document.getElementById("aucNotyBtn").checked = auctionNotifierVar;
@@ -34,8 +36,7 @@ async function renderPage(page) {
 	} else if (page == "greenhouse") {
 		await loadJSFile("greenhouse", "ts");
 		displayGreenhouse(greenhouseNo1);
-	} else if (page == "discordTest") {
-		await loadJSFile("discordTest", "js");
+	} else if (page == "") {
 	}
 }
 

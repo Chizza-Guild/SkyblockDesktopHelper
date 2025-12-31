@@ -1,7 +1,5 @@
 const PROJECT_REF = "qrhswmwyccpzgjbjwrpz";
-
 const CREATE_URL = `https://${PROJECT_REF}.supabase.co/functions/v1/create-private-channel`;
-const SEND_URL   = `https://${PROJECT_REF}.supabase.co/functions/v1/hello`; // or whatever you named it
 
 async function createDiscordChannel(playerId) {
   const res = await fetch(CREATE_URL, {
@@ -28,27 +26,24 @@ async function createDiscordChannel(playerId) {
     throw new Error(`create succeeded but missing webhookUrl: ${text}`);
   }
 
+  await sendDiscordMessage(`Hello 👋, Your private notifications channel is ready! 🎉\n Welcome from the Chizza Hypixel Helper Developer Team!`, data.webhookUrl);
   return data.webhookUrl;
 }
+async function sendDiscordMessage( message, webhookUrl = privateWebhookURLVar) {
+    let content = `<@${discordIdVar}> ${message}`
+    const res = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+    });
 
-
-async function sendDiscordMessage(webhookUrl, content) {
-  const res = await fetch(webhookUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content }),
-  });
-
-  if (!res.ok) {
-    throw new Error(`Webhook failed: ${res.status} ${await res.text()}`);
-  }
+    if (!res.ok) {
+        throw new Error(`Webhook failed: ${res.status} ${await res.text()}`);
+    }
 }
 
 // Example button handler
 async function makeDiscordChannel() {
-  const webhookUrl = await createDiscordChannel(discordIdVar);
-  console.log("Webhook:", webhookUrl);
 
-  await sendDiscordMessage(webhookUrl, `<@${playerId}>\n Hello 👋, Your private notifications channel is ready! 🎉\n Welcome from the Chizza Hypixel Helper Developer Team!`);
-  console.log("Sent message!");
 }
+ 

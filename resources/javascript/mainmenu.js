@@ -36,7 +36,7 @@ async function renderPage(page) {
 		displayGreenhouse(greenhouseNo1);
 	} else if (page == "discordTest") {
 		await loadJSFile("discordTest", "js");
-		sendDiscordMessage();
+	
 	}
 }
 

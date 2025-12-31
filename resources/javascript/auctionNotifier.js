@@ -103,7 +103,7 @@ async function main() {
 			console.log(endedAuctions);
 
 			if (endedAuctions.length > 0) {
-				sendNotification("Auction sold!", `${endedAuctions[0].item_name} sold for ${endedAuctions[0].starting_bid} coins.`);
+				await sendNotification("Auction sold!", `${endedAuctions[0].item_name} sold for ${endedAuctions[0].starting_bid} coins.`);
 			}
 
 			// IMPORTANT: copy array, don’t reference

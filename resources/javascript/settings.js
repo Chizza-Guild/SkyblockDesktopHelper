@@ -23,12 +23,6 @@ async function saveUserSettings() {
 			uuidVar = await getPlayerUuid(name);
 			console.log("New UUID:", uuidVar);
 		}
-
-		if (discordId) {
-			console.log("creating private server");
-			privateWebhookURLVar = await createDiscordChannel(discordId);
-			console.log("private channel webhook is :" + privateWebhookURLVar);
-		}
  
 		playerNameVar = name;
 		apiKeyVar = apiKey;
@@ -50,7 +44,7 @@ async function loadUserSettings() {
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
-	const [id, name, apiKey, uuid, discordId, webhookURL] = res[0].values[0];
+	const [id, name, apiKey, uuid, discordId, webhookUrll] = res[0].values[0];
 	console.log(`Loaded User Settings: ${res[0].values[0]}`);
 
 	if (currentPage == "settings") {
@@ -59,17 +53,10 @@ async function loadUserSettings() {
 		document.getElementById("discordIdInput").value = discordId || "";
 	}
 
+	privateWebhookURLVar = webhookUrll;
 	playerNameVar = name;
 	apiKeyVar = apiKey;
 	discordIdVar = discordId;
-
-	if (privateWebhookURLVar != webhookURL && discordId != null) {
-			console.log("creating private server");
-			privateWebhookURLVar = createDiscordChannel(discordId);
-			console.log("private channel webhook is :" + privateWebhookURLVar);
-	} else {
-		privateWebhookURLVar = webhookURL;
-	}
 
 	if (name && !uuid) {
 		uuidVar = await getPlayerUuid(name);

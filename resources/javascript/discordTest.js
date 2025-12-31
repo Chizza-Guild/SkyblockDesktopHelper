@@ -29,21 +29,27 @@ async function createDiscordChannel(playerId) {
   await sendDiscordMessage(`Hello 👋, Your private notifications channel is ready! 🎉\n Welcome from the Chizza Hypixel Helper Developer Team!`, data.webhookUrl);
   return data.webhookUrl;
 }
-async function sendDiscordMessage( message, webhookUrl = privateWebhookURLVar) {
-    let content = `<@${discordIdVar}> ${message}`
-    const res = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content }),
-    });
+async function sendDiscordMessage( content, webhookUrl = privateWebhookURLVar) {
+    const url = String(webhookUrl ?? "").trim();
+  if (!url || url === "null" || url === "undefined") {
+    throw new Error("No webhook URL set. Create the private channel first.");
+  }
 
-    if (!res.ok) {
-        throw new Error(`Webhook failed: ${res.status} ${await res.text()}`);
-    }
+  const message = `<@${discordIdVar}> ${content}`;
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: message }), 
+  });
+
+  if (!res.ok) {
+    throw new Error(`Webhook failed: ${res.status} ${await res.text()}`);
+  }
 }
 
 // Example button handler
 async function makeDiscordChannel() {
-
+    privateWebhookURLVar = await createDiscordChannel(discordIdVar);
 }
  

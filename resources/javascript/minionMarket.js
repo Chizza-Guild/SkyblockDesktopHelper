@@ -39,17 +39,18 @@ async function fetchActiveListings() {
   return await sbRequest(`${TABLE}?${query}`);
 }
 
+
 async function createListing() {
   const row = {
-    minion_Id: "COBBLESTONE", // keep exact casing if that's your real column name
-    tier: 12,
-    sell_price: 2500000,
-    quantity: 1,
+    minion_Id: document.getElementById("minion_Id").value, // keep exact casing if that's your real column name
+    tier: document.getElementById("tier").value,
+    sell_price: document.getElementById("price_per_unit").value,
+    quantity: document.getElementById("quantity").value,
     ends_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     seller_id: discordIdVar,
-    seller_name: "RyRyGuy",
+    seller_name: playerNameVar,
     status: "active",
-    minion_data: { mithrilInfused: false, freeWilled: false },
+    minion_data: { mithrilInfused: document.getElementById("mithrilInfused").checked, freeWilled: document.getElementById("freeWilled").checked },
     orders: []
   };
 
@@ -160,6 +161,8 @@ function renderListingsGrid(rows) {
   el.style.gridTemplateColumns = "repeat(auto-fill, minmax(240px, 1fr))";
   el.style.gap = "12px";
   el.style.alignItems = "start";
+  el.style.width = "100%";
+  el.style.maxWidth = "100%";
 
   if (!rows || rows.length === 0) {
     el.innerHTML = `<div style="opacity:.8;">No active listings.</div>`;
@@ -194,6 +197,3 @@ async function buyListing(id) {
     console.error("buyListing failed:", e);
   }
 }
-
-// Call once on app start
-// refreshListings();

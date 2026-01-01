@@ -209,6 +209,7 @@ async function calculateBestBaseMinion() {
   const minionsData = await loadMinionData();
   const bzData = await fetchBazaarData();
 
+  
   const results = calculateMinionProfit(minionsData, bzData, 12);
 
   console.log("Top 10 by coins/hour (tier 12):");

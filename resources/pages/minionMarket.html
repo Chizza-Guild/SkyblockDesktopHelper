@@ -1,3 +1,24 @@
+<div>
+    <h3>Create Minion Market Listing</h3>
+    <label for="minion_Id">Minion ID:</label>
+    <input type="text" id="minion_Id" name="minion_Id"><br>
+    <label for="tier">Tier:</label>
+    <input type="number" id="tier" name="tier" min="1" max="12"><br>
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" min="1"><br>
+    <label for="price_per_unit">Price per Unit:</label>
+    <input type="number" id="price_per_unit" name="price_per_unit" min="1"><br>
+    <input type="checkbox" id="mithrilInfused" name="mithrilInfused">
+    <label for="mithrilInfused">Mithril Infused</label>
+    <input type="checkbox" id="freeWilled" name="freeWilled">
+    <label for="freeWilled">Free Willed</label><br>
+    <button onclick="createListing()">Submit Listing</button>
+</div>
+
+<br/>
+<br/>
+
+<h3>Minion Market Listings</h3>
 <button onclick="createListing()">Create new listing</button>
 <button onclick="refreshListings()">Refresh Listings</button>
 <div id="listings"></div>

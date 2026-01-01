@@ -36,6 +36,9 @@ async function renderPage(page) {
 	} else if (page == "greenhouse") {
 		await loadJSFile("greenhouse", "ts");
 		displayGreenhouse(greenhouseNo1);
+	} else if (page == "minionMarket") {
+		await loadJSFile("minionMarket", "js")
+		refreshListings();
 	}
 }
 

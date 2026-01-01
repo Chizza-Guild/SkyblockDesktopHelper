@@ -15,10 +15,9 @@ async function renderPage(page) {
 		});
 
 	if (page == "settings" && db) {
-		await loadJSFile("discordTest", "js");
 		loadUserSettings();
 		loadFeatureSettings();
-
+		await loadJSFile("discordTest", "js");
 	} else if (page == "auctionNotifier") {
 		await loadJSFile("auctionNotifier", "js");
 		document.getElementById("aucNotyBtn").checked = auctionNotifierVar;
@@ -37,36 +36,25 @@ async function renderPage(page) {
 		await loadJSFile("greenhouse", "ts");
 		displayGreenhouse(greenhouseNo1);
 	} else if (page == "minionMarket") {
-		await loadJSFile("minionMarket", "js")
+		await loadJSFile("minionMarket", "js");
 		refreshListings();
 	}
 }
 
 function redirectToSettings(page) {
-	let canContinue = true;
-
 	if (!apiKeyVar) {
 		if (page == "auctionNotifier" || page == "forgeTimer") {
-			alert("An API Key is needed for this feature!");
-			canContinue = false;
-		}
-	}
-	
-    if (!playerNameVar) {
-		if (page == "auctionNotifier" || page == "forgeTimer") {
-			alert("A player name is needed for this feature!");
-			canContinue = false;
-		}
-	}
-	
-    if (!discordIdVar) {
-		if (page == "discordTest") {
-			alert("A Discord User ID is needed for this feature!");
-			canContinue = false;
+			return alert("An API Key is needed for this feature!");
 		}
 	}
 
-	return canContinue;
+	if (!playerNameVar) {
+		if (page == "auctionNotifier" || page == "forgeTimer") {
+			return alert("A player name is needed for this feature!");
+		}
+	}
+
+	return true;
 }
 
 renderPage("mainmenu");

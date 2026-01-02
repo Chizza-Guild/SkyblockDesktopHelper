@@ -40,9 +40,10 @@ async function getActiveAuctions(apiKey, playerUuid) {
 			return activeAuctions;
 		}
 
-		console.error("API Error or unexpected response shape:", data && data.cause ? data.cause : data);
+        alert(data && data.cause ? data.cause : data);
+        renderPage("settings");
 	} catch (error) {
-		console.error("Request failed:", error);
+		alert("Request failed:", error);
 	}
 
 	// On any error, return an empty array so callers can continue safely

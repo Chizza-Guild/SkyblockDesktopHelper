@@ -1,9 +1,17 @@
 <h3>JOIN OUR DISCORD FOR NOTIFICATIONS</h3>
 <p>https://discord.gg/WDEwwFqE</p>
-<br/>
-
-<input id="sbNameInput" type="text" placeholder="Skyblock Name Here">
-<input id="apiKeyInput" type="text" placeholder="Skyblock API Key Here">
-<input id="discordIdInput" type="text" placeholder="Discord ID Here">
+<br />
+<div style="display: flex; flex-direction: row">
+	<div>Skyblock Name:</div>
+	<input id="sbNameInput" type="text" placeholder="Skyblock Name Here" />
+</div>
+<div style="display: flex; flex-direction: row">
+	<div>Skyblock API Key:</div>
+	<input id="apiKeyInput" type="text" placeholder="Skyblock API Key Here" />
+</div>
+<div style="display: flex; flex-direction: row">
+	<div>Discord ID:</div>
+	<input id="discordIdInput" type="text" placeholder="Discord ID Here" />
+</div>
 <button id="save" onclick="saveUserSettings()">Save</button>
 <button id="newChannel" onclick="makeDiscordChannel()">Create Notification Channel</button>

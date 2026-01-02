@@ -165,7 +165,10 @@ async function getProfiles(apiKey, uuid) {
         `https://api.hypixel.net/v2/skyblock/profiles?key=${apiKey}&uuid=${uuid}`
     );
     const data = await res.json();
-    if (!data.success) throw new Error("Invalid Hypixel API key");
+    if (!data.success) {
+        alert("Invalid API key!");
+        renderPage("settings");
+    };
     return data.profiles;
 }
 

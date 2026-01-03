@@ -5,7 +5,8 @@
 -   Give "No Internet Connection" error on some features
 -   Change tray icon logo and app name
 -   Greenhouse Sources: http://t0r0nt0.dev/ && https://skymutations.eu/
--   Add a 24h timer for the API key. Add the timer as timestamp to the db.
+-   Make API Key countdown tick down when the settings page is loaded
+-   Give a notification to the user when API key countdown time remaining < 0, and just display "API Key is expired", and nullify the API key variable
 -   RYRY --> Discord notifications.
 
 ### Not started

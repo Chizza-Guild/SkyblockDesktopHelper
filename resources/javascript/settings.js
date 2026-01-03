@@ -7,29 +7,31 @@ let webhookURL;
 let auctionNotifierVar;
 let discordIdVar;
 let privateWebhookURLVar;
+let apiKeyTimestampVar;
+
 async function saveUserSettings() {
 	try {
 		const name = document.getElementById("sbNameInput").value;
 		const apiKey = document.getElementById("apiKeyInput").value;
 		const discordId = document.getElementById("discordIdInput").value;
 
-		// added placeholders
-		db.run(
-			"INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL) VALUES (?, ?, ?, ?, ?, ?)",
-			[1, name, apiKey, null, discordId, null]
-		);
+		if (apiKeyVar != apiKey) {
+			apiKeyTimestampVar = Date.now() + 86400000;
+		}
+
+		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp) VALUES (?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, null, discordId, null, apiKeyTimestampVar]);
+
 		if (name != playerNameVar) {
 			console.log("Fetching new UUID for:", name);
 			uuidVar = await getPlayerUuid(name);
 			console.log("New UUID:", uuidVar);
 		}
- 
+
 		playerNameVar = name;
 		apiKeyVar = apiKey;
 		discordIdVar = discordId;
 
 		await saveDb();
-		
 
 		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordId:", discordIdVar);
 
@@ -44,19 +46,24 @@ async function loadUserSettings() {
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
-	const [id, name, apiKey, uuid, discordId, webhookUrll] = res[0].values[0];
+	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp] = res[0].values[0];
 	console.log(`Loaded User Settings: ${res[0].values[0]}`);
 
 	if (currentPage == "settings") {
 		document.getElementById("sbNameInput").value = name || "";
 		document.getElementById("apiKeyInput").value = apiKey || "";
 		document.getElementById("discordIdInput").value = discordId || "";
+		if (apiKeyTimestamp) {
+			const timeRemaining = Number(apiKeyTimestamp) - Date.now();
+			document.getElementById("apiKeyCountdown").innerText = ` ${formatMs(timeRemaining)}`;
+		}
 	}
 
-	privateWebhookURLVar = webhookUrll;
+	privateWebhookURLVar = webhookUrl;
 	playerNameVar = name;
 	apiKeyVar = apiKey;
 	discordIdVar = discordId;
+	apiKeyTimestampVar = apiKeyTimestamp;
 
 	if (name && !uuid) {
 		uuidVar = await getPlayerUuid(name);

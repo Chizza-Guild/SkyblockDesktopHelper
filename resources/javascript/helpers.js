@@ -5,7 +5,7 @@ async function sleep(ms) {
 // This function helps to load the JS files just when you are about the use it instead of the launch,
 // resulting in faster launch times.
 async function loadJSFile(filename, extension) {
-    // DO NOT MODIFY THIS FUNCTION!!
+	// DO NOT MODIFY THIS FUNCTION!!
 	const src = `/${extension == "ts" ? "dist" : "javascript"}/${filename}.js`;
 
 	if (extension == "ts") {
@@ -28,4 +28,13 @@ async function loadJSFile(filename, extension) {
 		script.onerror = reject;
 		document.body.appendChild(script);
 	});
+}
+
+function formatMs(totalMs) {
+	const totalSeconds = Math.floor(totalMs / 1000);
+	const hours = Math.floor(totalSeconds / 3600);
+	const minutes = Math.floor((totalSeconds % 3600) / 60);
+	const seconds = totalSeconds % 60;
+
+	return `${hours} hours ${minutes} mins ${seconds} seconds`;
 }

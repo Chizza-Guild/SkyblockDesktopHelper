@@ -2,7 +2,6 @@
 -   auction house sell alarms (ryry) (MOSTLY DONE)
 -   forge tracker that notifies when the forge is over, will check it from the api
 -   Greenhouse Calculator by mlg
--   Give "No Internet Connection" error on some features
 -   Change tray icon logo and app name
 -   Greenhouse Sources: http://t0r0nt0.dev/ && https://skymutations.eu/
 -   Make API Key countdown tick down when the settings page is loaded

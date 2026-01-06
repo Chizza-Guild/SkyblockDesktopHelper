@@ -56,6 +56,10 @@ async function loadUserSettings() {
 		if (apiKeyTimestamp) {
 			const timeRemaining = Number(apiKeyTimestamp) - Date.now();
 			document.getElementById("apiKeyCountdown").innerText = ` ${formatMs(timeRemaining)}`;
+			if (timeRemaining <= 0) {
+				document.getElementById("apiKeyCountdown").innerText = " (expired)";
+				sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings.");
+			}
 		}
 	}
 

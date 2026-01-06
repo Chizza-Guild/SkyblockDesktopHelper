@@ -8,6 +8,7 @@ let auctionNotifierVar;
 let discordIdVar;
 let privateWebhookURLVar;
 let apiKeyTimestampVar;
+let apiKeyExpiredSent = false;
 
 async function saveUserSettings() {
 	try {
@@ -49,17 +50,21 @@ async function loadUserSettings() {
 	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp] = res[0].values[0];
 	console.log(`Loaded User Settings: ${res[0].values[0]}`);
 
+	const timeRemaining = Number(apiKeyTimestamp) - Date.now();
+    
+	if (timeRemaining <= 0 && !apiKeyExpiredSent) {
+        apiKeyExpiredSent = true;
+		sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings.");
+	}
+
 	if (currentPage == "settings") {
 		document.getElementById("sbNameInput").value = name || "";
 		document.getElementById("apiKeyInput").value = apiKey || "";
 		document.getElementById("discordIdInput").value = discordId || "";
-		if (apiKeyTimestamp) {
-			const timeRemaining = Number(apiKeyTimestamp) - Date.now();
+		if (timeRemaining <= 0) {
+			document.getElementById("apiKeyCountdown").innerText = " (expired)";
+		} else {
 			document.getElementById("apiKeyCountdown").innerText = ` ${formatMs(timeRemaining)}`;
-			if (timeRemaining <= 0) {
-				document.getElementById("apiKeyCountdown").innerText = " (expired)";
-				sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings.");
-			}
 		}
 	}
 

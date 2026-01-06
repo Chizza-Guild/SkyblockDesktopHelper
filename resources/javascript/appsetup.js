@@ -65,9 +65,9 @@ if (NL_OS != "Darwin") {
 	setTray();
 }
 
-async function sendNotification(title, body, sendOnDiscord = true) {
+async function sendNotification(title, body, sendOnDiscord = false) {
 	await Neutralino.os.showNotification(`${title}`, `${body}`);
 	if (sendOnDiscord) {
-		await sendDiscordMessage(`${title}\n${body}`);
+		await sendDiscordMessage(`${title}\n${body}`, privateWebhookURLVar);
 	}
 }

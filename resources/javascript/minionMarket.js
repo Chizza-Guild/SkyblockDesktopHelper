@@ -1,70 +1,141 @@
+// ===================== CONFIG =====================
 const SUPABASE_URL = "https://qrhswmwyccpzgjbjwrpz.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyaHN3bXd5Y2NwemdqYmp3cnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMTIwNjAsImV4cCI6MjA4MjY4ODA2MH0.f1MRqXZ030OAZrdJsKm4N04gEEdKTxi9IgHVap6a4p0";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyaHN3bXd5Y2NwemdqYmp3cnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMTIwNjAsImV4cCI6MjA4MjY4ODA2MH0.f1MRqXZ030OAZrdJsKm4N04gEEdKTxi9IgHVap6a4p0";
 
-// IMPORTANT: table name has a space -> encode it
 const TABLE = encodeURIComponent("Minion Market");
 
-// ---------- Supabase REST helper ----------
-async function sbRequest(path, { method = "GET", body } = {}) {
+
+// ===================== UI STATUS =====================
+function setStatus(msg, isError = false) {
+  const el = document.getElementById("status");
+  if (!el) return;
+  el.textContent = msg || "";
+  el.style.color = isError ? "#ffb3b3" : "#c8ffc8";
+}
+
+// ===================== REST HELPER =====================
+async function sbRequest(path, { method = "GET", body, prefer = "return=representation" } = {}) {
   const url = `${SUPABASE_URL}/rest/v1/${path}`;
 
   const headers = {
     apikey: SUPABASE_ANON_KEY,
     Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
     "Content-Type": "application/json",
-    Prefer: "return=representation",
+    Prefer: prefer,
   };
 
   const res = await fetch(url, {
     method,
     headers,
-    body: body ? JSON.stringify(body) : undefined,
+    body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
   const text = await res.text();
-  let data;
-  try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+  let data = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = text;
+  }
 
-  if (!res.ok) throw new Error(`${method} ${url} -> ${res.status}\n${text}`);
+  if (!res.ok) {
+    console.error("Supabase error:", { method, url, status: res.status, data });
+    throw new Error(`${method} ${url} -> ${res.status}\n${text}`);
+  }
+
   return data;
 }
 
-// ---------- Queries ----------
+// ===================== QUERIES =====================
 async function fetchActiveListings() {
   const nowIso = new Date().toISOString();
 
+  // IMPORTANT: removed created_at ordering (causes 400 if column doesn't exist)
   const query =
-    `select=*&status=eq.active&or=(ends_at.is.null,ends_at.gt.${encodeURIComponent(nowIso)})&order=created_at.desc`;
+    `select=*` +
+    `&status=eq.active` +
+    `&or=(ends_at.is.null,ends_at.gt.${encodeURIComponent(nowIso)})` +
+    `&order=id.desc`;
 
   return await sbRequest(`${TABLE}?${query}`);
 }
-
-
 async function createListing() {
+  setStatus("Submitting listing...");
+
+  const minionIdEl = document.getElementById("minion_Id");
+  const tierEl = document.getElementById("tier");
+  const priceEl = document.getElementById("price_per_unit");
+  const qtyEl = document.getElementById("quantity");
+  const mithEl = document.getElementById("mithrilInfused");
+  const freeEl = document.getElementById("freeWilled");
+
+  const minionId = minionIdEl.value.trim();
+  const tier = Number(tierEl.value);
+  const price = Number(priceEl.value);
+  const quantity = Number(qtyEl.value);
+
+  // HARD validation (prevents bigint crash)
+  if (!minionId) return setStatus("Minion ID required", true);
+  if (!Number.isInteger(tier)) return setStatus("Tier must be a number", true);
+  if (!Number.isInteger(price)) return setStatus("Price must be a number", true);
+  if (!Number.isInteger(quantity)) return setStatus("Quantity must be a number", true);
+
   const row = {
-    minion_Id: document.getElementById("minion_Id").value, // keep exact casing if that's your real column name
-    tier: document.getElementById("tier").value,
-    sell_price: document.getElementById("price_per_unit").value,
-    quantity: document.getElementById("quantity").value,
+    minion_Id: minionId,        // text
+    tier: tier,                 // int8
+    sell_price: price,          // int8
+    quantity: quantity,         // int8
     ends_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    seller_id: discordIdVar,
-    seller_name: playerNameVar,
+    seller_id: 
+      window.discordIdVar && !isNaN(window.discordIdVar)
+        ? Number(window.discordIdVar) // int8
+        : null,                       // ✅ NULL is allowed
+    seller_name: String(window.playerNameVar ?? ""),
     status: "active",
-    minion_data: { mithrilInfused: document.getElementById("mithrilInfused").checked, freeWilled: document.getElementById("freeWilled").checked },
-    orders: []
+    minion_data: {
+      mithrilInfused: !!mithEl.checked,
+      freeWilled: !!freeEl.checked,
+    },
+    orders: [],                 // json
   };
 
-  const inserted = await sbRequest(`${TABLE}`, { method: "POST", body: row });
-  await refreshListings();
-  return inserted[0] ?? null;
+  try {
+    const inserted = await sbRequest(`${TABLE}`, { method: "POST", body: row });
+    console.log("Inserted row:", inserted);
+
+    setStatus("Listing created!");
+    await refreshListings();
+  } catch (e) {
+    console.error(e);
+    setStatus("Insert failed — check console", true);
+    alert(e.message);
+  }
 }
+
 
 async function deleteListing(id) {
-  await sbRequest(`${TABLE}?id=eq.${encodeURIComponent(id)}`, { method: "DELETE" });
+  const safeId = String(id);
+  await sbRequest(`${TABLE}?id=eq.${encodeURIComponent(safeId)}`, { method: "DELETE", prefer: "return=minimal" });
   await refreshListings();
 }
 
-// ---------- UI helpers ----------
+async function buyListing(id) {
+  try {
+    const safeId = String(id);
+    await sbRequest(`${TABLE}?id=eq.${encodeURIComponent(safeId)}`, {
+      method: "PATCH",
+      body: { status: "sold" },
+      prefer: "return=minimal",
+    });
+    await refreshListings();
+  } catch (e) {
+    console.error("buyListing failed:", e);
+    alert("Buy failed. Check console (likely RLS).");
+  }
+}
+
+// ===================== UI HELPERS =====================
 function esc(s) {
   return String(s ?? "")
     .replaceAll("&", "&amp;")
@@ -83,8 +154,8 @@ function formatCoins(n) {
   return String(Math.floor(num));
 }
 
-// Create one card's HTML
 function listingCardHTML(row) {
+  const id = String(row.id ?? "");
   const name = row.minion_name || row.minion_Id || row.minion_id || "Minion";
   const tier = row.tier ?? "?";
   const price = formatCoins(row.sell_price);
@@ -93,62 +164,31 @@ function listingCardHTML(row) {
   const infused = row.minion_data?.mithrilInfused ? " (Infused)" : "";
   const free = row.minion_data?.freeWilled ? " (Free-Willed)" : "";
 
-  return `
-    <div
-      class="card"
-      style="
-        background: #c2c2c2;
-        border: 1px solid #2a2a2a;
-        border-radius: 12px;
-        padding: 14px;
-        color: #070707;
-      "
-    >
-      <h3 style="margin: 0 0 6px; font-size: 16px;">
-        ${esc(name)}
-      </h3>
+  const disabled = !id;
 
-      <p style="margin: 0; font-size: 13px;">
+  return `
+    <div style="background:#c2c2c2;border:1px solid #2a2a2a;border-radius:12px;padding:14px;color:#070707;">
+      <h3 style="margin:0 0 6px;font-size:16px;">${esc(name)}</h3>
+      <p style="margin:0;font-size:13px;">
         Tier ${esc(tier)} | Price: ${esc(price)} | Qty: ${esc(qty)}${esc(infused)}${esc(free)}
       </p>
 
-      <div style="display:flex; gap:10px; margin-top:12px;">
+      <div style="display:flex;gap:10px;margin-top:12px;">
         <button
-          style="
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #2a2a2a;
-            background: #161616;
-            color: #ffffff;
-            cursor: pointer;
-          "
-          onclick="buyListing(${Number(row.id)})"
-        >
-          Buy
-        </button>
+          style="flex:1;padding:10px;border-radius:10px;border:1px solid #2a2a2a;background:${disabled ? "#444" : "#161616"};color:#fff;cursor:${disabled ? "not-allowed" : "pointer"};opacity:${disabled ? "0.6" : "1"};"
+          ${disabled ? "disabled" : `onclick="buyListing('${esc(id)}')"`}
+        >Buy</button>
 
         <button
-          style="
-            width: 44px;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #2a2a2a;
-            background: #4a1f1f;
-            color: #ffffff;
-            cursor: pointer;
-          "
-          onclick="deleteListing(${Number(row.id)})"
+          style="width:44px;padding:10px;border-radius:10px;border:1px solid #2a2a2a;background:${disabled ? "#6b3a3a" : "#4a1f1f"};color:#fff;cursor:${disabled ? "not-allowed" : "pointer"};opacity:${disabled ? "0.6" : "1"};"
+          ${disabled ? "disabled" : `onclick="deleteListing('${esc(id)}')"`}
           title="Delete listing"
-        >
-          ✕
-        </button>
+        >✕</button>
       </div>
     </div>
   `;
 }
 
-// Render grid into #listings
 function renderListingsGrid(rows) {
   const el = document.getElementById("listings");
   if (!el) {
@@ -156,7 +196,6 @@ function renderListingsGrid(rows) {
     return;
   }
 
-  // grid layout
   el.style.display = "grid";
   el.style.gridTemplateColumns = "repeat(auto-fill, minmax(240px, 1fr))";
   el.style.gap = "12px";
@@ -172,28 +211,19 @@ function renderListingsGrid(rows) {
   el.innerHTML = rows.map(listingCardHTML).join("");
 }
 
-// Fetch + render
 async function refreshListings() {
+  const el = document.getElementById("listings");
   try {
+    setStatus("Loading listings...");
+    if (el) el.innerHTML = `<div style="opacity:.8;">Loading listings...</div>`;
     const rows = await fetchActiveListings();
     renderListingsGrid(rows);
+    setStatus(`Loaded ${rows?.length ?? 0} listing(s).`);
   } catch (e) {
     console.error(e);
-    const el = document.getElementById("listings");
-    if (el) el.innerHTML = `<div style="color:#ffb3b3;">Failed to load listings (check RLS / table name).</div>`;
+    setStatus("Failed to load listings. Open Console for details (likely RLS or bad column names).", true);
+    if (el) el.innerHTML = `<div style="color:#ffb3b3;">Failed to load listings.</div>`;
   }
 }
 
-// Example buy handler (replace with your real flow)
-async function buyListing(id) {
-  // simplest: mark as sold
-  try {
-    await sbRequest(`${TABLE}?id=eq.${encodeURIComponent(id)}`, {
-      method: "PATCH",
-      body: { status: "sold" },
-    });
-    await refreshListings();
-  } catch (e) {
-    console.error("buyListing failed:", e);
-  }
-}
+

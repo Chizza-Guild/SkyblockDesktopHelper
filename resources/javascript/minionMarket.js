@@ -121,28 +121,69 @@ async function deleteListing(id) {
 
 async function buyListing(id) {
   try {
-    const safeId = String(id);
-    await sbRequest(`${TABLE}?id=eq.${encodeURIComponent(safeId)}`, {
+    const qtyStr = prompt("Enter quantity to buy:", "1");
+    
+
+    const qty = Number(qtyStr);
+    if (!Number.isInteger(qty) || qty <= 0) {
+      setStatus("Quantity must be a positive whole number.", true);
+      return;
+    }
+
+    setStatus("Processing purchase...");
+
+    // 1) Fetch the current listing fields we need
+    const rows = await fetchActiveListings();
+
+    if (!rows || rows.length === 0) throw new Error("Listing not found.");
+
+    const listing = rows[id];
+
+    const available = Number(listing.quantity);
+    if (!Number.isFinite(available) || available <= 0) {
+      setStatus("This listing is sold out.", true);
+      return;
+    }
+
+    if (qty > available) {
+      setStatus(`Not enough stock. Available: ${available}`, true);
+      return;
+    }
+
+    const existingOrders = Array.isArray(listing.orders) ? listing.orders : [];
+
+    // 2) Build the new order entry
+    const newOrder = {
+      buyer_name: playerNameVar,
+      buyer_discord: String(discordIdVar ?? ""),
+      quantity: qty,
+      price_per_unit: Number(listing.sell_price ?? 0),
+      bought_at: new Date().toISOString(),
+    };
+
+    const newQty = available - qty;
+
+    // 3) Update listing: orders + quantity (+ status if sold out)
+    const patchBody = {
+      orders: [...existingOrders, newOrder],
+      quantity: newQty,
+      status: newQty === 0 ? "sold" : "active", // change to "inactive" if you prefer
+    };
+
+    await sbRequest(`${TABLE}?id=eq.${encodeURIComponent(id)}`, {
       method: "PATCH",
-      body: { status: "sold" },
-      prefer: "return=minimal",
+      body: patchBody,
     });
+
+    setStatus("Purchase successful!");
     await refreshListings();
   } catch (e) {
     console.error("buyListing failed:", e);
-    alert("Buy failed. Check console (likely RLS).");
+    setStatus(`Purchase failed: ${e.message}`, true);
+    alert(e.message);
   }
 }
 
-// ===================== UI HELPERS =====================
-function esc(s) {
-  return String(s ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
 
 function formatCoins(n) {
   const num = Number(n);

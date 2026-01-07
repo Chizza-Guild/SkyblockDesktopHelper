@@ -87,16 +87,15 @@ async function createListing() {
     sell_price: price,          // int8
     quantity: quantity,         // int8
     ends_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    seller_id: 
-      window.discordIdVar && !isNaN(window.discordIdVar)
-        ? Number(window.discordIdVar) // int8
-        : null,                       // ✅ NULL is allowed
-    seller_name: String(window.playerNameVar ?? ""),
+    seller_id: Number(discordIdVar),
+    seller_name: playerNameVar,
     status: "active",
     minion_data: {
       mithrilInfused: !!mithEl.checked,
       freeWilled: !!freeEl.checked,
     },
+
+
     orders: [],                 // json
   };
 

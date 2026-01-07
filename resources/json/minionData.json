@@ -1,6 +1,6 @@
 [
     {
-        "name": "Cobblestone Minion",
+        "name": "COBBLESTONE_MINION",
         "tiers": 12,
         "tier_12_cost_coins": 2000000,
         "tier_12_cost_pelts": 0,

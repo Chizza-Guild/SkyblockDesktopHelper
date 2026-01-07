@@ -230,6 +230,7 @@ async function loadForgeData() {
         for (const p of processes) {
             if (typeof p.slot === "number" && p.slot >= 1 && p.slot <= 7) {
                 cachedForgeData[p.slot] = p;
+                console.log(cachedForgeData);
             }
         }
 
@@ -269,6 +270,8 @@ function updateForgeDisplay() {
                     <div class="item-status">✅ Completed</div>
                 `;
                 slotElement.className = "forge-box completed";
+
+                sendNotification("Forge Completed", `Your ${itemName} is ready!`);
             } else {
                 slotElement.innerHTML = `
                     <div class="item-name">🔧 ${itemName}</div>

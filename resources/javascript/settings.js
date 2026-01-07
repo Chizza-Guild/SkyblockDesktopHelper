@@ -34,7 +34,7 @@ async function saveUserSettings() {
 
 		await saveDb();
 
-		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordId:", discordIdVar);
+		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordIdVar:", discordIdVar);
 
 		alert("Settings saved successfully!");
 	} catch (error) {

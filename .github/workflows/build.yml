@@ -60,16 +60,22 @@ jobs:
 
             - run: neu build || true
 
-            - shell: bash
+            - name: Package (Linux / macOS)
+              if: runner.os != 'Windows'
+              shell: bash
               run: |
                   mkdir -p artifacts
-                  if [[ "$RUNNER_OS" == "Windows" ]]; then
-                      zip -r artifacts/skyblock-app-windows.zip . -x node_modules/** artifacts/** .git/**
-                  elif [[ "$RUNNER_OS" == "macOS" ]]; then
-                      zip -r artifacts/skyblock-app-macos.zip . -x node_modules/** artifacts/** .git/**
-                  else
-                      zip -r artifacts/skyblock-app-linux.zip . -x node_modules/** artifacts/** .git/**
-                  fi
+                  zip -r artifacts/skyblock-app-${RUNNER_OS,,}.zip . \
+                      -x node_modules/** \
+                      -x artifacts/** \
+                      -x .git/**
+
+            - name: Package (Windows)
+              if: runner.os == 'Windows'
+              shell: pwsh
+              run: |
+                  New-Item -ItemType Directory -Force artifacts
+                  Compress-Archive -Path * -DestinationPath artifacts/skyblock-app-windows.zip -Force
 
             - uses: actions/upload-artifact@v4
               with:

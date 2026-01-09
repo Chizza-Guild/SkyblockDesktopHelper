@@ -1,4 +1,7 @@
 {
+	"name": "Skyblock Desktop App",
+	"version": "1.0.0",
+	"description": " A cross platform desktop app aimed for helping Skyblock players. ",
 	"scripts": {
 		"build": "npx tsc",
 		"start": "npx tsc && neu run"

@@ -2,8 +2,7 @@ name: Build Neutralino App
 
 on:
     push:
-        branches:
-            - main
+        branches: [main]
     workflow_dispatch:
 
 permissions:
@@ -53,11 +52,8 @@ jobs:
                   node-version: 24
 
             - run: npm install
-
             - run: npm install -g @neutralinojs/neu
-
             - run: npm run build
-
             - run: neu build || true
 
             - name: Package (Linux / macOS)
@@ -65,7 +61,8 @@ jobs:
               shell: bash
               run: |
                   mkdir -p artifacts
-                  zip -r artifacts/skyblock-app-${RUNNER_OS,,}.zip . \
+                  os=$(echo "$RUNNER_OS" | tr '[:upper:]' '[:lower:]')
+                  zip -r "artifacts/skyblock-app-$os.zip" . \
                       -x node_modules/** \
                       -x artifacts/** \
                       -x .git/**
@@ -83,11 +80,8 @@ jobs:
                   path: artifacts
 
     release:
-        needs:
-            - build
-            - version-check
+        needs: [build, version-check]
         runs-on: ubuntu-latest
-
         steps:
             - uses: actions/download-artifact@v4
               with:

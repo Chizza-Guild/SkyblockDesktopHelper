@@ -6,10 +6,10 @@
 		"build": "npx tsc",
 		"start": "npx tsc && neu run"
 	},
-	"devDependencies": {
-		"typescript": "^5.9.3"
-	},
 	"dependencies": {
 		"@supabase/supabase-js": "^2.89.0"
+	},
+	"devDependencies": {
+		"typescript": "^5.9.3"
 	}
 }

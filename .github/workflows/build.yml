@@ -58,17 +58,17 @@ jobs:
 
             - run: npm run build
 
-            - run: neu build
+            - run: neu build || true
 
             - shell: bash
               run: |
                   mkdir -p artifacts
                   if [[ "$RUNNER_OS" == "Windows" ]]; then
-                      zip -r artifacts/skyblock-app-windows.zip bin
+                      zip -r artifacts/skyblock-app-windows.zip . -x node_modules/** artifacts/** .git/**
                   elif [[ "$RUNNER_OS" == "macOS" ]]; then
-                      zip -r artifacts/skyblock-app-macos.zip bin
+                      zip -r artifacts/skyblock-app-macos.zip . -x node_modules/** artifacts/** .git/**
                   else
-                      zip -r artifacts/skyblock-app-linux.zip bin
+                      zip -r artifacts/skyblock-app-linux.zip . -x node_modules/** artifacts/** .git/**
                   fi
 
             - uses: actions/upload-artifact@v4

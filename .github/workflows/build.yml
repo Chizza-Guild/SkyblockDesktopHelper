@@ -1,0 +1,60 @@
+name: Build Neutralino App
+
+on:
+    push:
+        tags:
+            - 'v*'
+
+jobs:
+    build:
+        strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest, macos-latest]
+        runs-on: ${{ matrix.os }}
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+
+            - run: npm install
+
+            - run: npm install -g @neutralinojs/neu
+
+            - run: npm run build
+
+            - run: neu build
+
+            - shell: bash
+              run: |
+                  mkdir dist
+                  if [[ "$RUNNER_OS" == "Windows" ]]; then
+                      zip -r dist/skyblock-app-windows.zip build
+                  elif [[ "$RUNNER_OS" == "macOS" ]]; then
+                      zip -r dist/skyblock-app-macos.zip build
+                  else
+                      zip -r dist/skyblock-app-linux.zip build
+                  fi
+
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: ${{ matrix.os }}
+                  path: dist
+
+    release:
+        needs: build
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/download-artifact@v4
+              with:
+                  path: artifacts
+
+            - uses: softprops/action-gh-release@v2
+              with:
+                  draft: true
+                  files: artifacts/**/*
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

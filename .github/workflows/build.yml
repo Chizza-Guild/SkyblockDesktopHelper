@@ -21,18 +21,15 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Read package.json version
-              id: pkg
+            - id: pkg
               run: echo version=$(node -p 'require("./package.json").version') >> $GITHUB_OUTPUT
 
-            - name: Get latest git tag
-              id: tag
+            - id: tag
               run: |
                   latest=$(git tag --sort=-v:refname | head -n1 || echo "")
                   echo "latest=$latest" >> $GITHUB_OUTPUT
 
-            - name: Decide if build should run
-              id: compare
+            - id: compare
               run: |
                   if [ "${{ steps.pkg.outputs.version }}" = "${{ steps.tag.outputs.latest }}" ]; then
                       echo "should_run=false" >> $GITHUB_OUTPUT
@@ -67,11 +64,11 @@ jobs:
               run: |
                   mkdir -p artifacts
                   if [[ "$RUNNER_OS" == "Windows" ]]; then
-                      zip -r artifacts/skyblock-app-windows.zip dist
+                      zip -r artifacts/skyblock-app-windows.zip bin
                   elif [[ "$RUNNER_OS" == "macOS" ]]; then
-                      zip -r artifacts/skyblock-app-macos.zip dist
+                      zip -r artifacts/skyblock-app-macos.zip bin
                   else
-                      zip -r artifacts/skyblock-app-linux.zip dist
+                      zip -r artifacts/skyblock-app-linux.zip bin
                   fi
 
             - uses: actions/upload-artifact@v4

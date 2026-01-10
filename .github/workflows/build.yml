@@ -47,27 +47,44 @@ jobs:
             - name: Build TypeScript
               run: npm run build
 
-            - name: Build Neutralino binaries
-              run: |
-                  neu build --release
-                  echo "Build completed, checking dist folder..."
-                  ls -la dist/ || echo "dist folder not found!"
+            - name: Update Neutralino binaries
+              run: neu update
 
-            - name: Package artifacts
+            - name: Build Neutralino app
+              run: neu build --release
+
+            - name: List and package artifacts
               shell: bash
               run: |
-                  mkdir -p artifacts
-                  # Copy the built binaries from dist folder
+                  echo "Checking for dist folder..."
                   if [ -d "dist" ]; then
-                    echo "Found dist folder, contents:"
-                    ls -la dist/
-                    cp -r dist/* artifacts/
-                    echo "Artifacts packaged:"
+                    echo "=== dist folder contents ==="
+                    ls -laR dist/
+                    mkdir -p artifacts
+                    
+                    # Determine the binary name based on OS
+                    if [ "$RUNNER_OS" == "Linux" ]; then
+                      pattern="*-linux_x64"
+                    elif [ "$RUNNER_OS" == "macOS" ]; then
+                      pattern="*-mac_x64"
+                    elif [ "$RUNNER_OS" == "Windows" ]; then
+                      pattern="*-win_x64.exe"
+                    fi
+                    
+                    # Copy the platform-specific binary
+                    cp dist/$pattern artifacts/ 2>/dev/null || echo "Warning: No binary matching $pattern found"
+                    
+                    # Also copy the entire dist as fallback
+                    cp -r dist/* artifacts/ 2>/dev/null || true
+                    
+                    echo "=== artifacts folder contents ==="
                     ls -la artifacts/
                   else
-                    echo "Error: dist folder not found after neu build"
-                    echo "Current directory contents:"
+                    echo "Error: dist folder not created"
+                    echo "=== Current directory ==="
                     ls -la
+                    echo "=== Checking .tmp folder ==="
+                    ls -la .tmp/ || echo ".tmp not found"
                     exit 1
                   fi
 

@@ -1,14 +1,11 @@
 name: Build Neutralino App
-
 on:
     push:
         branches: [main]
     workflow_dispatch:
-
 permissions:
     contents: write
     pull-requests: write
-
 jobs:
     version-check:
         runs-on: ubuntu-latest
@@ -19,15 +16,12 @@ jobs:
             - uses: actions/checkout@v3
               with:
                   fetch-depth: 0
-
             - id: pkg
               run: echo version=$(node -p 'require("./package.json").version') >> $GITHUB_OUTPUT
-
             - id: tag
               run: |
                   latest=$(git tag --sort=-v:refname | head -n1 || echo "")
                   echo "latest=$latest" >> $GITHUB_OUTPUT
-
             - id: compare
               run: |
                   if [ "${{ steps.pkg.outputs.version }}" = "${{ steps.tag.outputs.latest }}" ]; then
@@ -35,7 +29,6 @@ jobs:
                   else
                       echo "should_run=true" >> $GITHUB_OUTPUT
                   fi
-
     build:
         needs: version-check
         if: needs.version-check.outputs.should_run == 'true'
@@ -43,36 +36,27 @@ jobs:
             matrix:
                 os: [ubuntu-latest, windows-latest, macos-latest]
         runs-on: ${{ matrix.os }}
-
         steps:
             - uses: actions/checkout@v4
-
             - uses: actions/setup-node@v4
               with:
                   node-version: 24
-
             - run: npm install
             - run: npm install -g @neutralinojs/neu
             - run: npm run build
-            - run: neu build || true
+            - run: neu build
 
-            - name: Package (Linux / macOS)
-              if: runner.os != 'Windows'
+            - name: Package artifacts
               shell: bash
               run: |
                   mkdir -p artifacts
-                  os=$(echo "$RUNNER_OS" | tr '[:upper:]' '[:lower:]')
-                  zip -r "artifacts/skyblock-app-$os.zip" . \
-                      -x node_modules/** \
-                      -x artifacts/** \
-                      -x .git/**
-
-            - name: Package (Windows)
-              if: runner.os == 'Windows'
-              shell: pwsh
-              run: |
-                  New-Item -ItemType Directory -Force artifacts | Out-Null
-                  Get-ChildItem -Path . -Exclude artifacts | Compress-Archive -DestinationPath artifacts/skyblock-app-windows.zip -Force
+                  # Copy the built binaries from dist folder
+                  if [ -d "dist" ]; then
+                    cp -r dist/* artifacts/
+                  else
+                    echo "Error: dist folder not found"
+                    exit 1
+                  fi
 
             - uses: actions/upload-artifact@v4
               with:
@@ -86,9 +70,9 @@ jobs:
             - uses: actions/download-artifact@v4
               with:
                   path: artifacts
-
             - uses: softprops/action-gh-release@v2
               with:
+                  tag_name: v${{ needs.version-check.outputs.version }}
                   draft: true
                   files: artifacts/**/*
               env:

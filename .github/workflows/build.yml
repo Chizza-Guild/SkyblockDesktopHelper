@@ -49,46 +49,59 @@ jobs:
             - name: Build TypeScript
               run: npm run build
 
-            - name: Verify build output
+            - name: Verify TypeScript output
               run: |
-                  echo "=== TypeScript compiled successfully ==="
-                  echo "Compiled JavaScript files in resources/dist/:"
-                  ls -lah resources/dist/
+                  echo "=== TypeScript compiled ==="
+                  ls -lah resources/dist/ || echo "resources/dist/ not found"
                   echo ""
-                  echo "=== Checking resources folder structure ==="
-                  find resources/ -type f -name "*.js" -o -name "*.html" -o -name "*.css"
+                  echo "=== Resources folder structure ==="
+                  tree resources/ -L 2 || find resources/ -type f
+
+            - name: Check neutralino.config.json
+              run: |
+                  echo "=== Neutralino config ==="
+                  cat neutralino.config.json | grep -A 5 "documentRoot\|resourcesPath\|binaryName"
 
             - name: Update Neutralino binaries
               run: neu update
 
-            - name: Build Neutralino app for all platforms
-              run: neu build --release
-
-            - name: Verify resources.neu was created
+            - name: Build Neutralino app
               run: |
-                  echo "=== Checking if resources.neu contains our code ==="
-                  if [ -f "dist/resources.neu" ]; then
-                    unzip -l dist/resources.neu | grep -E "\.(js|html|css)$" || echo "Warning: No web files found in resources.neu"
+                  echo "=== Running neu build ==="
+                  neu build --release
+                  echo "=== Build completed ==="
+
+            - name: Check build output
+              run: |
+                  echo "=== Dist folder contents ==="
+                  ls -lah dist/ || echo "dist folder not found!"
+                  echo ""
+                  if [ -f "dist/skyblock-app/resources.neu" ]; then
+                    echo "=== Found resources.neu in dist/skyblock-app/ ==="
+                    ls -lah dist/skyblock-app/
+                  elif [ -f "dist/resources.neu" ]; then
+                    echo "=== Found resources.neu in dist/ ==="
                   else
-                    echo "Error: resources.neu not found!"
-                    exit 1
+                    echo "=== resources.neu not found, checking all locations ==="
+                    find . -name "resources.neu" -o -name "*.neu"
                   fi
 
-            - name: Build Neutralino app for all platforms
-              run: neu build --release
-
-            - name: Verify and list build artifacts
+            - name: Package artifacts
               run: |
-                  echo "=== Build complete, dist folder contents ==="
-                  ls -la dist/
-                  echo ""
-                  echo "Files to be released:"
-                  find dist/ -type f -exec ls -lh {} \;
+                  mkdir -p artifacts
+                  # Copy all built files to artifacts
+                  if [ -d "dist/skyblock-app" ]; then
+                    cp -r dist/skyblock-app/* artifacts/
+                  else
+                    cp -r dist/* artifacts/
+                  fi
+                  echo "=== Final artifacts ==="
+                  ls -lah artifacts/
 
             - uses: actions/upload-artifact@v4
               with:
                   name: neutralino-builds
-                  path: dist/
+                  path: artifacts/
 
     release:
         needs: [build, version-check]

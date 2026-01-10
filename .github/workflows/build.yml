@@ -49,6 +49,28 @@ jobs:
             - name: Build TypeScript
               run: npm run build
 
+            - name: Setup Neutralino client library
+              run: |
+                  echo "=== Copying Neutralino client library ==="
+                  mkdir -p resources/dist
+
+                  if [ -f "resources/dist/neutralino.js" ]; then
+                    echo "neutralino.js already exists"
+                  else
+                    echo "neutralino.js will be created by neu update"
+                  fi
+
+            - name: Update Neutralino binaries
+              run: |
+                  neu update
+                  echo "=== After neu update, checking for client library ==="
+                  find resources/ -name "neutralino.js"
+
+                  if [ -f "resources/js/neutralino.js" ] && [ ! -f "resources/dist/neutralino.js" ]; then
+                    echo "Moving neutralino.js to dist folder to match config"
+                    cp resources/js/neutralino.js resources/dist/neutralino.js
+                  fi
+
             - name: Verify TypeScript output
               run: |
                   echo "=== TypeScript compiled ==="
@@ -89,7 +111,6 @@ jobs:
             - name: Package artifacts
               run: |
                   mkdir -p artifacts
-                  # Copy all built files to artifacts
                   if [ -d "dist/skyblock-app" ]; then
                     cp -r dist/skyblock-app/* artifacts/
                   else

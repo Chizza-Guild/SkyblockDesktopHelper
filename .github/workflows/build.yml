@@ -32,17 +32,19 @@ jobs:
     build:
         needs: version-check
         if: needs.version-check.outputs.should_run == 'true'
-        strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest, macos-latest]
-        runs-on: ${{ matrix.os }}
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+
             - uses: actions/setup-node@v4
               with:
                   node-version: 24
-            - run: npm install
-            - run: npm install -g @neutralinojs/neu
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Install Neutralino CLI
+              run: npm install -g @neutralinojs/neu
 
             - name: Build TypeScript
               run: npm run build
@@ -50,48 +52,21 @@ jobs:
             - name: Update Neutralino binaries
               run: neu update
 
-            - name: Build Neutralino app
+            - name: Build Neutralino app for all platforms
               run: neu build --release
 
-            - name: List and package artifacts
-              shell: bash
+            - name: Verify and list build artifacts
               run: |
-                  echo "Checking for dist folder..."
-                  if [ -d "dist" ]; then
-                    echo "=== dist folder contents ==="
-                    ls -laR dist/
-                    mkdir -p artifacts
-                    
-                    # Determine the binary name based on OS
-                    if [ "$RUNNER_OS" == "Linux" ]; then
-                      pattern="*-linux_x64"
-                    elif [ "$RUNNER_OS" == "macOS" ]; then
-                      pattern="*-mac_x64"
-                    elif [ "$RUNNER_OS" == "Windows" ]; then
-                      pattern="*-win_x64.exe"
-                    fi
-                    
-                    # Copy the platform-specific binary
-                    cp dist/$pattern artifacts/ 2>/dev/null || echo "Warning: No binary matching $pattern found"
-                    
-                    # Also copy the entire dist as fallback
-                    cp -r dist/* artifacts/ 2>/dev/null || true
-                    
-                    echo "=== artifacts folder contents ==="
-                    ls -la artifacts/
-                  else
-                    echo "Error: dist folder not created"
-                    echo "=== Current directory ==="
-                    ls -la
-                    echo "=== Checking .tmp folder ==="
-                    ls -la .tmp/ || echo ".tmp not found"
-                    exit 1
-                  fi
+                  echo "=== Build complete, dist folder contents ==="
+                  ls -la dist/
+                  echo ""
+                  echo "Files to be released:"
+                  find dist/ -type f -exec ls -lh {} \;
 
             - uses: actions/upload-artifact@v4
               with:
-                  name: ${{ matrix.os }}
-                  path: artifacts
+                  name: neutralino-builds
+                  path: dist/
 
     release:
         needs: [build, version-check]
@@ -99,11 +74,18 @@ jobs:
         steps:
             - uses: actions/download-artifact@v4
               with:
-                  path: artifacts
+                  name: neutralino-builds
+                  path: dist
+
+            - name: Display files to be released
+              run: |
+                  echo "Files that will be uploaded to release:"
+                  ls -lah dist/
+
             - uses: softprops/action-gh-release@v2
               with:
                   tag_name: v${{ needs.version-check.outputs.version }}
                   draft: true
-                  files: artifacts/**/*
+                  files: dist/*
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

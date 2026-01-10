@@ -49,8 +49,30 @@ jobs:
             - name: Build TypeScript
               run: npm run build
 
+            - name: Verify build output
+              run: |
+                  echo "=== TypeScript compiled successfully ==="
+                  echo "Compiled JavaScript files in resources/dist/:"
+                  ls -lah resources/dist/
+                  echo ""
+                  echo "=== Checking resources folder structure ==="
+                  find resources/ -type f -name "*.js" -o -name "*.html" -o -name "*.css"
+
             - name: Update Neutralino binaries
               run: neu update
+
+            - name: Build Neutralino app for all platforms
+              run: neu build --release
+
+            - name: Verify resources.neu was created
+              run: |
+                  echo "=== Checking if resources.neu contains our code ==="
+                  if [ -f "dist/resources.neu" ]; then
+                    unzip -l dist/resources.neu | grep -E "\.(js|html|css)$" || echo "Warning: No web files found in resources.neu"
+                  else
+                    echo "Error: resources.neu not found!"
+                    exit 1
+                  fi
 
             - name: Build Neutralino app for all platforms
               run: neu build --release

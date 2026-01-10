@@ -43,8 +43,15 @@ jobs:
                   node-version: 24
             - run: npm install
             - run: npm install -g @neutralinojs/neu
-            - run: npm run build
-            - run: neu build
+
+            - name: Build TypeScript
+              run: npm run build
+
+            - name: Build Neutralino binaries
+              run: |
+                  neu build --release
+                  echo "Build completed, checking dist folder..."
+                  ls -la dist/ || echo "dist folder not found!"
 
             - name: Package artifacts
               shell: bash
@@ -52,9 +59,15 @@ jobs:
                   mkdir -p artifacts
                   # Copy the built binaries from dist folder
                   if [ -d "dist" ]; then
+                    echo "Found dist folder, contents:"
+                    ls -la dist/
                     cp -r dist/* artifacts/
+                    echo "Artifacts packaged:"
+                    ls -la artifacts/
                   else
-                    echo "Error: dist folder not found"
+                    echo "Error: dist folder not found after neu build"
+                    echo "Current directory contents:"
+                    ls -la
                     exit 1
                   fi
 

@@ -24,7 +24,7 @@
 	},
 	"modes": {
 		"window": {
-			"title": "CHANGE THIS LATER",
+			"title": "Skyblock Desktop App",
 			"width": 800,
 			"height": 500,
 			"minWidth": 400,
@@ -61,7 +61,7 @@
 		"binaryName": "skyblock-app",
 		"resourcesPath": "/resources/",
 		"extensionsPath": "/extensions/",
-		"clientLibrary": "/resources/dist/neutralino.js",
+		"clientLibrary": "/resources/javascript/neutralino.js",
 		"binaryVersion": "6.4.0",
 		"clientVersion": "6.4.0"
 	}

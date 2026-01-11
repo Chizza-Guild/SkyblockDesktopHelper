@@ -46,74 +46,14 @@ jobs:
             - name: Install Neutralino CLI
               run: npm install -g @neutralinojs/neu
 
-            - name: Build TypeScript
-              run: npm run build
-
-            - name: Setup Neutralino client library
+            - name: Build le app
               run: |
-                  echo "=== Copying Neutralino client library ==="
-                  mkdir -p resources/dist
-
-                  if [ -f "resources/dist/neutralino.js" ]; then
-                    echo "neutralino.js already exists"
-                  else
-                    echo "neutralino.js will be created by neu update"
-                  fi
-
-            - name: Update Neutralino binaries
-              run: |
-                  neu update
-                  echo "=== After neu update, checking for client library ==="
-                  find resources/ -name "neutralino.js"
-
-                  if [ -f "resources/js/neutralino.js" ] && [ ! -f "resources/dist/neutralino.js" ]; then
-                    echo "Moving neutralino.js to dist folder to match config"
-                    cp resources/js/neutralino.js resources/dist/neutralino.js
-                  fi
-
-            - name: Verify TypeScript output
-              run: |
-                  echo "=== TypeScript compiled ==="
-                  ls -lah resources/dist/ || echo "resources/dist/ not found"
-                  echo ""
-                  echo "=== Resources folder structure ==="
-                  tree resources/ -L 2 || find resources/ -type f
-
-            - name: Check neutralino.config.json
-              run: |
-                  echo "=== Neutralino config ==="
-                  cat neutralino.config.json | grep -A 5 "documentRoot\|resourcesPath\|binaryName"
-
-            - name: Build Neutralino app
-              run: |
-                  echo "=== Running neu build ==="
-                  neu build --release
-                  echo "=== Build completed ==="
-
-            - name: Check build output
-              run: |
-                  echo "=== Dist folder contents ==="
-                  ls -lah dist/ || echo "dist folder not found!"
-                  echo ""
-                  if [ -f "dist/skyblock-app/resources.neu" ]; then
-                    echo "=== Found resources.neu in dist/skyblock-app/ ==="
-                    ls -lah dist/skyblock-app/
-                  elif [ -f "dist/resources.neu" ]; then
-                    echo "=== Found resources.neu in dist/ ==="
-                  else
-                    echo "=== resources.neu not found, checking all locations ==="
-                    find . -name "resources.neu" -o -name "*.neu"
-                  fi
+                  npm run buildaction
 
             - name: Package artifacts
               run: |
                   mkdir -p artifacts
-                  if [ -d "dist/skyblock-app" ]; then
-                    cp -r dist/skyblock-app/* artifacts/
-                  else
-                    cp -r dist/* artifacts/
-                  fi
-                  echo "=== Final artifacts ==="
+                  cp -r dist/skyblock-app/* artifacts/
                   ls -lah artifacts/
 
             - uses: actions/upload-artifact@v4
@@ -132,7 +72,6 @@ jobs:
 
             - name: Display files to be released
               run: |
-                  echo "Files that will be uploaded to release:"
                   ls -lah dist/
 
             - uses: softprops/action-gh-release@v2

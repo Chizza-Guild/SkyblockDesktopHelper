@@ -84,9 +84,6 @@ jobs:
                   echo "=== Neutralino config ==="
                   cat neutralino.config.json | grep -A 5 "documentRoot\|resourcesPath\|binaryName"
 
-            - name: Update Neutralino binaries
-              run: neu update
-
             - name: Build Neutralino app
               run: |
                   echo "=== Running neu build ==="

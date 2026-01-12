@@ -3,7 +3,7 @@ let saveDb;
 
 (async () => {
 	try {
-		const SQL = await initSqlJs({ locateFile: file => "sqljs/" + file });
+		const SQL = await initSqlJs({ locateFile: file => "system/" + file });
 		const documentsPath = await Neutralino.os.getPath("documents");
 		const appDir = `${documentsPath}/SkyblockDesktopHelperApp`;
 		const dbPath = `${appDir}/app.db`;

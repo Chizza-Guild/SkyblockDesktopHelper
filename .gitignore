@@ -14,7 +14,3 @@ neutralino.js
 
 # Node modules
 /node_modules
-
-# TypeScript converted files
-resources/javascript/greenhouse.js
-resources/javascript/test.js

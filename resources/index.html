@@ -24,13 +24,13 @@
 				<div>Forge Timer</div>
 			</button>
 			<button onclick="renderPage('minionProfitCalculator')">
-				<img src="icons/minion.svg" width="40" height="40" alt="Minion Profit Calculator" /> 
+				<img src="icons/minion.svg" width="40" height="40" alt="Minion Profit Calculator" />
 				<div>Minion Calculator</div>
 			</button>
 			<button onclick="renderPage('minionMarket')">
 				<img src="icons/settings.svg" width="40" height="40" alt="Minion Market" />
 				<div>Minion Market</div>
-			</button>	
+			</button>
 			<button onclick="renderPage('greenhouse')">
 				<img src="icons/leaf.svg" width="40" height="40" alt="Greenhouse" />
 				<div>Greenhouse</div>
@@ -38,25 +38,23 @@
 			<button onclick="renderPage('settings')">
 				<img src="icons/settings.svg" width="40" height="40" alt="Settings" />
 				<div>Settings</div>
-			</button>					
+			</button>
 			<!-- If you are going to add a new project here -->
 			<!-- Please add a new .svg icon from tablericons.com -->
 		</div>
 		<div id="main"></div>
 		<!-- Neutralino Stuff-->
-		<script src="javascript/neutralino.js"></script>
+		<script src="system/neutralino.js"></script>
 		<script src="javascript/appsetup.js"></script>
 
 		<!-- Database Setup -->
-		<script src="sqljs/sql-wasm.js"></script>
+		<script src="system/sql-wasm.js"></script>
 		<script src="javascript/initialisedatabase.js"></script>
 
-		<!-- Other Custom Stuff-->
+		<!-- PLEASE DONT ADD YOUR SCRIPT HERE!!! USE loadJSFile() in mainmenu.js INSTEAD!!-->
 		<script src="javascript/helpers.js"></script>
 		<script src="javascript/mainmenu.js"></script>
 		<script src="javascript/settings.js"></script>
-
 		<!-- PLEASE DONT ADD YOUR SCRIPT HERE!!! USE loadJSFile() in mainmenu.js INSTEAD!!-->
-		<script src="javascript/test.js"></script>
 	</body>
 </html>

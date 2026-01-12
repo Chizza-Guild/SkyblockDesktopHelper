@@ -58,10 +58,10 @@
 		}
 	},
 	"cli": {
-		"binaryName": "skyblock-app",
+		"binaryName": "skyblock-desktop-app",
 		"resourcesPath": "/resources/",
 		"extensionsPath": "/extensions/",
-		"clientLibrary": "/resources/javascript/neutralino.js",
+		"clientLibrary": "/resources/system/neutralino.js",
 		"binaryVersion": "6.4.0",
 		"clientVersion": "6.4.0"
 	}

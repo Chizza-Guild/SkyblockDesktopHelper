@@ -1,9 +1,6 @@
 ### In Progress
--   auction house sell alarms (ryry) (MOSTLY DONE)
--   forge tracker that notifies when the forge is over, will check it from the api
 -   Greenhouse Calculator by mlg
--   Change tray icon logo and app name
--   Greenhouse Sources: http://t0r0nt0.dev/ && https://skymutations.eu/
+-   Change tray icon logo
 -   Make API Key countdown tick down when the settings page is loaded
 -   RYRY --> Discord notifications.
 

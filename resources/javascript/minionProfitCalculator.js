@@ -103,6 +103,47 @@ function CalculateMinionCost(name, tier) {
 
 function minionProfit(name, tier) {
   const singleMinionData = findMinionByName(name);
+  let doubleCompactable = false;
+
+  let value = singleMinionData.drops.item_1;
+  const [baseItemId, baseAmount, chance] = value.split("~");
+  let enchantedId = 0;
+  let upgradeAmount = 0;
+  let doubleEnchantedId = 0;
+  let doubleUpgradeAmount = 0;
+
+  if (singleMinionData.supercompactable) {
+
+    value = singleMinionData.dropsCompacted.item_1;
+    [enchantedId, upgradeAmount] = value.split("~")
+
+
+    if (singleMinionData.dropsDoubleCompacted.item_1 != null) {
+      doubleCompactable = true;
+
+      value = singleMinionData.dropsDoubleCompacted.item_1;
+      [doubleEnchantedId, doubleUpgradeAmount] = value.split("~")
+
+    }
+  }
+  let pricePerAction = 0;
+
+  if (singleMinionData.supercompactable && !doubleCompactable) {
+    let enchantedPrice = bzData.products[enchantedId].quick_status.buyPrice;
+    pricePerAction = enchantedPrice / upgradeAmount / 2 * (chance/100) * (baseAmount); // /2  to account for placing then breaking
+  } else if (doubleCompactable) {
+    let enchantedPrice = bzData.products[doubleEnchantedId].quick_status.buyPrice;
+    pricePerAction = enchantedPrice / doubleUpgradeAmount / upgradeAmount / 2 * (chance/100) * (baseAmount); // /2  to account for placing then breaking
+  } else {
+    pricePerAction = bzData.products[baseItemId].quick_status.buyPrice / 2 * (chance/100);
+  }
+
+  let secondsPerDay = 24*60*60;
+  const speed = minion.speeds[`tier_${tier}`];
+
+  let profitPerDay = (secondsPerDay / speed) * pricePerAction;
+
+  return profitPerDay;
 }
 
 async function minionProfitCalculatorMain() {
@@ -122,4 +163,6 @@ async function minionProfitCalculatorMain() {
     typeof cost === "number" && Number.isFinite(cost)
       ? cost.toLocaleString().toLocaleString()
       : "N/A";
+
+  console.log(minionProfit(name, tier));
 }

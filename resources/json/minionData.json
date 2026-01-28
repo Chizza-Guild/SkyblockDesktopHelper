@@ -341,15 +341,15 @@
             "tier_1": "80_SAND:1",
             "tier_2": "256_SAND:1",
             "tier_3": "512_SAND:1",
-            "tier_4": "15_ENCHANTED_MYCELIUM",
-            "tier_5": "32_ENCHANTED_MYCELIUM",
-            "tier_6": "64_ENCHANTED_MYCELIUM",
-            "tier_7": "128_ENCHANTED_MYCELIUM",
-            "tier_8": "256_ENCHANTED_MYCELIUM",
-            "tier_9": "512_ENCHANTED_MYCELIUM",
-            "tier_10": "8_ENCHANTED_MYCELIUM_CUBE",
-            "tier_11": "16_ENCHANTED_MYCELIUM_CUBE",
-            "tier_12": "32_ENCHANTED_MYCELIUM_CUBE"
+            "tier_4": "16_ENCHANTED_RED_SAND",
+            "tier_5": "32_ENCHANTED_RED_SAND",
+            "tier_6": "64_ENCHANTED_RED_SAND",
+            "tier_7": "128_ENCHANTED_RED_SAND",
+            "tier_8": "256_ENCHANTED_RED_SAND",
+            "tier_9": "512_ENCHANTED_RED_SAND",
+            "tier_10": "8_ENCHANTED_RED_SAND_CUBE",
+            "tier_11": "16_ENCHANTED_RED_SAND_CUBE",
+            "tier_12": "32_ENCHANTED_RED_SAND_CUBE"
         },
 
         "drops": 
@@ -358,11 +358,11 @@
         },
 
         "dropsCompacted": {
-            "item_1": "ENCHANTED_MYCELIUM~160"
+            "item_1": "ENCHANTED_RED_SAND~160"
         },
 
         "dropsDoubleCompacted": {
-            "item_1": "ENCHANTED_MYCELIUM_CUBE~160"
+            "item_1": "ENCHANTED_RED_SAND_CUBE~160"
         },
         
         "skillExp": 
@@ -2087,7 +2087,7 @@
     },
 
     {
-        "name": "Vampire",
+        "name": "Vampire Minion",
         "tiers": 11,
         "tier_12_cost_coins": 0,
         "tier_12_cost_pelts": 0,
@@ -2132,10 +2132,9 @@
             "item_1": "HEMOVIBE~1~100"
         },
         "dropsCompacted": {
-            "item_1": "ENCHANTED_BONE~160"
+            "item_1": "HEMOGLASS~160"
         },
         "dropsDoubleCompacted": {
-            "item_1": "ENCHANTED_BONE_BLOCK~160"
         },
         "skillExp": 
         {
@@ -2658,8 +2657,6 @@
             "item_1": "ENCHANTED_GHAST_TEAR~5"
         },
         "dropsDoubleCompacted": {
-            
-            "item_1": "SILVER_FANG~25"
         },
         "skillExp": 
         {

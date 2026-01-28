@@ -5,6 +5,7 @@
 -   RYRY --> Discord notifications.
 
 ### Not started
+-   FIX RED SAND MINION MINION DATA
 -   Config file for github releases, so we have app updates rolling on version updates
 -   Have an api endpoint in vercel maybe
 

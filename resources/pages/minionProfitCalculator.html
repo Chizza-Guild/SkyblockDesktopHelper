@@ -1,5 +1,8 @@
 <label for="minion">Minion</label>
 <input list="minions" id="minion" name="minion" />
+<label>Tier<input id="tierInput" type="number" min="1" max="12" step="1" value="1" /></label>
+<h2 id="minionCost">Cost will show here! (pressButton) </h2>
+
 
 <datalist id="minions">
     <option value="Cobblestone">
@@ -61,6 +64,6 @@
     <option value="Jugnle">
 </datalist>
 
-<button onclick="calculateBestBaseMinion()">print Minion Data</button>
+<button onclick="minionProfitCalculatorMain()">print Minion Data</button>
 
 <ul id="Best_Minions"></ul>

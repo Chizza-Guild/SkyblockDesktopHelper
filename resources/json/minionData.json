@@ -1,6 +1,6 @@
 [
     {
-        "name": "COBBLESTONE_MINION",
+        "name": "Cobblestone Minion",
         "tiers": 12,
         "tier_12_cost_coins": 2000000,
         "tier_12_cost_pelts": 0,
@@ -371,7 +371,7 @@
         }
     },
     {
-        "name": "Red Sand Minion",
+        "name": "Myceilium Minion",
         "tiers": 12,
         "tier_12_cost_coins": 0,
         "tier_12_cost_pelts": 0,

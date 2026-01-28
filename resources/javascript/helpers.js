@@ -38,3 +38,19 @@ function formatMs(totalMs) {
 
 	return `${hours} hours ${minutes} mins ${seconds} seconds`;
 }
+
+function formatCoins(totalCoins) {
+	totalCoins = Math.floor(totalCoins);
+
+	let [k, m, b] = 0;
+	if (totalCoins >= 1000000000) {
+		b = Math.round(totalCoins / 1000000000);
+		return b + "b"
+	} else if (totalCoins >= 1000000) {
+		m = Math.round(totalCoins / 1000000);
+		return b + "m"
+	} else if (totalCoins >= 1000) {
+		k = Math.round(totalCoins / 1000);
+		return k + "k"
+	}
+}

@@ -23,6 +23,7 @@ async function initMinionCalc() {
   minionData = JSON.parse(fileContents);
 
   let response = await fetch("https://api.hypixel.net/v2/skyblock/bazaar");
+  console.log(response);
 
   if (!response.ok) {
 		console.error("Failed to fetch items from API");
@@ -50,16 +51,16 @@ async function initMinionCalc() {
   }
 
 */
-function CalculateMinionCost(name, tier) {
-  let singleMinionData = null;
 
-  // Find minion by name
+function findMinionByName(name) {
   for (const minion of minionData) {
     if (minion.name === name) {
-      singleMinionData = minion;
-      break;
+      return minion;
     }
   }
+}
+function CalculateMinionCost(name, tier) {
+  let singleMinionData = findMinionByName(name);
 
   if (!singleMinionData) {
     console.error("Minion not found:", name);
@@ -99,8 +100,12 @@ function CalculateMinionCost(name, tier) {
   return totalCost;
 }
 
+
+function minionProfit(name, tier) {
+  const singleMinionData = findMinionByName(name);
+}
+
 async function minionProfitCalculatorMain() {
-  await initMinionCalc();
 
   const name = document.getElementById("minion").value + " Minion"; // EXACT match
   const tier = Number(document.getElementById("tierInput").value);
@@ -115,6 +120,6 @@ async function minionProfitCalculatorMain() {
 
   costEl.textContent =
     typeof cost === "number" && Number.isFinite(cost)
-      ? cost.toLocaleString()
+      ? cost.toLocaleString().toLocaleString()
       : "N/A";
 }

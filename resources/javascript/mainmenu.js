@@ -31,7 +31,7 @@ async function renderPage(page) {
 		startForgeTimer();
 	} else if (page == "minionProfitCalculator") {
 		await loadJSFile("minionProfitCalculator", "js");
-		loadMinionData();
+		initMinionCalc();
 	} else if (page == "greenhouse") {
 		await loadJSFile("greenhouse", "ts");
 		displayGreenhouse(greenhouseNo1);

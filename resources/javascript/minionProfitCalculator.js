@@ -161,7 +161,7 @@ async function minionProfitCalculatorMain() {
 
   costEl.textContent =
     typeof cost === "number" && Number.isFinite(cost)
-      ? cost.toLocaleString().toLocaleString()
+      ? Math.trunc(cost).toLocaleString() + " coins"
       : "N/A";
 
   console.log(minionProfit(name, tier));

@@ -45,12 +45,100 @@ function formatCoins(totalCoins) {
 	let [k, m, b] = 0;
 	if (totalCoins >= 1000000000) {
 		b = Math.round(totalCoins / 1000000000);
-		return b + "b"
+		return b + "b";
 	} else if (totalCoins >= 1000000) {
 		m = Math.round(totalCoins / 1000000);
-		return b + "m"
+		return b + "m";
 	} else if (totalCoins >= 1000) {
 		k = Math.round(totalCoins / 1000);
-		return k + "k"
+		return k + "k";
 	}
+}
+
+const MINECRAFT_COLORS = {
+	0: "#000000", // Black
+	1: "#0000AA", // Dark Blue
+	2: "#00AA00", // Dark Green
+	3: "#00AAAA", // Dark Aqua
+	4: "#AA0000", // Dark Red
+	5: "#AA00AA", // Dark Purple
+	6: "#FFAA00", // Gold
+	7: "#AAAAAA", // Gray
+	8: "#555555", // Dark Gray
+	9: "#5555FF", // Blue
+	a: "#55FF55", // Green
+	b: "#55FFFF", // Aqua
+	c: "#FF5555", // Red
+	d: "#FF55FF", // Light Purple
+	e: "#FFFF55", // Yellow
+	f: "#FFFFFF", // White
+};
+
+const MINECRAFT_FORMATS = {
+	l: "font-weight: bold",
+	o: "font-style: italic",
+	n: "text-decoration: underline",
+	m: "text-decoration: line-through",
+};
+
+function minecraftToHTML(text) {
+	if (!text || typeof text !== "string") return text;
+
+	// Replace § with & if needed for compatibility
+	text = text.replace(/&/g, "§");
+
+	let result = "";
+	let currentColor = "";
+	let currentFormats = [];
+	let i = 0;
+
+	while (i < text.length) {
+		if (text[i] === "§" && i + 1 < text.length) {
+			const code = text[i + 1].toLowerCase();
+
+			// Close previous span if exists
+			if (currentColor || currentFormats.length > 0) {
+				result += "</span>";
+			}
+
+			if (code === "r") {
+				// Reset formatting
+				currentColor = "";
+				currentFormats = [];
+			} else if (MINECRAFT_COLORS[code]) {
+				// Color code
+				currentColor = MINECRAFT_COLORS[code];
+				currentFormats = [];
+			} else if (MINECRAFT_FORMATS[code]) {
+				// Format code
+				currentFormats.push(MINECRAFT_FORMATS[code]);
+			}
+
+			// Open new span with current styling
+			if (currentColor || currentFormats.length > 0) {
+				let style = "";
+				if (currentColor) style += `color: ${currentColor};`;
+				if (currentFormats.length > 0) style += currentFormats.join(";");
+				result += `<span style="${style}">`;
+			}
+
+			i += 2; // Skip § and code character
+		} else {
+			result += text[i];
+			i++;
+		}
+	}
+
+	// Close any remaining open span
+	if (currentColor || currentFormats.length > 0) {
+		result += "</span>";
+	}
+
+	return result;
+}
+
+function stripMinecraftCodes(text) {
+	// For plain text display
+	if (!text || typeof text !== "string") return text;
+	return text.replace(/[§&][0-9a-fk-or]/gi, "");
 }

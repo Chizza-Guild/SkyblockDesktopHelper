@@ -43,7 +43,7 @@ async function renderPage(page) {
 
 setInterval(() => {
     if (currentPage == "settings") {
-		document.getElementById("apiKeyCountdown").innerText = ` ${formatMs(apiKeyTimestampVar - Date.now())}`;
+		document.getElementById("apiKeyCountdown").innerText = `${formatMs(apiKeyTimestampVar - Date.now())}`;
 	}
 }, 1000);
 

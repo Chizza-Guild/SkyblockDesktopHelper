@@ -47,7 +47,7 @@ function displayGreenhouse(greenhouse: number[][]) {
 // Immediately unlock the first plots of the first greenhouse and display it
 unlockGreenhouse(greenhouseNo1);
 
-// When you unlock a greenhouuse, the middle will be automatically unlocked.
+// When you unlock a greenhouse, the middle will be automatically unlocked.
 // Later the greenhouse plot data will be loaded from the database.
 // 0: Not Unlocked
 // 1: Unlocked but empty plots

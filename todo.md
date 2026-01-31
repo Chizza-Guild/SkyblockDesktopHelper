@@ -1,7 +1,6 @@
 ### In Progress
 -   Greenhouse Calculator by mlg
 -   Change tray icon logo
--   Make API Key countdown tick down when the settings page is loaded
 -   RYRY --> Discord notifications.
 
 ### Not started

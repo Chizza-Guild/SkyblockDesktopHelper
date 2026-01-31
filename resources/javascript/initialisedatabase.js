@@ -8,6 +8,11 @@ let saveDb;
 		const appDir = `${documentsPath}/SkyblockDesktopHelperApp`;
 		const dbPath = `${appDir}/app.db`;
 
+        // We are creating saveDb late like this since we need dbPath initialised first.
+		saveDb = function () {
+			return Neutralino.filesystem.writeBinaryFile(dbPath, db.export());
+		};
+
 		try {
 			await Neutralino.filesystem.createDirectory(appDir);
 			console.log("Created app directory");
@@ -22,13 +27,9 @@ let saveDb;
 		} catch (err) {
 			console.warn("DB file not found, creating new:", err);
 			db = new SQL.Database();
-			await Neutralino.filesystem.writeBinaryFile(dbPath, db.export());
+			await saveDb();
 			console.log("Created new database");
-		}
-
-		saveDb = function () {
-			return Neutralino.filesystem.writeBinaryFile(dbPath, db.export());
-		};
+		}        
 
 		// USER INFO TABLE HERE
         // You can't just add the new variables here ryry use the part below

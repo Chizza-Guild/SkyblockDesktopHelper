@@ -41,6 +41,12 @@ async function renderPage(page) {
 	}
 }
 
+setInterval(() => {
+    if (currentPage == "settings") {
+		document.getElementById("apiKeyCountdown").innerText = ` ${formatMs(apiKeyTimestampVar - Date.now())}`;
+	}
+}, 1000);
+
 function redirectToSettings(page) {
 	if (!apiKeyVar) {
 		if (page == "auctionNotifier" || page == "forgeTimer") {

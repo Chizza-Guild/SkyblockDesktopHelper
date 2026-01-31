@@ -17,7 +17,7 @@ async function saveUserSettings() {
 		const discordId = document.getElementById("discordIdInput").value;
 
 		if (apiKeyVar != apiKey) {
-			apiKeyTimestampVar = Date.now() + 86400000;
+			apiKeyTimestampVar = Date.now() + 86400000 * 2; // 2 days now
 		}
 
 		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp) VALUES (?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, null, discordId, null, apiKeyTimestampVar]);

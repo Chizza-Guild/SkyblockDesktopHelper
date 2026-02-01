@@ -1,9 +1,7 @@
 ## Plans for Version 1.1.0 Release
 
-- New logo needed for minion market
 - Change tray icon logo
-- (mlg) complete other settings, and settings css changes
-- make a counter for api fetches, and optimise them so price api is called every 2 mins, profile api is called every 15 mins or when profile viewer is opened etc.
+- optimise api calling so price api is called every 2 mins, profile api is called every 15 mins or when profile viewer is opened etc. --> check cache first but the user can request new
 - Revamp Item Price Tracker
 
 In Item Price Tracker: (mlg)
@@ -21,6 +19,8 @@ In Item Price Tracker: (mlg)
 - RYRY --> Discord notifications.
 - make a setting in settings to activate any discord notifs or not
 - Fix forge timer not taking forge speedups to account (HOTM, Cole perk, etc.)
+- add "no items being sold" to auction notifier if there is no results
+- in settings, toggle notifications (TODO)
 
 ### Not started
 

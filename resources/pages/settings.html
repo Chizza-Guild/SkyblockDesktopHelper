@@ -1,35 +1,50 @@
 <h1>Settings</h1>
 
 <h2>Credentials</h2>
-<div style="display: flex; flex-direction: row; gap: 10px">
+<div class="oneLineSettings">
 	<div>Skyblock Name:</div>
 	<input id="sbNameInput" type="text" placeholder="Skyblock Name Here" />
 </div>
-<div style="display: flex; flex-direction: row; gap: 10px">
-	<a href="https://developer.hypixel.net/dashboard" onclick="Neutralino.os.open(this.href); return false;">
+<div class="oneLineSettings">
+	<a
+		href="https://developer.hypixel.net/dashboard"
+		onclick="
+			Neutralino.os.open(this.href);
+			return false;
+		"
+	>
 		<div>Skyblock API Key:</div>
 	</a>
 	<input id="apiKeyInput" type="text" placeholder="Skyblock API Key Here" />
 </div>
-<div style="display: flex; flex-direction: row; gap: 10px">
+<div class="oneLineSettings">
 	<div>API Key countdown:</div>
 	<div id="apiKeyCountdown"></div>
 </div>
-<div style="display: flex; flex-direction: row; gap: 10px">
-    <div>API Key total usage count:</div>
-    <div id="apiKeyUsageCount"></div>
+<div class="oneLineSettings">
+	<div>API Key total usage count:</div>
+	<div id="apiKeyUsageCount"></div>
 </div>
 
 <h2>Feature Settings</h2>
+
 <div>Forge Notifications: (TODO)</div>
 <div>Item Tracker Notifications: (TODO)</div>
 <div>Auction Notifier Notifications: (TODO)</div>
 
 <h2>Discord</h2>
-<h4>JOIN OUR DISCORD FOR NOTIFICATIONS</h4>
-<p>https://discord.gg/WDEwwFqE</p>
-<br />
-<div style="display: flex; flex-direction: row">
+<h4>
+	<a
+		href="https://discord.gg/WDEwwFqE"
+		onclick="
+			Neutralino.os.open(this.href);
+			return false;
+		"
+	>
+		<div>JOIN OUR DISCORD FOR NOTIFICATIONS</div>
+	</a>
+</h4>
+<div class="oneLineSettings">
 	<div>Discord ID:</div>
 	<input id="discordIdInput" type="text" placeholder="Discord ID Here" />
 </div>

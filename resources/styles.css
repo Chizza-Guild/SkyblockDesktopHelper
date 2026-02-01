@@ -17,6 +17,8 @@ body {
     padding: 20px;
 }
 
+/* --- SIDEBAR --- */
+
 #sidebar {
 	display: flex;
 	flex-direction: column;
@@ -53,4 +55,15 @@ body {
 #sidebar div {
 	font-size: 3vw;
 	cursor: pointer;
+}
+
+/* --- SETTINGS PAGE --- */
+
+.oneLineSettings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    text-align: center;
+    gap: 10px;
 }

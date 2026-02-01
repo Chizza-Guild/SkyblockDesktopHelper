@@ -4,12 +4,14 @@ let playerNameVar;
 let apiKeyVar;
 let uuidVar;
 let webhookURL;
-let auctionNotifierVar;
 let discordIdVar;
 let privateWebhookURLVar;
 let apiKeyTimestampVar;
 let apiKeyUseAmountVar;
 let apiKeyExpiredSent = false;
+
+let auctionNotifierVar;
+let quickforgeVar;
 
 async function saveUserSettings() {
 	try {
@@ -21,9 +23,11 @@ async function saveUserSettings() {
 			// The user has changed the API key
 			apiKeyTimestampVar = Date.now() + 86400000 * 2; // 2 days now
 			db.run("UPDATE user_info SET apiKeyUseAmount = 0 WHERE ID = 1;");
+            await saveDb();
 		}
 
 		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp) VALUES (?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, null, discordId, null, apiKeyTimestampVar]);
+		await saveDb();
 
 		if (name != playerNameVar) {
 			console.log("Fetching new UUID for:", name);
@@ -34,8 +38,6 @@ async function saveUserSettings() {
 		playerNameVar = name;
 		apiKeyVar = apiKey;
 		discordIdVar = discordId;
-
-		await saveDb();
 
 		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordIdVar:", discordIdVar);
 
@@ -106,14 +108,19 @@ async function loadFeatureSettings() {
 	const res = db.exec("SELECT * FROM features WHERE id = 1");
 	if (!res.length) return;
 
-	const [id, auctionNotifier] = res[0].values[0];
-	console.log(`Loaded Feature Settings: ${res[0].values[0]}`);
+	const [id, auctionNotifier, quickforge] = res[0].values[0];
+	console.log("-- Loaded Feature Settings --");
+	console.log("auctionNotifier", auctionNotifier);
+	console.log("quickforge", quickforge);
 
 	if (currentPage == "auctionNotifier") {
 		document.getElementById("aucNotyBtn").checked = auctionNotifier;
-	}
+	} else if (currentPage == "forgetimer") {
+        document.getElementById("quickforgeinput").value = quickforge;
+    }
 
 	auctionNotifierVar = auctionNotifier;
+    quickforgeVar = quickforge;
 }
 
 async function getPlayerUuid(playerName) {
@@ -136,9 +143,9 @@ async function increaseApiUsage() {
 	// Since the Hypixel API is limited to 5000 uses, keeping track of them is an advantage
 	try {
 		db.run("UPDATE user_info SET apiKeyUseAmount = COALESCE(apiKeyUseAmount, 0) + 1 WHERE ID = 1;");
-        await saveDb();
+		await saveDb();
 		apiKeyUseAmountVar++;
-		document.getElementById("apiKeyUsageCount").innerText = `${apiKeyUseAmountVar || 0}/5000`;
+		if (currentPage == "settings") document.getElementById("apiKeyUsageCount").innerText = `${apiKeyUseAmountVar || 0}/5000`;
 	} catch (error) {
 		alert(error);
 	}

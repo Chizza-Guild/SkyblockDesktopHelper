@@ -14,6 +14,12 @@ In Item Price Tracker: (mlg)
 - Remove useless comments
 - each press on item price tracker fetches from the api, fix
 
+In Forge Timer:
+
+- test if forgetimer correctly and once sends the notifications
+- make forgetimer load the cache. and use the map for everything
+- run the forgetimer fetch like hourly (api_fetching)
+
 ### In Progress
 
 - RYRY --> Discord notifications.

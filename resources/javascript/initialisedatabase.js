@@ -49,6 +49,11 @@ let saveDb;
 		db.run("CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY, auctionNotifier INTEGER)");
 		await saveDb();
 
+		// ADDS NEW COLUMNS TO THE FEATURE TABLE
+		const featureCols = db.exec("PRAGMA table_info(features)")[0].values;
+		if (!featureCols.some(c => c[1] == "quickforge")) db.run("ALTER TABLE features ADD COLUMN quickforge INTEGER DEFAULT 0");
+		await saveDb();
+
 		// TRACKED ITEMS TABLE HERE
 		db.run(`CREATE TABLE IF NOT EXISTS tracked_items (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,

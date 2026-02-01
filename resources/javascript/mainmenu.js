@@ -26,9 +26,8 @@ async function renderPage(page) {
 		initItemTracker();
 	} else if (page == "forgeTimer") {
 		await loadJSFile("forgeTimer", "js");
-		stopForgeTimer();
-		loadForgeData();
 		startForgeTimer();
+		document.getElementById("quickforgeinput").value = quickforgeVar;
 	} else if (page == "minionProfitCalculator") {
 		await loadJSFile("minionProfitCalculator", "js");
 		initMinionCalc();
@@ -42,7 +41,7 @@ async function renderPage(page) {
 }
 
 setInterval(() => {
-    if (currentPage == "settings") {
+	if (currentPage == "settings") {
 		document.getElementById("apiKeyCountdown").innerText = `${formatMs(apiKeyTimestampVar - Date.now())}`;
 	}
 }, 1000);

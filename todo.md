@@ -1,10 +1,10 @@
-### In Progress
+## Plans for Version 1.1.0 Release
 
 - New logo needed for minion market
 - Change tray icon logo
-- RYRY --> Discord notifications.
-- make a setting in settings to activate any discord notifs or not
 - (mlg) complete other settings, and settings css changes
+- make a counter for api fetches, and optimise them so price api is called every 2 mins, profile api is called every 15 mins or when profile viewer is opened etc.
+- Revamp Item Price Tracker
 
 In Item Price Tracker: (mlg)
 
@@ -16,17 +16,20 @@ In Item Price Tracker: (mlg)
 - Remove useless comments
 - each press on item price tracker fetches from the api, fix
 
+### In Progress
+
+- RYRY --> Discord notifications.
+- make a setting in settings to activate any discord notifs or not
+
 ### Not started
 
-- FIX RED SAND MINION MINION DATA
-- Config file for github releases, so we have app updates rolling on version updates
 - Have an api endpoint in vercel maybe
 
 - Daily tasks tracker
 - VANG --> built-in event timers (Fiestas, farming contests (selectable crops), fallen stars, dark auctions etc.)
 - VANG --> mayors page (Current mayor and perks, last election results, next election candidates and votes etc.)
 - VANG --> news, derailious videos, cowshed, popular reddit posts in one page
-- MLG --> improved PV (Vs skycrypt)
+- MLG --> improved PV (Vs skycrypt), that can save the current data as a snapshot
 - MLG --> calculate NW with the items in your island chests,
 - add skyhelper bot features,
 - RYRY --> minion market --> needs supabase

@@ -12,9 +12,10 @@ body {
 }
 
 #main {
-    overflow-y: scroll;
-    height: 100dvh;
-    padding: 20px;
+	flex: 1;
+	height: 100dvh;
+	padding: 20px;
+	overflow-y: scroll;
 }
 
 /* --- SIDEBAR --- */
@@ -48,8 +49,8 @@ body {
 }
 
 #sidebar > button > div {
-    font-size: 4vh;
-    margin-left: 1vh;
+	font-size: 4vh;
+	margin-left: 1vh;
 }
 
 #sidebar div {
@@ -60,10 +61,10 @@ body {
 /* --- SETTINGS PAGE --- */
 
 .oneLineSettings {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    text-align: center;
-    gap: 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: start;
+	text-align: center;
+	gap: 10px;
 }

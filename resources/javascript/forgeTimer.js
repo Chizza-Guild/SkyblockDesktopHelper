@@ -161,6 +161,7 @@ function getBaseForgeTime(id, type) {
 
 // Helper functions for Hypixel API
 async function getProfiles(apiKey, uuid) {
+    // Move this to api_fetching.js
     const res = await fetch(
         `https://api.hypixel.net/v2/skyblock/profiles?key=${apiKey}&uuid=${uuid}`
     );

@@ -8,7 +8,7 @@ let saveDb;
 		const appDir = `${documentsPath}/SkyblockDesktopHelperApp`;
 		const dbPath = `${appDir}/app.db`;
 
-        // We are creating saveDb late like this since we need dbPath initialised first.
+		// We are creating saveDb late like this since we need dbPath initialised first.
 		saveDb = function () {
 			return Neutralino.filesystem.writeBinaryFile(dbPath, db.export());
 		};
@@ -29,10 +29,9 @@ let saveDb;
 			db = new SQL.Database();
 			await saveDb();
 			console.log("Created new database");
-		}        
+		}
 
 		// USER INFO TABLE HERE
-        // You can't just add the new variables here ryry use the part below
 		db.run("CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY, name TEXT, apiKey TEXT)");
 		await saveDb();
 
@@ -41,7 +40,8 @@ let saveDb;
 		if (!cols.some(c => c[1] == "uuid")) db.run("ALTER TABLE user_info ADD COLUMN uuid TEXT");
 		if (!cols.some(c => c[1] == "discordId")) db.run("ALTER TABLE user_info ADD COLUMN discordId STRING");
 		if (!cols.some(c => c[1] == "privateWebhookURL")) db.run("ALTER TABLE user_info ADD COLUMN privateWebhookURL STRING");
-        if (!cols.some(c => c[1] == "apiKeyTimestamp")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyTimestamp INTEGER");
+		if (!cols.some(c => c[1] == "apiKeyTimestamp")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyTimestamp INTEGER");
+		if (!cols.some(c => c[1] == "apiKeyUseAmount")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyUseAmount INTEGER DEFAULT 0");
 
 		await saveDb();
 
@@ -49,7 +49,7 @@ let saveDb;
 		db.run("CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY, auctionNotifier INTEGER)");
 		await saveDb();
 
-		// TRACKED ITEMS TABLE FOR PRICE TRACKING
+		// TRACKED ITEMS TABLE HERE
 		db.run(`CREATE TABLE IF NOT EXISTS tracked_items (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			item_tag TEXT NOT NULL,

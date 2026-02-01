@@ -20,6 +20,7 @@ In Item Price Tracker: (mlg)
 
 - RYRY --> Discord notifications.
 - make a setting in settings to activate any discord notifs or not
+- Fix forge timer not taking forge speedups to account (HOTM, Cole perk, etc.)
 
 ### Not started
 

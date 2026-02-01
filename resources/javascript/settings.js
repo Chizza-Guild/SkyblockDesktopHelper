@@ -8,6 +8,7 @@ let auctionNotifierVar;
 let discordIdVar;
 let privateWebhookURLVar;
 let apiKeyTimestampVar;
+let apiKeyUseAmountVar;
 let apiKeyExpiredSent = false;
 
 async function saveUserSettings() {
@@ -17,7 +18,9 @@ async function saveUserSettings() {
 		const discordId = document.getElementById("discordIdInput").value;
 
 		if (apiKeyVar != apiKey) {
+			// The user has changed the API key
 			apiKeyTimestampVar = Date.now() + 86400000 * 2; // 2 days now
+			db.run("UPDATE user_info SET apiKeyUseAmount = 0 WHERE ID = 1;");
 		}
 
 		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp) VALUES (?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, null, discordId, null, apiKeyTimestampVar]);
@@ -47,13 +50,20 @@ async function loadUserSettings() {
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
-	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp] = res[0].values[0];
-	console.log(`Loaded User Settings: ${res[0].values[0]}`);
+	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount] = res[0].values[0];
+	console.log("-- Loaded User Settings --");
+	console.log("name:", name);
+	console.log("apikey:", apiKey);
+	console.log("uuid:", uuid);
+	console.log("discordId", discordId);
+	console.log("webhookUrl", webhookUrl);
+	console.log("apiKeyTimestamp", apiKeyTimestamp);
+	console.log("apiKeyUseAmount", apiKeyUseAmount);
 
 	const timeRemaining = Number(apiKeyTimestamp) - Date.now();
-    
+
 	if (timeRemaining <= 0 && !apiKeyExpiredSent) {
-        apiKeyExpiredSent = true;
+		apiKeyExpiredSent = true;
 		sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings.");
 	}
 
@@ -61,6 +71,7 @@ async function loadUserSettings() {
 		document.getElementById("sbNameInput").value = name || "";
 		document.getElementById("apiKeyInput").value = apiKey || "";
 		document.getElementById("discordIdInput").value = discordId || "";
+		document.getElementById("apiKeyUsageCount").innerText = `${apiKeyUseAmount || 0}/5000`;
 		if (timeRemaining <= 0) {
 			document.getElementById("apiKeyCountdown").innerText = " (expired)";
 		} else {
@@ -73,6 +84,7 @@ async function loadUserSettings() {
 	apiKeyVar = apiKey;
 	discordIdVar = discordId;
 	apiKeyTimestampVar = apiKeyTimestamp;
+	apiKeyUseAmountVar = apiKeyUseAmount;
 
 	if (name && !uuid) {
 		uuidVar = await getPlayerUuid(name);
@@ -105,6 +117,7 @@ async function loadFeatureSettings() {
 }
 
 async function getPlayerUuid(playerName) {
+	// Move this to api_fetching.js
 	try {
 		const response = await fetch(CoflnetUrl + "/search/player/" + encodeURIComponent(playerName));
 		const players = await response.json();
@@ -114,6 +127,18 @@ async function getPlayerUuid(playerName) {
 		await saveDb();
 
 		return output;
+	} catch (error) {
+		alert(error);
+	}
+}
+
+async function increaseApiUsage() {
+	// Since the Hypixel API is limited to 5000 uses, keeping track of them is an advantage
+	try {
+		db.run("UPDATE user_info SET apiKeyUseAmount = COALESCE(apiKeyUseAmount, 0) + 1 WHERE ID = 1;");
+        await saveDb();
+		apiKeyUseAmountVar++;
+		document.getElementById("apiKeyUsageCount").innerText = `${apiKeyUseAmountVar || 0}/5000`;
 	} catch (error) {
 		alert(error);
 	}

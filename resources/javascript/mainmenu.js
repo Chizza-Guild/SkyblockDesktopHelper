@@ -37,6 +37,8 @@ async function renderPage(page) {
 	} else if (page == "minionMarket") {
 		await loadJSFile("minionMarket", "js");
 		refreshListings();
+	} else if (page == "mainmenu") {
+		document.getElementById("appVersion").innerText = "Version " + await getAppVersion();
 	}
 }
 

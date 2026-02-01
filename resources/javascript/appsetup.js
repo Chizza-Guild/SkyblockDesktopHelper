@@ -71,3 +71,8 @@ async function sendNotification(title, body, sendOnDiscord = false) {
 		await sendDiscordMessage(`${title}\n${body}`, privateWebhookURLVar);
 	}
 }
+
+async function getAppVersion() {
+	const config = await Neutralino.app.getConfig();
+	return config.version;
+}

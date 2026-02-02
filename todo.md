@@ -13,6 +13,7 @@ In Item Price Tracker: (mlg)
 - Add Price Tracking to the settings, on-off
 - Remove useless comments
 - each press on item price tracker fetches from the api, fix
+- item list could be ordered a-->z
 
 In Forge Timer:
 

@@ -75,7 +75,7 @@ async function loadUserSettings() {
 		document.getElementById("discordIdInput").value = discordId || "";
 		document.getElementById("apiKeyUsageCount").innerText = `${apiKeyUseAmount || 0}/5000`;
 		if (timeRemaining <= 0) {
-			document.getElementById("apiKeyCountdown").innerText = " (expired)";
+			document.getElementById("apiKeyCountdown").innerText = "expired";
 		} else {
 			document.getElementById("apiKeyCountdown").innerText = ` ${formatMs(timeRemaining)}`;
 		}

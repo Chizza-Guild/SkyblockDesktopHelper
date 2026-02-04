@@ -15,11 +15,11 @@ Feature idea: Make it fill the remaining space most optimally (profit).
 
 */
 
-let greenhouseNo1: number[][] = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
-let greenhouseNo2: number[][] = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
-let greenhouseNo3: number[][] = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
+let greenhouseNo1 = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
+let greenhouseNo2 = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
+let greenhouseNo3 = Array.from({ length: 10 }, () => Array.from({ length: 10 }, () => 0));
 
-function unlockGreenhouse(greenhouse: number[][]) {
+function unlockGreenhouse(greenhouse) {
 	greenhouse[4][4] = 1;
 	greenhouse[4][5] = 1;
 	greenhouse[5][5] = 1;
@@ -34,12 +34,12 @@ function unlockGreenhouse(greenhouse: number[][]) {
 	greenhouse[5][6] = 1;
 }
 
-function displayGreenhouse(greenhouse: number[][]) {
-	document.getElementById("greenhouseLayout")!.innerText = "";
+function displayGreenhouse(greenhouse) {
+	document.getElementById("greenhouseLayout").innerText = "";
 
 	for (let i = 0; i < 10; i++) {
 		for (let j = 0; j < 10; j++) {
-			document.getElementById("greenhouseLayout")!.innerText += `${greenhouse[i][j]}${j == 9 ? "\n" : ","}`;
+			document.getElementById("greenhouseLayout").innerText += `${greenhouse[i][j]}${j == 9 ? "\n" : ","}`;
 		}
 	}
 }

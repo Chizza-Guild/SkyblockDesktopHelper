@@ -17,25 +17,25 @@ async function renderPage(page) {
 	if (page == "settings" && db) {
 		loadUserSettings();
 		loadFeatureSettings();
-		await loadJSFile("discordTest", "js");
+		await loadJSFile("discordTest");
 	} else if (page == "auctionNotifier") {
-		await loadJSFile("auctionNotifier", "js");
+		await loadJSFile("auctionNotifier");
 		document.getElementById("aucNotyBtn").checked = auctionNotifierVar;
 	} else if (page == "itemTracker") {
-		await loadJSFile("itemTracker", "js");
+		await loadJSFile("itemTracker");
 		initItemTracker();
 	} else if (page == "forgeTimer") {
-		await loadJSFile("forgeTimer", "js");
+		await loadJSFile("forgeTimer");
 		startForgeTimer();
 		document.getElementById("quickforgeinput").value = quickforgeVar;
 	} else if (page == "minionProfitCalculator") {
-		await loadJSFile("minionProfitCalculator", "js");
+		await loadJSFile("minionProfitCalculator");
 		initMinionCalc();
 	} else if (page == "greenhouse") {
-		await loadJSFile("greenhouse", "ts");
+		await loadJSFile("greenhouse");
 		displayGreenhouse(greenhouseNo1);
 	} else if (page == "minionMarket") {
-		await loadJSFile("minionMarket", "js");
+		await loadJSFile("minionMarket");
 		refreshListings();
 	} else if (page == "mainmenu") {
 		document.getElementById("appVersion").innerText = "Version " + await getAppVersion();

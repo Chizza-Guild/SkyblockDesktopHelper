@@ -38,13 +38,14 @@ async function renderPage(page) {
 		await loadJSFile("minionMarket");
 		refreshListings();
 	} else if (page == "mainmenu") {
-		document.getElementById("appVersion").innerText = "Version " + await getAppVersion();
+		document.getElementById("appVersion").innerText = "Version " + (await getAppVersion());
 	}
 }
 
 setInterval(() => {
 	if (currentPage == "settings") {
-		document.getElementById("apiKeyCountdown").innerText = `${formatMs(apiKeyTimestampVar - Date.now())}`;
+		const timeRemaining = apiKeyTimestampVar - Date.now();
+		document.getElementById("apiKeyCountdown").innerText = `${timeRemaining > 0 ? formatMs(timeRemaining) : "expired"}`;
 	}
 }, 1000);
 

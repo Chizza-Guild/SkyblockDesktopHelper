@@ -10,7 +10,7 @@ In Item Price Tracker: (mlg)
 - Add a div where the user can see when was the data last refreshed
 - Make "Enable Price Tracking" enabled by default. If its disabled, do some red warnings
 - Add Price Tracking to the settings, on-off
-- Remove useless comments
+- add ARE YOU SURE TO DELETE THIS ITEM???
 - each press on item price tracker fetches from the api, fix
 - item list could be ordered a-->z
 

@@ -1,9 +1,8 @@
 let priceTrackerActive = false;
 let priceCheckInterval = null;
-let lastNotifiedPrices = new Map(); // Track last notified price to avoid spam
-let allItems = []; // Store fetched items from API
+let lastNotifiedPrices = new Map();
+let allItems = [];
 
-// Initialize when page loads
 async function initItemTracker() {
 	await fetchAllItems();
 	populateItemsList();
@@ -13,7 +12,6 @@ async function initItemTracker() {
 		form.addEventListener("submit", handleAddItem);
 	}
 
-	// Load tracker state from localStorage
 	const savedState = localStorage.getItem("priceTrackerActive");
 	priceTrackerActive = savedState === "true";
 	const checkbox = document.getElementById("trackerActiveBtn");
@@ -23,7 +21,6 @@ async function initItemTracker() {
 
 	loadTrackedItems();
 
-	// Start tracking if it was previously active
 	if (priceTrackerActive) {
 		startPriceTracking();
 	}
@@ -39,7 +36,6 @@ async function fetchAllItems() {
 
 		const items = await response.json();
 
-		// Filter out items without names and store only tradeable items (AUCTION or BAZAAR)
 		allItems = items
 			.filter(item => {
 				const hasName = item.name && item.name !== "null" && item.name.trim() !== "";
@@ -49,7 +45,7 @@ async function fetchAllItems() {
 			.map(item => ({
 				tag: item.tag,
 				name: item.name,
-				type: item.flags, // "AUCTION" or "BAZAAR"
+				type: item.flags,
 			}));
 
 		console.log(`Loaded ${allItems.length} items from API`);
@@ -70,7 +66,6 @@ function populateItemsList() {
 		return;
 	}
 
-	// Sort items alphabetically by name (stripped of color codes for sorting)
 	const sortedItems = [...allItems].sort((a, b) => {
 		const nameA = stripMinecraftCodes(a.name);
 		const nameB = stripMinecraftCodes(b.name);
@@ -80,7 +75,6 @@ function populateItemsList() {
 	sortedItems.forEach(item => {
 		const option = document.createElement("option");
 		option.value = item.tag;
-		// Strip color codes for datalist (doesn't support HTML)
 		const cleanName = stripMinecraftCodes(item.name);
 		option.textContent = `${cleanName} - [${item.type}] (${item.tag})`;
 		datalist.appendChild(option);
@@ -102,7 +96,6 @@ function updatePriceType() {
 
 	if (foundItem) {
 		if (foundItem.type === "BAZAAR") {
-			// For bazaar items, show a dropdown to select buy or sell order
 			priceTypeDisplay.innerHTML = `
 				<div style="display: flex; align-items: center; gap: 10px;">
 					<span style="font-weight: bold; color: #1976d2;">Bazaar</span>
@@ -138,7 +131,6 @@ async function handleAddItem(event) {
 		return;
 	}
 
-	// Get item info from the fetched items list
 	const foundItem = allItems.find(item => item.tag === itemTag);
 
 	if (!foundItem) {
@@ -147,11 +139,9 @@ async function handleAddItem(event) {
 	}
 
 	const itemName = foundItem.name;
-	// Convert API type (BAZAAR/AUCTION) to internal price type (bazaar/bin)
 	const priceType = foundItem.type === "BAZAAR" ? "bazaar" : "bin";
 
-	// Get order type for bazaar items (buy or sell)
-	let orderType = "buy"; // Default to buy
+	let orderType = "buy";
 	if (foundItem.type === "BAZAAR") {
 		const orderTypeSelect = document.getElementById("orderTypeSelect");
 		if (orderTypeSelect) {
@@ -167,10 +157,8 @@ async function handleAddItem(event) {
 		);
 		await saveDb();
 
-		// Clear form
 		document.getElementById("addItemForm").reset();
 
-		// Reload the list
 		loadTrackedItems();
 
 		console.log("Item added successfully");
@@ -198,13 +186,11 @@ function loadTrackedItems() {
 		items.forEach(item => {
 			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, isActive, createdAt, orderType] = item;
 
-			// Default to 'buy' if orderType is null (for backward compatibility)
 			const actualOrderType = orderType || "buy";
 
 			const itemDiv = document.createElement("div");
 			itemDiv.style.cssText = "border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #f9f9f9";
 
-			// Build price type display text
 			let priceTypeText;
 			if (priceType === "bazaar") {
 				priceTypeText = `Bazaar (${actualOrderType === "sell" ? "Sell Order" : "Buy Order"})`;
@@ -250,7 +236,7 @@ async function deleteTrackedItem(id) {
 	try {
 		db.run("DELETE FROM tracked_items WHERE id = ?", [id]);
 		await saveDb();
-		lastNotifiedPrices.delete(id); // Clean up notification tracking
+		lastNotifiedPrices.delete(id);
 		loadTrackedItems();
 	} catch (err) {
 		console.error("Failed to delete item:", err);
@@ -276,7 +262,6 @@ function startPriceTracking() {
 		clearInterval(priceCheckInterval);
 	}
 
-	// Check prices every 2 minutes (respecting API rate limits)
 	priceCheckInterval = setInterval(
 		() => {
 			checkAllTrackedPrices();
@@ -284,7 +269,6 @@ function startPriceTracking() {
 		2 * 60 * 1000,
 	);
 
-	// Also check immediately
 	checkAllTrackedPrices();
 }
 
@@ -307,12 +291,10 @@ async function checkAllTrackedPrices() {
 		for (const item of items) {
 			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, isActive, createdAt, orderType] = item;
 
-			// Default to 'buy' if orderType is null (for backward compatibility)
 			const actualOrderType = orderType || "buy";
 
 			try {
 				await checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice, actualOrderType);
-				// Small delay between requests to respect rate limits
 				await sleep(500);
 			} catch (err) {
 				console.error(`Failed to check price for ${stripMinecraftCodes(itemName)}:`, err);
@@ -340,16 +322,13 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 	}
 
 	if (shouldNotify) {
-		// Check if we already notified for a similar price (within 5% to avoid spam)
 		const lastPrice = lastNotifiedPrices.get(id);
 		if (lastPrice && Math.abs(currentPrice - lastPrice) / lastPrice < 0.05) {
-			return; // Don't spam notifications for similar prices
+			return;
 		}
 
-		// Strip color codes for notification (OS notifications are plain text)
 		const cleanName = stripMinecraftCodes(itemName);
 
-		// Build order type text for bazaar items
 		let orderTypeText = "";
 		if (priceType === "bazaar") {
 			orderTypeText = ` (${orderType === "sell" ? "Sell Order" : "Buy Order"})`;
@@ -380,7 +359,6 @@ async function checkItemPrice(itemTag, priceType, orderType = "buy") {
 async function fetchItemPrice(itemTag, priceType, orderType = "buy") {
 	try {
 		if (priceType === "bazaar") {
-			// Fetch bazaar price
 			const response = await fetch(`${CoflnetUrl}/bazaar/${encodeURIComponent(itemTag)}/snapshot`);
 
 			if (!response.ok) {
@@ -390,16 +368,12 @@ async function fetchItemPrice(itemTag, priceType, orderType = "buy") {
 
 			const data = await response.json();
 
-			// Return the appropriate price based on order type
 			if (orderType === "sell") {
-				// Sell order = instant sell price (what a player would receive selling instantly)
 				return data.sellPrice || data.quickStatus?.sellPrice || null;
 			} else {
-				// Buy order = instant buy price (what a player would pay to buy instantly)
 				return data.buyPrice || data.quickStatus?.buyPrice || null;
 			}
 		} else if (priceType === "bin") {
-			// Fetch auction BIN price
 			const response = await fetch(`${CoflnetUrl}/auctions/tag/${encodeURIComponent(itemTag)}/active/bin`);
 
 			if (!response.ok) {
@@ -409,9 +383,7 @@ async function fetchItemPrice(itemTag, priceType, orderType = "buy") {
 
 			const data = await response.json();
 
-			// Get the lowest BIN price from active auctions
 			if (Array.isArray(data) && data.length > 0) {
-				// Find the lowest starting bid
 				const prices = data.map(auction => auction.startingBid || auction.bin || auction.price).filter(p => p > 0);
 				return prices.length > 0 ? Math.min(...prices) : null;
 			}

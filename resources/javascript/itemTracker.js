@@ -49,7 +49,7 @@ async function fetchAllItems() {
 			.map(item => ({
 				tag: item.tag,
 				name: item.name,
-				type: item.flags // "AUCTION" or "BAZAAR"
+				type: item.flags, // "AUCTION" or "BAZAAR"
 			}));
 
 		console.log(`Loaded ${allItems.length} items from API`);
@@ -163,7 +163,7 @@ async function handleAddItem(event) {
 		db.run(
 			`INSERT INTO tracked_items (item_tag, item_name, price_type, threshold_type, threshold_price, is_active, order_type)
 			 VALUES (?, ?, ?, ?, ?, 1, ?)`,
-			[itemTag, itemName, priceType, thresholdType, thresholdPrice, orderType]
+			[itemTag, itemName, priceType, thresholdType, thresholdPrice, orderType],
 		);
 		await saveDb();
 
@@ -199,7 +199,7 @@ function loadTrackedItems() {
 			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, isActive, createdAt, orderType] = item;
 
 			// Default to 'buy' if orderType is null (for backward compatibility)
-			const actualOrderType = orderType || 'buy';
+			const actualOrderType = orderType || "buy";
 
 			const itemDiv = document.createElement("div");
 			itemDiv.style.cssText = "border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #f9f9f9";
@@ -207,7 +207,7 @@ function loadTrackedItems() {
 			// Build price type display text
 			let priceTypeText;
 			if (priceType === "bazaar") {
-				priceTypeText = `Bazaar (${actualOrderType === 'sell' ? 'Sell Order' : 'Buy Order'})`;
+				priceTypeText = `Bazaar (${actualOrderType === "sell" ? "Sell Order" : "Buy Order"})`;
 			} else {
 				priceTypeText = "Auction BIN";
 			}
@@ -277,9 +277,12 @@ function startPriceTracking() {
 	}
 
 	// Check prices every 2 minutes (respecting API rate limits)
-	priceCheckInterval = setInterval(() => {
-		checkAllTrackedPrices();
-	}, 2 * 60 * 1000);
+	priceCheckInterval = setInterval(
+		() => {
+			checkAllTrackedPrices();
+		},
+		2 * 60 * 1000,
+	);
 
 	// Also check immediately
 	checkAllTrackedPrices();
@@ -305,7 +308,7 @@ async function checkAllTrackedPrices() {
 			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, isActive, createdAt, orderType] = item;
 
 			// Default to 'buy' if orderType is null (for backward compatibility)
-			const actualOrderType = orderType || 'buy';
+			const actualOrderType = orderType || "buy";
 
 			try {
 				await checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice, actualOrderType);
@@ -347,9 +350,9 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 		const cleanName = stripMinecraftCodes(itemName);
 
 		// Build order type text for bazaar items
-		let orderTypeText = '';
+		let orderTypeText = "";
 		if (priceType === "bazaar") {
-			orderTypeText = ` (${orderType === 'sell' ? 'Sell Order' : 'Buy Order'})`;
+			orderTypeText = ` (${orderType === "sell" ? "Sell Order" : "Buy Order"})`;
 		}
 
 		const message = `${cleanName}${orderTypeText} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
@@ -363,7 +366,7 @@ async function checkItemPrice(itemTag, priceType, orderType = "buy") {
 	try {
 		const price = await fetchItemPrice(itemTag, priceType, orderType);
 		if (price !== null) {
-			const orderTypeText = priceType === "bazaar" ? ` (${orderType === 'sell' ? 'Sell Order' : 'Buy Order'})` : '';
+			const orderTypeText = priceType === "bazaar" ? ` (${orderType === "sell" ? "Sell Order" : "Buy Order"})` : "";
 			alert(`Current price${orderTypeText}: ${price.toLocaleString()} coins`);
 		} else {
 			alert("Could not fetch price. Please check the item tag and try again.");
@@ -419,4 +422,12 @@ async function fetchItemPrice(itemTag, priceType, orderType = "buy") {
 		console.error(`Error fetching ${priceType} price for ${itemTag}:`, err);
 		return null;
 	}
+}
+
+function itemTrackerOpenModal() {
+	document.getElementById("addItemModal").style.display = "flex";
+}
+
+function itemTrackerCloseModal() {
+	document.getElementById("addItemModal").style.display = "none";
 }

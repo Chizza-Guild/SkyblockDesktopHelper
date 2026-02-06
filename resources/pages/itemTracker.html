@@ -1,9 +1,32 @@
 <h1>Item Price Tracker</h1>
 
 <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
-	<div style="border: 1px solid #ccc; padding: 15px; border-radius: 5px">
-		<h2>Add Item to Track</h2>
-		<form id="addItemForm" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px">
+	<div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around">
+		<button onclick="itemTrackerOpenModal()">Add Item</button>
+		<div style="display: flex; align-items: center; gap: 5px; flex-direction: row">
+			<input type="checkbox" id="trackerActiveBtn" onchange="togglePriceTracking()" />
+			<div>Enable Notifications</div>
+		</div>
+		<div>Last refresh: TODO</div>
+	</div>
+
+	<div>
+		<div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 10px">
+			<h2>Tracked Items</h2>
+			<div>Enable Price Tracking</div>
+		</div>
+		<div id="trackedItemsList" style="display: flex; flex-direction: column; gap: 10px"></div>
+	</div>
+</div>
+
+<div id="addItemModal">
+	<div id="addItemModalContent">
+		<h2 style="justify-content: space-between; width: 100%; display: flex; flex-direction: row; align-items: center">
+			<div>Add Item to Track</div>
+			<button type="button" style="cursor: pointer; padding: 5px 10px" onclick="itemTrackerCloseModal()" style="padding: 10px">X</button>
+		</h2>
+
+		<form id="addItemForm" style="display: flex; flex-direction: column; gap: 10px">
 			<div>
 				<label for="itemTagInput">Select Item:</label>
 				<input list="itemsList" id="itemTagInput" required style="width: 100%; padding: 5px" placeholder="Start typing to search..." onchange="updatePriceType()" oninput="updatePriceType()" />
@@ -12,9 +35,7 @@
 
 			<div>
 				<label>Price Type:</label>
-				<div id="priceTypeDisplay" style="padding: 5px; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 3px; font-weight: bold">
-					Select an item to see price type
-				</div>
+				<div id="priceTypeDisplay" style="padding: 5px; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 3px; font-weight: bold">Select an item to see price type</div>
 			</div>
 
 			<div>
@@ -30,20 +51,7 @@
 				<input type="number" id="thresholdPriceInput" required min="0" step="0.01" style="width: 100%; padding: 5px" />
 			</div>
 
-			<button type="submit" style="padding: 10px; cursor: pointer; background-color: #4CAF50; color: white; border: none; border-radius: 3px">
-				Add Item
-			</button>
+			<button type="submit" style="cursor: pointer; padding: 10px; background-color: #4caf50; color: white; border: none; border-radius: 3px">Add Item</button>
 		</form>
-	</div>
-
-	<div>
-		<div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 10px">
-			<h2>Tracked Items</h2>
-			<div style="display: flex; flex-direction: row; align-items: center; gap: 10px">
-				<input type="checkbox" id="trackerActiveBtn" onchange="togglePriceTracking()" />
-				<div>Enable Price Tracking</div>
-			</div>
-		</div>
-		<div id="trackedItemsList" style="display: flex; flex-direction: column; gap: 10px"></div>
 	</div>
 </div>

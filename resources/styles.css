@@ -68,3 +68,24 @@ body {
 	text-align: center;
 	gap: 10px;
 }
+
+/* --- ITEM TRACKER --- */
+
+#addItemModal {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.80);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+#addItemModalContent {
+	background: white;
+	padding: 20px;
+	border-radius: 6px;
+	width: 400px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}

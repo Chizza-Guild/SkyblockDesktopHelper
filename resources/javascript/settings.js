@@ -64,12 +64,13 @@ async function loadUserSettings() {
 	console.log("webhookUrl", webhookUrl);
 	console.log("apiKeyTimestamp", apiKeyTimestamp);
 	console.log("apiKeyUseAmount", apiKeyUseAmount);
+	console.log("discordNotifications", apiKeyUseAmount);
 
 	const timeRemaining = Number(apiKeyTimestamp) - Date.now();
 
 	if (timeRemaining <= 0 && !apiKeyExpiredSent) {
 		apiKeyExpiredSent = true;
-		sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings.");
+		sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings."); 
 	}
 
 	if (currentPage == "settings") {

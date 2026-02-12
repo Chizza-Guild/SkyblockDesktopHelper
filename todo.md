@@ -4,6 +4,18 @@
 - Fully working minion market
 - Complete minions JSON
 
+Minion calc (pink-ry)
+- Finish minionData.json (rev, tara void sunflower) 
+- New json for all upgrades
+- Be able to calculate minions for best things. Money Collection Skill.
+
+Minion Market (ry) 
+- Update bot so you can make a channel with multiple people with supabase edge func.
+- When buyer presses buy, send notification to seller. Make a setting in settings that can make it so it can auto create a channel with buyer and seller. Or the seller can make a channel on their own.
+
+Future stuff for this :
+- if we notice that users are making bogus listings. Limit to like 5 or We can scan their profile to see if they have that minion in their storage. Maybe scan chests too if users use that for networth calculator in future.
+
 In Item Price Tracker: (mlg)
 
 - Remove "check now" button and just write the current price
@@ -16,7 +28,6 @@ In Item Price Tracker: (mlg)
 
 ### Plans for Version 1.2.0 Release
 
-- RYRY --> Discord notifications.
 - make a setting in settings to activate any discord notifs or not
 - Fix forge timer not taking forge speedups to account (HOTM, Cole perk, etc.)
 - add "no items being sold" to auction notifier if there is no results

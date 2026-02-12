@@ -52,4 +52,6 @@ async function sendDiscordMessage( content, webhookUrl = privateWebhookURLVar) {
 async function makeDiscordChannel() {
     privateWebhookURLVar = await createDiscordChannel(discordIdVar);
 }
+
+
  

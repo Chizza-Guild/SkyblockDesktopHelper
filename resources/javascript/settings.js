@@ -12,12 +12,14 @@ let apiKeyExpiredSent = false;
 
 let auctionNotifierVar;
 let quickforgeVar;
+let discordNotificationVar;
 
 async function saveUserSettings() {
 	try {
 		const name = document.getElementById("sbNameInput").value;
 		const apiKey = document.getElementById("apiKeyInput").value;
 		const discordId = document.getElementById("discordIdInput").value;
+		const doDiscordNotification =  document.getElementById("discordNotificationCheckBox").value;
 
 		if (apiKeyVar != apiKey) {
 			// The user has changed the API key
@@ -26,7 +28,7 @@ async function saveUserSettings() {
             await saveDb();
 		}
 
-		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp) VALUES (?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, null, discordId, null, apiKeyTimestampVar]);
+		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, doDiscordNotification) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, null, discordId, null, apiKeyTimestampVar, null]);
 		await saveDb();
 
 		if (name != playerNameVar) {
@@ -38,8 +40,9 @@ async function saveUserSettings() {
 		playerNameVar = name;
 		apiKeyVar = apiKey;
 		discordIdVar = discordId;
+		discordNotificationVar = doDiscordNotification;
 
-		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordIdVar:", discordIdVar);
+		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordIdVar:", discordIdVar, "DiscordNotifications:", discordNotificationVar);
 
 		alert("Settings saved successfully!");
 	} catch (error) {

@@ -4,7 +4,10 @@ let currentPage = "mainmenu";
 
 async function renderPage(page) {
 	// The "db" here basically checks if the database has finished loading
-	if (db && !redirectToSettings(page)) return renderPage("settings");
+	if (db && !redirectToSettings(page)) {
+		loadJSFile("notifications"); // so you can get notified for no api key at start.
+		return renderPage("settings");
+	}
 
 	currentPage = page;
 
@@ -17,7 +20,6 @@ async function renderPage(page) {
 	if (page == "settings" && db) {
 		loadUserSettings();
 		loadFeatureSettings();
-		await loadJSFile("discordTest");
 	} else if (page == "auctionNotifier") {
 		await loadJSFile("auctionNotifier");
 		document.getElementById("aucNotyBtn").checked = auctionNotifierVar;

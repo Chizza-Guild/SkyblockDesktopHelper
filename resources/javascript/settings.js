@@ -28,6 +28,12 @@ async function saveUserSettings() {
             await saveDb();
 		}
 
+		if (discordIdVar != discordId && discordIdVar != null) {
+			// The user has changed the Discord ID - reset webhook URL
+			console.log("Discord ID changed from", discordIdVar, "to", discordId, "- resetting webhook URL");
+			privateWebhookURLVar = null;
+		}
+
 		console.log({
 		name,
 		apiKey,

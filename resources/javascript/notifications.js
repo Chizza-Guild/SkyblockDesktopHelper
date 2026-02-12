@@ -55,15 +55,24 @@ async function sendTestNotification() {
 // Example button handler
 async function makeDiscordChannel() {
     privateWebhookURLVar = await createDiscordChannel(discordIdVar);
+    // Save the webhook URL to the database
+    db.run("UPDATE user_info SET privateWebhookURL = ? WHERE id = 1", [privateWebhookURLVar]);
+    await saveDb();
+    console.log("Discord channel created and webhook URL saved:", privateWebhookURLVar);
 }
 
 async function sendNotification(title, body, webhookUrl = privateWebhookURLVar, ignoreSettings = false) {
 
-  
+
 	await Neutralino.os.showNotification(`${title}`, `${body}`);
 	if (discordNotificationVar == 1 || ignoreSettings) {
     if (webhookUrl == null) {
       webhookUrl = await createDiscordChannel(discordIdVar);
+      privateWebhookURLVar = webhookUrl;
+      // Save the webhook URL to the database
+      db.run("UPDATE user_info SET privateWebhookURL = ? WHERE id = 1", [webhookUrl]);
+      await saveDb();
+      console.log("Auto-created Discord channel and saved webhook URL:", webhookUrl);
       await sendDiscordMessage(`${title}\n${body}`, webhookUrl);
     } else {
       await sendDiscordMessage(`${title}\n${body}`, webhookUrl);

@@ -7,7 +7,8 @@
 Minion calc (pink-ry)
 - Finish minionData.json (rev, tara void sunflower) 
 - New json for all upgrades
-- Be able to calculate minions for best things. Money Collection Skill.
+- Be able to calculate minions for best things. Money Collection Skill etc. (if t1 isnt craftable. Check market and if not on market just put an arbitrary number)
+- add minion slot calculater too.
 
 Minion Market (ry) 
 - Update bot so you can make a channel with multiple people with supabase edge func.

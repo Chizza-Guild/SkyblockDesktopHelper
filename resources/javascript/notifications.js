@@ -1,5 +1,5 @@
 const PROJECT_REF = "qrhswmwyccpzgjbjwrpz";
-const CREATE_URL = `https://${PROJECT_REF}.supabase.co/functions/v1/create-private-channel`;
+const CREATE_URL = `https://qrhswmwyccpzgjbjwrpz.supabase.co/functions/v1/create-private-channel`;
 
 async function createDiscordChannel(playerId) {
   const res = await fetch(CREATE_URL, {
@@ -26,7 +26,7 @@ async function createDiscordChannel(playerId) {
     throw new Error(`create succeeded but missing webhookUrl: ${text}`);
   }
 
-  await sendDiscordMessage(`Hello 👋, Your private notifications channel is ready! 🎉\n Welcome from the Chizza Hypixel Helper Developer Team!`, data.webhookUrl);
+  await sendDiscordMessage(`Hello 👋, Your private notifications channel is ready! 🎉\n Welcome from the Chizza Hypixel Helper Developer Team!`, data.webhookUrl, true);
   return data.webhookUrl;
 }
 async function sendDiscordMessage( content, webhookUrl = privateWebhookURLVar) {
@@ -48,15 +48,19 @@ async function sendDiscordMessage( content, webhookUrl = privateWebhookURLVar) {
   }
 }
 
+async function sendTestNotification() {
+  await sendNotification("TEST!", "this is a test, test test test. The quick brown fox jumped over the lazy dog.")
+}
+
 // Example button handler
 async function makeDiscordChannel() {
     privateWebhookURLVar = await createDiscordChannel(discordIdVar);
 }
 
-async function sendNotification(title, body) {
+async function sendNotification(title, body, webhookUrl = privateWebhookURLVar, ignoreSettings = false) {
 	await Neutralino.os.showNotification(`${title}`, `${body}`);
-	if (sendOnDiscord) {
-		await sendDiscordMessage(`${title}\n${body}`, privateWebhookURLVar);
+	if (discordNotificationVar == 1 || ignoreSettings) {
+		await sendDiscordMessage(`${title}\n${body}`, webhookUrl);
 	}
 }
 

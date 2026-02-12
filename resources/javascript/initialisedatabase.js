@@ -43,6 +43,9 @@ let saveDb;
 		if (!cols.some(c => c[1] == "apiKeyTimestamp")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyTimestamp INTEGER");
 		if (!cols.some(c => c[1] == "apiKeyUseAmount")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyUseAmount INTEGER DEFAULT 0");
 
+		// true = 1, false = 0
+		if (!cols.some(c => c[1] == "doDiscordNotification")) db.run("ALTER TABLE user_info ADD COLUMN doDiscordNotification INTEGER DEFAULT 0");
+
 		await saveDb();
 
 		// FEATURE ACTIVATION TABLE HERE

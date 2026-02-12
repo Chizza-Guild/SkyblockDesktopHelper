@@ -3,9 +3,10 @@ const mainDiv = document.getElementById("main");
 let currentPage = "mainmenu";
 
 async function renderPage(page) {
+	await loadJSFile("notifications");
 	// The "db" here basically checks if the database has finished loading
 	if (db && !redirectToSettings(page)) {
-		loadJSFile("notifications"); // so you can get notified for no api key at start.
+		 // so you can get notified for no api key at start.
 		return renderPage("settings");
 	}
 
@@ -18,6 +19,7 @@ async function renderPage(page) {
 		});
 
 	if (page == "settings" && db) {
+		await loadJSFile("notifications")
 		loadUserSettings();
 		loadFeatureSettings();
 	} else if (page == "auctionNotifier") {

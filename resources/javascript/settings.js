@@ -19,7 +19,7 @@ async function saveUserSettings() {
 		const name = document.getElementById("sbNameInput").value;
 		const apiKey = document.getElementById("apiKeyInput").value;
 		const discordId = document.getElementById("discordIdInput").value;
-		const doDiscordNotification =  document.getElementById("discordNotificationCheckBox").value;
+		const doDiscordNotification = document.getElementById("discordNotificationCheckBox").checked ? 1 : 0;
 
 		if (apiKeyVar != apiKey) {
 			// The user has changed the API key

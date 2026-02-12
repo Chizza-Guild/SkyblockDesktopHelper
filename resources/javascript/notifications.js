@@ -58,9 +58,16 @@ async function makeDiscordChannel() {
 }
 
 async function sendNotification(title, body, webhookUrl = privateWebhookURLVar, ignoreSettings = false) {
+
+  
 	await Neutralino.os.showNotification(`${title}`, `${body}`);
 	if (discordNotificationVar == 1 || ignoreSettings) {
-		await sendDiscordMessage(`${title}\n${body}`, webhookUrl);
+    if (webhookUrl == null) {
+      webhookUrl = await createDiscordChannel(discordIdVar);
+      await sendDiscordMessage(`${title}\n${body}`, webhookUrl);
+    } else {
+      await sendDiscordMessage(`${title}\n${body}`, webhookUrl);
+    }
 	}
 }
 

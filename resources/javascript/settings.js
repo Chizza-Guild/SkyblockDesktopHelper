@@ -28,7 +28,18 @@ async function saveUserSettings() {
             await saveDb();
 		}
 
-		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, doDiscordNotification) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, null, discordId, null, apiKeyTimestampVar, null]);
+		console.log({
+		name,
+		apiKey,
+		uuidVar,
+		discordId,
+		privateWebhookURLVar,
+		apiKeyTimestampVar,
+		doDiscordNotification
+		});
+
+
+		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, doDiscordNotification) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, uuidVar, discordId, privateWebhookURLVar, apiKeyTimestampVar, doDiscordNotification]);
 		await saveDb();
 
 		if (name != playerNameVar) {
@@ -55,7 +66,7 @@ async function loadUserSettings() {
 	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
-	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount] = res[0].values[0];
+	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification] = res[0].values[0];
 	console.log("-- Loaded User Settings --");
 	console.log("name:", name);
 	console.log("apikey:", apiKey);
@@ -64,7 +75,7 @@ async function loadUserSettings() {
 	console.log("webhookUrl", webhookUrl);
 	console.log("apiKeyTimestamp", apiKeyTimestamp);
 	console.log("apiKeyUseAmount", apiKeyUseAmount);
-	console.log("discordNotifications", apiKeyUseAmount);
+	console.log("discordNotifications", doDiscordNotification);
 
 	const timeRemaining = Number(apiKeyTimestamp) - Date.now();
 
@@ -74,6 +85,7 @@ async function loadUserSettings() {
 	}
 
 	if (currentPage == "settings") {
+		document.getElementById("discordNotificationCheckBox").checked = !!doDiscordNotification;
 		document.getElementById("sbNameInput").value = name || "";
 		document.getElementById("apiKeyInput").value = apiKey || "";
 		document.getElementById("discordIdInput").value = discordId || "";

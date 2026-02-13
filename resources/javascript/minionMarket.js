@@ -6,6 +6,8 @@ const SUPABASE_ANON_KEY =
 // Table name (URL-encoded because it contains a space)
 const TABLE = encodeURIComponent("Minion Market");
 
+
+
 // ===================== UI STATUS =====================
 function setStatus(msg, isError = false) {
   const el = document.getElementById("status");
@@ -238,6 +240,18 @@ async function buyListing(id) {
 }
 
 // ===================== DISPLAY HELPERS =====================
+async function setMaxTier() {
+  let minion_Id = toJsonMinionName(document.getElementById("minion_Id").value);
+  let maxTier = minionData["minion_Id"].maxTier;
+
+  if (tier > maxTier || tier < 1) {
+    alert('Invalid tier for this minion!');
+    return;
+  }
+
+  document.getElementById("tier").max = maxTier;
+}
+
 function formatCoins(n) {
   const num = Number(n);
   if (!Number.isFinite(num)) return "0";

@@ -19,6 +19,7 @@
     name="minion_Id"
     list="minions"
     autocomplete="off"
+    onchange="setMaxTier()"
     style="width:100%;padding:10px;border-radius:10px;border:1px solid #2a2a2a;"
   />
   <!-- ✅ ADD: datalist with your exact options -->
@@ -91,6 +92,7 @@
     name="tier"
     min="1"
     max="12"
+    onchange="setMaxTier()"
     style="width:100%;padding:10px;border-radius:10px;border:1px solid #2a2a2a;"
   />
   <br /><br />

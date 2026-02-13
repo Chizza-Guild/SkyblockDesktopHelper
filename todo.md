@@ -13,6 +13,7 @@ Minion calc (pink-ry)
 Minion Market (ry) 
 - Update bot so you can make a channel with multiple people with supabase edge func.
 - When buyer presses buy, send notification to seller. Make a setting in settings that can make it so it can auto create a channel with buyer and seller. Or the seller can make a channel on their own.
+- make a generated uuid for each user so the buyer cant just use the sellers discord id to delete their listings. smth with supabase.
 
 Future stuff for this :
 - if we notice that users are making bogus listings. Limit to like 5 or We can scan their profile to see if they have that minion in their storage. Maybe scan chests too if users use that for networth calculator in future.

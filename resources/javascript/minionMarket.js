@@ -81,7 +81,7 @@ async function fetchListingById(id) {
   if (!safeId) throw new Error("Missing listing id.");
 
   const query =
-    `select=id,minion_Id,minion_id,minion_name,tier,sell_price,quantity,orders,status,minion_data,ends_at,seller_id,seller_name` +
+    `select=id,minion_Id,tier,sell_price,quantity,orders,status,minion_data,ends_at,seller_id,seller_name` +
     `&id=eq.${encodeURIComponent(safeId)}` +
     `&limit=1`;
 
@@ -150,12 +150,27 @@ async function createListing() {
 }
 
 // ===================== DELETE LISTING =====================
-async function deleteListing(id) {
+async function deleteListing (id) {
+   console.log('🔴 DELETE FUNCTION CALLED WITH ID:', id);
   try {
     setStatus("Deleting listing...");
 
     const safeId = String(id ?? "").trim();
     if (!safeId) return setStatus("Missing listing id", true);
+
+    const listing = await fetchListingById(safeId);
+
+    console.log('Full listing:', listing); // See what you actually got
+
+    if (!listing) {
+      throw new Error("Listing not found");
+    }
+
+    if (String(listing.seller_id) !== String(discordIdVar)) {
+      throw new Error("Hey, you're not the owner of this listing! >:D");
+    }
+
+    
 
     await supabaseRequest(`${TABLE}?id=eq.${encodeURIComponent(safeId)}`, {
       method: "DELETE",

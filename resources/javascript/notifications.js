@@ -1,11 +1,11 @@
 const PROJECT_REF = "qrhswmwyccpzgjbjwrpz";
 const CREATE_URL = `https://qrhswmwyccpzgjbjwrpz.supabase.co/functions/v1/create-private-channel`;
 
-async function createDiscordChannel(playerId) {
+async function createDiscordChannel(playerIds) {
   const res = await fetch(CREATE_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ playerId }),
+    body: JSON.stringify({ playerIds: playerIds}),
   });
 
   const text = await res.text(); // read ONCE
@@ -53,7 +53,7 @@ async function sendTestNotification() {
 }
 
 // Example button handler
-async function makeDiscordChannel() {
+async function makePrivateDiscordChannel() {
     privateWebhookURLVar = await createDiscordChannel(discordIdVar);
     // Save the webhook URL to the database
     db.run("UPDATE user_info SET privateWebhookURL = ? WHERE id = 1", [privateWebhookURLVar]);

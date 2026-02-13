@@ -13,7 +13,6 @@ let apiKeyExpiredSent = false;
 let auctionNotifierVar;
 let quickforgeVar;
 let discordNotificationVar;
-
 async function saveUserSettings() {
 	try {
 		const name = document.getElementById("sbNameInput").value;
@@ -22,44 +21,29 @@ async function saveUserSettings() {
 		const doDiscordNotification = document.getElementById("discordNotificationCheckBox").checked ? 1 : 0;
 
 		if (apiKeyVar != apiKey) {
-			// The user has changed the API key
-			apiKeyTimestampVar = Date.now() + 86400000 * 2; // 2 days now
+			apiKeyTimestampVar = Date.now() + 86400000 * 2;
 			db.run("UPDATE user_info SET apiKeyUseAmount = 0 WHERE ID = 1;");
-            await saveDb();
 		}
 
 		if (discordIdVar != discordId && discordIdVar != null) {
-			// The user has changed the Discord ID - reset webhook URL
 			console.log("Discord ID changed from", discordIdVar, "to", discordId, "- resetting webhook URL");
 			privateWebhookURLVar = null;
 		}
 
-		console.log({
-		name,
-		apiKey,
-		uuidVar,
-		discordId,
-		privateWebhookURLVar,
-		apiKeyTimestampVar,
-		doDiscordNotification
-		});
-
-
-		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, doDiscordNotification) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, uuidVar, discordId, privateWebhookURLVar, apiKeyTimestampVar, doDiscordNotification]);
+		// Use null for undefined values
+		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+			[1, name, apiKey, uuidVar || null, discordId, privateWebhookURLVar || null, apiKeyTimestampVar || null, apiKeyUseAmountVar || 0, doDiscordNotification]);
+		
 		await saveDb();
 
 		if (name != playerNameVar) {
-			console.log("Fetching new UUID for:", name);
 			uuidVar = await getPlayerUuid(name);
-			console.log("New UUID:", uuidVar);
 		}
 
 		playerNameVar = name;
 		apiKeyVar = apiKey;
 		discordIdVar = discordId;
 		discordNotificationVar = doDiscordNotification;
-
-		console.log("Settings saved. apiKeyVar:", apiKeyVar, "uuidVar:", uuidVar, "discordIdVar:", discordIdVar, "DiscordNotifications:", discordNotificationVar);
 
 		alert("Settings saved successfully!");
 	} catch (error) {
@@ -69,7 +53,8 @@ async function saveUserSettings() {
 }
 
 async function loadUserSettings() {
-	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
+	// Fixed: Include privateWebhookURL in SELECT to match destructuring
+	const res = db.exec("SELECT id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
 	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification] = res[0].values[0];
@@ -109,6 +94,7 @@ async function loadUserSettings() {
 	discordIdVar = discordId;
 	apiKeyTimestampVar = apiKeyTimestamp;
 	apiKeyUseAmountVar = apiKeyUseAmount;
+	discordNotificationVar = doDiscordNotification;
 
 	if (name && !uuid) {
 		uuidVar = await getPlayerUuid(name);
@@ -138,11 +124,11 @@ async function loadFeatureSettings() {
 	if (currentPage == "auctionNotifier") {
 		document.getElementById("aucNotyBtn").checked = auctionNotifier;
 	} else if (currentPage == "forgetimer") {
-        document.getElementById("quickforgeinput").value = quickforge;
-    }
+		document.getElementById("quickforgeinput").value = quickforge;
+	}
 
 	auctionNotifierVar = auctionNotifier;
-    quickforgeVar = quickforge;
+	quickforgeVar = quickforge;
 }
 
 async function getPlayerUuid(playerName) {

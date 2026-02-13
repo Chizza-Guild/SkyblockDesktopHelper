@@ -38,8 +38,8 @@ let saveDb;
 		// ADDS NEW COLUMNS TO USER INFO TABLE
 		const cols = db.exec("PRAGMA table_info(user_info)")[0].values;
 		if (!cols.some(c => c[1] == "uuid")) db.run("ALTER TABLE user_info ADD COLUMN uuid TEXT");
-		if (!cols.some(c => c[1] == "discordId")) db.run("ALTER TABLE user_info ADD COLUMN discordId STRING");
-		if (!cols.some(c => c[1] == "privateWebhookURL")) db.run("ALTER TABLE user_info ADD COLUMN privateWebhookURL STRING");
+		if (!cols.some(c => c[1] == "discordId")) db.run("ALTER TABLE user_info ADD COLUMN discordId TEXT");  // Changed to TEXT for large IDs
+		if (!cols.some(c => c[1] == "privateWebhookURL")) db.run("ALTER TABLE user_info ADD COLUMN privateWebhookURL TEXT");  // FIXED: removed extra space
 		if (!cols.some(c => c[1] == "apiKeyTimestamp")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyTimestamp INTEGER");
 		if (!cols.some(c => c[1] == "apiKeyUseAmount")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyUseAmount INTEGER DEFAULT 0");
 

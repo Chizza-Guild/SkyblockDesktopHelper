@@ -7,7 +7,7 @@
 Minion calc (pink-ry)
 - Finish minionData.json (rev, tara void sunflower) 
 - New json for all upgrades
-- Be able to calculate minions for best things. Money Collection Skill etc. (if t1 isnt craftable. Check market and if not on market just put an arbitrary number)
+- Be able to calculate minions for the best things. Money Collection Skill, etc. (if t1 isnt craftable. Check market, and if not on market just put an arbitrary number)
 - add minion slot calculater too.
 
 Minion Market (ry) 
@@ -30,16 +30,17 @@ In Item Price Tracker: (mlg)
 
 ### Plans for Version 1.2.0 Release
 
-- make a setting in settings to activate any discord notifs or not
+- add OAuth2 so people don't put others discord IDs.
+- make a setting in settings to activate any Discord notifs or not
 - Fix forge timer not taking forge speedups to account (HOTM, Cole perk, etc.)
-- add "no items being sold" to auction notifier if there is no results
+- add "no items being sold" to the auction notifier if there are no results
 - in settings, toggle notifications (TODO)
 
-- optimise api calling so price api is called every 2 mins, profile api is called every 15 mins or when profile viewer is opened etc. --> check cache first but the user can request new
-- test if forgetimer correctly and once sends the notifications
+- optimise api calling so price api is called every 2 mins, profile api is called every 15 mins or when profile viewer is opened etc. --> check cache first, but the user can request new
+- test ifthe  forgetimer works correctly and once sends the notifications
 - make forgetimer load the cache. and use the map for everything
 - run the forgetimer fetch like hourly (api_fetching)
-- in auction notifier, dont print "current bid" if its BIN
+- In the auction notifier, don't print "current bid" if it's BIN
 
 ### Not started
 

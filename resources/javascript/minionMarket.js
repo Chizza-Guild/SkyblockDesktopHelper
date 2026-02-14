@@ -255,17 +255,48 @@ async function buyListing(id) {
 }
 
 // ===================== DISPLAY HELPERS =====================
-async function setMaxTier() {
-  let minion_Id = toJsonMinionName(document.getElementById("minion_Id").value);
-  let maxTier = minionData["minion_Id"].maxTier;
+function getMinionData(minionName) {
+  return minionData.find(m => m.name === minionName);
+}
 
-  if (tier > maxTier || tier < 1) {
-    alert('Invalid tier for this minion!');
+function setMaxTier() {
+  const minionSelect = document.getElementById("minion_Id");
+  const tierInput = document.getElementById("tier");
+
+  const hasMinion = minionSelect.value !== "";
+
+  tierInput.disabled = !hasMinion;
+
+  if (!hasMinion) {
+    tierInput.value = "";
+    tierInput.max = 12;
     return;
   }
 
-  document.getElementById("tier").max = maxTier;
+  // JSON uses "Cobblestone Minion" format
+  const jsonName = minionSelect.value + " Minion";
+
+  const minion = getMinionData(jsonName);
+
+  if (!minion) {
+    console.warn("Minion not found:", jsonName);
+    tierInput.max = 12;
+    return;
+  }
+
+  const maxTier = minion.tiers;
+
+  tierInput.max = maxTier;
+
+  // Clamp tier
+  let tier = Number(tierInput.value);
+
+  if (!Number.isFinite(tier) || tierInput.value === "") return;
+
+  if (tier < 1) tierInput.value = 1;
+  if (tier > maxTier) tierInput.value = maxTier;
 }
+
 
 function formatCoins(n) {
   const num = Number(n);

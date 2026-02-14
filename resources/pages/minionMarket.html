@@ -12,76 +12,74 @@
   <h3 style="margin:0 0 10px;">Create Minion Market Listing</h3>
 
   <label for="minion_Id">Minion ID:</label><br />
-  <!-- ✅ CHANGED: datalist-backed input instead of plain text -->
-  <input
-    type="text"
-    id="minion_Id"
-    name="minion_Id"
-    list="minions"
-    autocomplete="off"
-    onchange="setMaxTier()"
-    style="width:100%;padding:10px;border-radius:10px;border:1px solid #2a2a2a;"
-  />
-  <!-- ✅ ADD: datalist with your exact options -->
-  <datalist id="minions">
-    <option value="Cobblestone"></option>
-    <option value="Obsidian"></option>
-    <option value="Glowstone"></option>
-    <option value="Gravel"></option>
-    <option value="Sand"></option>
-    <option value="Red Sand"></option>
-    <option value="Mycelium"></option>
-    <option value="Clay"></option>
-    <option value="Ice"></option>
-    <option value="Snow"></option>
-    <option value="Coal"></option>
-    <option value="Iron"></option>
-    <option value="Diamond"></option>
-    <option value="Lapis"></option>
-    <option value="Redstone"></option>
-    <option value="Emerald"></option>
-    <option value="Quartz"></option>
-    <option value="Endstone"></option>
-    <option value="Mithril"></option>
-    <option value="Hardstone"></option>
-    <option value="Wheat"></option>
-    <option value="Melon"></option>
-    <option value="Pumpkin"></option>
-    <option value="Carrot"></option>
-    <option value="Potato"></option>
-    <option value="Mushroom"></option>
-    <option value="Cactus"></option>
-    <option value="Cocoa Bean"></option>
-    <option value="Sugar Cane"></option>
-    <option value="Nether wart"></option>
-    <option value="Flower"></option>
-    <option value="Fishing"></option>
-    <option value="Zombie"></option>
-    <option value="Revenant"></option>
-    <option value="Voidling"></option>
-    <option value="Vampire"></option>
-    <option value="Skeleton"></option>
-    <option value="Creeper"></option>
-    <option value="Spider"></option>
-    <option value="Tarantula"></option>
-    <option value="Cave Spider"></option>
-    <option value="Blaze"></option>
-    <option value="Magma Cube"></option>
-    <option value="Enderman"></option>
-    <option value="Ghast"></option>
-    <option value="Slime"></option>
-    <option value="Cow"></option>
-    <option value="Pig"></option>
-    <option value="Chicken"></option>
-    <option value="Sheep"></option>
-    <option value="Rabbit"></option>
-    <option value="Oak"></option>
-    <option value="Spruce"></option>
-    <option value="Birch"></option>
-    <option value="Dark Oak"></option>
-    <option value="Acacia"></option>
-    <option value="Jungle"></option>
-  </datalist>
+
+<select
+  id="minion_Id"
+  name="minion_Id"
+  onchange="setMaxTier()"
+  style="width:100%;padding:10px;border-radius:10px;border:1px solid #2a2a2a;"
+>
+  <option value="">-- Select a Minion --</option>
+
+  <option value="Cobblestone">Cobblestone</option>
+  <option value="Obsidian">Obsidian</option>
+  <option value="Glowstone">Glowstone</option>
+  <option value="Gravel">Gravel</option>
+  <option value="Sand">Sand</option>
+  <option value="Red Sand">Red Sand</option>
+  <option value="Mycelium">Mycelium</option>
+  <option value="Clay">Clay</option>
+  <option value="Ice">Ice</option>
+  <option value="Snow">Snow</option>
+  <option value="Coal">Coal</option>
+  <option value="Iron">Iron</option>
+  <option value="Diamond">Diamond</option>
+  <option value="Lapis">Lapis</option>
+  <option value="Redstone">Redstone</option>
+  <option value="Emerald">Emerald</option>
+  <option value="Quartz">Quartz</option>
+  <option value="Endstone">Endstone</option>
+  <option value="Mithril">Mithril</option>
+  <option value="Hardstone">Hardstone</option>
+  <option value="Wheat">Wheat</option>
+  <option value="Melon">Melon</option>
+  <option value="Pumpkin">Pumpkin</option>
+  <option value="Carrot">Carrot</option>
+  <option value="Potato">Potato</option>
+  <option value="Mushroom">Mushroom</option>
+  <option value="Cactus">Cactus</option>
+  <option value="Cocoa Bean">Cocoa Bean</option>
+  <option value="Sugar Cane">Sugar Cane</option>
+  <option value="Nether wart">Nether wart</option>
+  <option value="Flower">Flower</option>
+  <option value="Fishing">Fishing</option>
+  <option value="Zombie">Zombie</option>
+  <option value="Revenant">Revenant</option>
+  <option value="Voidling">Voidling</option>
+  <option value="Vampire">Vampire</option>
+  <option value="Skeleton">Skeleton</option>
+  <option value="Creeper">Creeper</option>
+  <option value="Spider">Spider</option>
+  <option value="Tarantula">Tarantula</option>
+  <option value="Cave Spider">Cave Spider</option>
+  <option value="Blaze">Blaze</option>
+  <option value="Magma Cube">Magma Cube</option>
+  <option value="Enderman">Enderman</option>
+  <option value="Ghast">Ghast</option>
+  <option value="Slime">Slime</option>
+  <option value="Cow">Cow</option>
+  <option value="Pig">Pig</option>
+  <option value="Chicken">Chicken</option>
+  <option value="Sheep">Sheep</option>
+  <option value="Rabbit">Rabbit</option>
+  <option value="Oak">Oak</option>
+  <option value="Spruce">Spruce</option>
+  <option value="Birch">Birch</option>
+  <option value="Dark Oak">Dark Oak</option>
+  <option value="Acacia">Acacia</option>
+  <option value="Jungle">Jungle</option>
+</select>
+
 
   <br /><br />
 

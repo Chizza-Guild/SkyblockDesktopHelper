@@ -168,12 +168,18 @@ function parseCompacted(compStr) {
   return { itemId, amount };
 }
 
-// ---------- Init ----------
-async function initMinionCalc() {
+
+async function initMinionData() {
   const filePath = NL_PATH + "/resources/json/minionData.json";
 
   const fileContents = await Neutralino.filesystem.readFile(filePath);
   minionData = JSON.parse(fileContents);
+}
+
+// ---------- Init ----------
+async function initMinionCalc() {
+
+  await initMinionData();
 
   const response = await fetch("https://api.hypixel.net/v2/skyblock/bazaar");
   if (!response.ok) {

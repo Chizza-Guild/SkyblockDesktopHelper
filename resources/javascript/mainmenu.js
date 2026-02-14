@@ -39,7 +39,9 @@ async function renderPage(page) {
 		await loadJSFile("greenhouse");
 		displayGreenhouse(greenhouseNo1);
 	} else if (page == "minionMarket") {
+		await loadJSFile("minionProfitCalculator")
 		await loadJSFile("minionMarket");
+		initMinionData();
 		refreshListings();
 	} else if (page == "mainmenu") {
 		document.getElementById("appVersion").innerText = "Version " + (await getAppVersion());

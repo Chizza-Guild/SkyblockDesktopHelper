@@ -3,6 +3,7 @@
 - Change tray icon logo
 - Fully working minion market
 - Complete minions JSON
+- Add a downtime area for notifs ( ex 6pm - 6am or smth) or sends quitely (no ping on discord then repings at morning or smth)
 
 Minion calc (pink-ry)
 - Finish minionData.json (rev, tara void sunflower) 

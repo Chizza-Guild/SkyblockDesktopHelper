@@ -7,17 +7,10 @@ async function initItemTracker() {
 	await fetchAllItems();
 	populateItemsList();
 
-	const form = document.getElementById("addItemForm");
-	if (form) {
-		form.addEventListener("submit", handleAddItem);
-	}
-
 	const savedState = localStorage.getItem("priceTrackerActive");
-	priceTrackerActive = savedState === "true";
+	priceTrackerActive = savedState == "true";
 	const checkbox = document.getElementById("trackerActiveBtn");
-	if (checkbox) {
-		checkbox.checked = priceTrackerActive;
-	}
+	if (checkbox) checkbox.checked = priceTrackerActive;
 
 	loadTrackedItems();
 
@@ -36,8 +29,8 @@ async function fetchAllItems() {
 
 		allItems = items
 			.filter(item => {
-				const hasName = item.name && item.name !== "null" && item.name.trim() !== "";
-				const isTradeable = item.flags === "AUCTION" || item.flags === "BAZAAR";
+				const hasName = item.name && item.name != "null" && item.name.trim() != "";
+				const isTradeable = item.flags == "AUCTION" || item.flags == "BAZAAR";
 				return hasName && isTradeable;
 			})
 			.map(item => ({
@@ -59,7 +52,7 @@ function populateItemsList() {
 
 	datalist.innerHTML = "";
 
-	if (allItems.length === 0) {
+	if (allItems.length == 0) {
 		console.warn("No items loaded from API");
 		return;
 	}
@@ -72,7 +65,7 @@ function populateItemsList() {
 
 	sortedItems.forEach(item => {
 		const option = document.createElement("option");
-		option.value = item.tag;
+		option.value = item.name;
 		const cleanName = stripMinecraftCodes(item.name);
 		option.textContent = `${cleanName} - [${item.type}] (${item.tag})`;
 		datalist.appendChild(option);
@@ -80,20 +73,20 @@ function populateItemsList() {
 }
 
 function updatePriceType() {
-	const itemTag = document.getElementById("itemTagInput").value.trim().toUpperCase();
+	const itemName = document.getElementById("itemTagInput").value.trim();
 	const priceTypeDisplay = document.getElementById("priceTypeDisplay");
 
-	if (!itemTag) {
+	if (!itemName) {
 		priceTypeDisplay.textContent = "Select an item to see price type";
 		priceTypeDisplay.style.backgroundColor = "#f0f0f0";
 		priceTypeDisplay.style.color = "#000";
 		return;
 	}
 
-	const foundItem = allItems.find(item => item.tag === itemTag);
+	const foundItem = allItems.find(item => item.name == itemName);
 
 	if (foundItem) {
-		if (foundItem.type === "BAZAAR") {
+		if (foundItem.type == "BAZAAR") {
 			priceTypeDisplay.innerHTML = `
 				<div style="display: flex; align-items: center; gap: 10px;">
 					<span style="font-weight: bold; color: #1976d2;">Bazaar</span>
@@ -105,7 +98,7 @@ function updatePriceType() {
 			`;
 			priceTypeDisplay.style.backgroundColor = "#e3f2fd";
 			priceTypeDisplay.style.color = "#1976d2";
-		} else if (foundItem.type === "AUCTION") {
+		} else if (foundItem.type == "AUCTION") {
 			priceTypeDisplay.textContent = "Auction BIN (Buy It Now)";
 			priceTypeDisplay.style.backgroundColor = "#fff3e0";
 			priceTypeDisplay.style.color = "#f57c00";
@@ -117,30 +110,30 @@ function updatePriceType() {
 	}
 }
 
-async function handleAddItem(event) {
-	event.preventDefault();
-
-	const itemTag = document.getElementById("itemTagInput").value.trim().toUpperCase();
+async function handleAddItem() {
+	const itemName = document.getElementById("itemTagInput").value.trim();
 	const thresholdType = document.getElementById("thresholdTypeSelect").value;
 	const thresholdPrice = parseFloat(document.getElementById("thresholdPriceInput").value);
 
-	if (!itemTag || !thresholdPrice) {
+	if (!itemName || !thresholdPrice) {
 		alert("Please fill in all fields");
 		return;
 	}
 
-	const foundItem = allItems.find(item => item.tag === itemTag);
+	const foundItem = allItems.find(item => item.name == itemName);
 
 	if (!foundItem) {
 		alert("Please select a valid item from the dropdown list");
 		return;
 	}
 
-	const itemName = foundItem.name;
-	const priceType = foundItem.type === "BAZAAR" ? "bazaar" : "bin";
+    console.log(foundItem,"founditem");
+
+	const itemTag = foundItem.tag;
+	const priceType = foundItem.type == "BAZAAR" ? "bazaar" : "bin";
 
 	let orderType = "buy";
-	if (foundItem.type === "BAZAAR") {
+	if (foundItem.type == "BAZAAR") {
 		const orderTypeSelect = document.getElementById("orderTypeSelect");
 		if (orderTypeSelect) {
 			orderType = orderTypeSelect.value;
@@ -154,9 +147,6 @@ async function handleAddItem(event) {
 			[itemTag, itemName, priceType, thresholdType, thresholdPrice, orderType],
 		);
 		await saveDb();
-
-		document.getElementById("addItemForm").reset();
-
 		loadTrackedItems();
 
 		console.log("Item added successfully");
@@ -190,8 +180,8 @@ function loadTrackedItems() {
 			itemDiv.style.cssText = "border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #f9f9f9";
 
 			let priceTypeText;
-			if (priceType === "bazaar") {
-				priceTypeText = `Bazaar (${actualOrderType === "sell" ? "Sell Order" : "Buy Order"})`;
+			if (priceType == "bazaar") {
+				priceTypeText = `Bazaar (${actualOrderType == "sell" ? "Sell Order" : "Buy Order"})`;
 			} else {
 				priceTypeText = "Auction BIN";
 			}
@@ -284,7 +274,7 @@ async function checkAllTrackedPrices() {
 async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice, orderType = "buy") {
 	const currentPrice = await fetchItemPrice(itemTag, priceType, orderType);
 
-	if (currentPrice === null) {
+	if (currentPrice == null) {
 		console.log(`Could not fetch price for ${stripMinecraftCodes(itemName)}`);
 		return;
 	}
@@ -315,7 +305,7 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 
 async function fetchItemPrice(itemTag, priceType, orderType = "buy") {
 	try {
-		if (priceType === "bazaar") {
+		if (priceType == "bazaar") {
 			const response = await fetch(`${CoflnetUrl}/bazaar/${encodeURIComponent(itemTag)}/snapshot`);
 
 			if (!response.ok) {
@@ -325,12 +315,12 @@ async function fetchItemPrice(itemTag, priceType, orderType = "buy") {
 
 			const data = await response.json();
 
-			if (orderType === "sell") {
+			if (orderType == "sell") {
 				return data.sellPrice || data.quickStatus?.sellPrice || null;
 			} else {
 				return data.buyPrice || data.quickStatus?.buyPrice || null;
 			}
-		} else if (priceType === "bin") {
+		} else if (priceType == "bin") {
 			const response = await fetch(`${CoflnetUrl}/auctions/tag/${encodeURIComponent(itemTag)}/active/bin`);
 
 			if (!response.ok) {

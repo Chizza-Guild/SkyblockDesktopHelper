@@ -12,7 +12,7 @@
 
 	<div>
 		<h2>Tracked Items</h2>
-		<div id="trackedItemsList" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;"></div>
+		<div id="trackedItemsList" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px"></div>
 	</div>
 </div>
 
@@ -48,7 +48,7 @@
 				<input type="number" id="thresholdPriceInput" required min="0" step="0.01" style="width: 100%; padding: 5px" />
 			</div>
 
-			<button type="submit" style="cursor: pointer; padding: 10px; background-color: #4caf50; color: white; border: none; border-radius: 3px">Add Item</button>
+			<button type="submit" onclick="handleAddItem()" style="cursor: pointer; padding: 10px; background-color: #4caf50; color: white; border: none; border-radius: 3px">Add Item</button>
 		</form>
 	</div>
 </div>

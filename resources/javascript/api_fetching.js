@@ -24,9 +24,11 @@ function fetchItemPrices() {
 	function inside() {
 		console.log("fetch item prices function ran");
 		checkAllTrackedPrices();
-        fetchItemLastRefresh = getCurrentLocalTime();
-        if (currentPage == "itemTracker") document.getElementById("itemTrackerLastRefresh").innerText = "Last Refresh: "+fetchItemLastRefresh;
+		fetchItemLastRefresh = getCurrentLocalTime();
+		if (currentPage == "itemTracker") document.getElementById("itemTrackerLastRefresh").innerText = "Last Refresh: " + fetchItemLastRefresh;
 	}
+
+	inside();
 
 	if (fetchItemInterval) clearInterval(fetchItemInterval);
 	fetchItemInterval = setInterval(
@@ -35,7 +37,6 @@ function fetchItemPrices() {
 		},
 		1000 * 60 * 5,
 	); // 1000ms * 60 seconds * 5 minutes
-	inside();
 }
 
 async function getProfiles(uuid) {

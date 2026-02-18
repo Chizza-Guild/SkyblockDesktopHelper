@@ -25,10 +25,10 @@ In Item Price Tracker: (mlg)
 - Add Price Tracking to the settings, on-off
 - Prevent tracking the same item twice
 - each press on item price tracker fetches from the api, fix
-- item list could be ordered a-->z
 
 ### Plans for Version 1.2.0 Release
 
+- bug: item tracker has some items missing in API response (like molten powder)
 - add OAuth2 so people don't put others discord IDs.
 - make a setting in settings to activate any Discord notifs or not
 - Fix forge timer not taking forge speedups to account (HOTM, Cole perk, etc.)

@@ -4,6 +4,9 @@
 let fetchPlayerInterval;
 let fetchItemInterval;
 
+let fetchPlayerLastRefresh;
+let fetchItemLastRefresh;
+
 async function fetchPlayerData() {
 	// Player data fetching: Every 15 minutes
 	if (fetchPlayerInterval) clearInterval(fetchPlayerInterval);
@@ -21,6 +24,8 @@ function fetchItemPrices() {
 	function inside() {
 		console.log("fetch item prices function ran");
 		checkAllTrackedPrices();
+        fetchItemLastRefresh = getCurrentLocalTime();
+        if (currentPage == "itemTracker") document.getElementById("itemTrackerLastRefresh").innerText = "Last Refresh: "+fetchItemLastRefresh;
 	}
 
 	if (fetchItemInterval) clearInterval(fetchItemInterval);

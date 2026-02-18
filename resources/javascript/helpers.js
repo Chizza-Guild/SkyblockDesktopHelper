@@ -31,6 +31,17 @@ function formatMs(totalMs) {
 	return `${hours} hours ${minutes} mins ${seconds} seconds`;
 }
 
+function getCurrentLocalTime() {
+    // Returns current time in HH:MM:SS
+	const now = new Date();
+
+	const hours = String(now.getHours()).padStart(2, "0");
+	const minutes = String(now.getMinutes()).padStart(2, "0");
+	const seconds = String(now.getSeconds()).padStart(2, "0");
+
+	return `${hours}:${minutes}:${seconds}`;
+}
+
 function formatCoins(totalCoins) {
 	totalCoins = Math.floor(totalCoins);
 

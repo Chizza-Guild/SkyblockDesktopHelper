@@ -21,7 +21,6 @@ Future stuff for this :
 
 In Item Price Tracker: (mlg)
 
-- Add a div where the user can see when was the data last refreshed
 - Make "Enable Price Tracking" enabled by default. If its disabled, do some red warnings
 - Add Price Tracking to the settings, on-off
 - Prevent tracking the same item twice

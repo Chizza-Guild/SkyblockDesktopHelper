@@ -21,9 +21,7 @@ async function initItemTracker() {
 
 	loadTrackedItems();
 
-	if (priceTrackerActive) {
-		startPriceTracking();
-	}
+	if (priceTrackerActive) fetchItemPrices();
 }
 
 async function fetchAllItems() {
@@ -202,16 +200,9 @@ function loadTrackedItems() {
 				<div style="display: flex; justify-content: space-between; align-items: center;">
 					<div>
 						<strong>${minecraftToHTML(itemName)}</strong> (${itemTag})<br>
-						<small>
-							${priceTypeText} -
-							Alert when ${thresholdType} ${thresholdPrice.toLocaleString()} coins
-						</small>
+						<small id=${itemTag}></small>
 					</div>
 					<div style="display: flex; gap: 10px;">
-						<button onclick="checkItemPrice('${itemTag}', '${priceType}', '${actualOrderType}')"
-							style="padding: 5px 10px; cursor: pointer; background-color: #2196F3; color: white; border: none; border-radius: 3px;">
-							Check Now
-						</button>
 						<button onclick="deleteTrackedItem(${id})"
 							style="padding: 5px 10px; cursor: pointer; background-color: #f44336; color: white; border: none; border-radius: 3px;">
 							Delete
@@ -249,27 +240,12 @@ function togglePriceTracking() {
 	localStorage.setItem("priceTrackerActive", priceTrackerActive ? "true" : "false");
 
 	if (priceTrackerActive) {
-		startPriceTracking();
+		fetchItemPrices();
 		alert("Price tracking started! You'll receive notifications when prices cross your thresholds.");
 	} else {
 		stopPriceTracking();
 		alert("Price tracking stopped.");
 	}
-}
-
-function startPriceTracking() {
-	if (priceCheckInterval) {
-		clearInterval(priceCheckInterval);
-	}
-
-	priceCheckInterval = setInterval(
-		() => {
-			checkAllTrackedPrices();
-		},
-		2 * 60 * 1000,
-	);
-
-	checkAllTrackedPrices();
 }
 
 function stopPriceTracking() {
@@ -315,11 +291,15 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 
 	let shouldNotify = false;
 
-	if (thresholdType === "below" && currentPrice < thresholdPrice) {
+	if (thresholdType == "below" && currentPrice < thresholdPrice) {
 		shouldNotify = true;
-	} else if (thresholdType === "above" && currentPrice > thresholdPrice) {
+	} else if (thresholdType == "above" && currentPrice > thresholdPrice) {
 		shouldNotify = true;
 	}
+
+	const orderTypeText = priceType == "bazaar" ? `${orderType == "sell" ? "Sell Order" : "Buy Order"}` : "";
+	const message = `${orderTypeText} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
+	document.getElementById(itemTag).innerHTML = message;
 
 	if (shouldNotify) {
 		const lastPrice = lastNotifiedPrices.get(id);
@@ -327,32 +307,9 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 			return;
 		}
 
-		const cleanName = stripMinecraftCodes(itemName);
-
-		let orderTypeText = "";
-		if (priceType === "bazaar") {
-			orderTypeText = ` (${orderType === "sell" ? "Sell Order" : "Buy Order"})`;
-		}
-
-		const message = `${cleanName}${orderTypeText} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
 		await sendNotification("Price Alert!", message, true);
 		lastNotifiedPrices.set(id, currentPrice);
-		console.log(`Notification sent for ${cleanName}: ${message}`);
-	}
-}
-
-async function checkItemPrice(itemTag, priceType, orderType = "buy") {
-	try {
-		const price = await fetchItemPrice(itemTag, priceType, orderType);
-		if (price !== null) {
-			const orderTypeText = priceType === "bazaar" ? ` (${orderType === "sell" ? "Sell Order" : "Buy Order"})` : "";
-			alert(`Current price${orderTypeText}: ${price.toLocaleString()} coins`);
-		} else {
-			alert("Could not fetch price. Please check the item tag and try again.");
-		}
-	} catch (err) {
-		console.error("Failed to check price:", err);
-		alert("Error checking price");
+		console.log(`Notification sent for ${stripMinecraftCodes(itemName)}: ${message}`);
 	}
 }
 

@@ -1,9 +1,13 @@
 // If you are going to fetch any API, do it in this file.
 // The main goal is to keep all requests grouped and clear so we don't send a lot of requests at once.
 
+let fetchPlayerInterval;
+let fetchItemInterval;
+
 async function fetchPlayerData() {
 	// Player data fetching: Every 15 minutes
-	setInterval(
+	if (fetchPlayerInterval) clearInterval(fetchPlayerInterval);
+	fetchPlayerInterval = setInterval(
 		() => {
 			console.log("fetch player data ran");
 		},
@@ -12,13 +16,21 @@ async function fetchPlayerData() {
 }
 
 function fetchItemPrices() {
-	// Item price fetching: Every 2 minutes
-	setInterval(
+	// Item price fetching: Every 5 minutes
+
+	function inside() {
+		console.log("fetch item prices function ran");
+		checkAllTrackedPrices();
+	}
+
+	if (fetchItemInterval) clearInterval(fetchItemInterval);
+	fetchItemInterval = setInterval(
 		() => {
-			console.log("fetch item prices ran");
+			inside();
 		},
-		1000 * 60 * 2,
-	); // 1000ms * 60 seconds * 2 minutes
+		1000 * 60 * 5,
+	); // 1000ms * 60 seconds * 5 minutes
+	inside();
 }
 
 async function getProfiles(uuid) {

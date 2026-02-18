@@ -13,7 +13,7 @@
 		"enabled": true,
 		"writeToLogFile": true
 	},
-	"nativeAllowList": ["app.*", "os.*", "filesystem.*", "debug.log"],
+	"nativeAllowList": ["app.*", "os.*", "filesystem.*", "debug.log", "window.*"],
 	"globalVariables": {
 		"TEST1": "Hello",
 		"TEST2": [2, 4, 5],

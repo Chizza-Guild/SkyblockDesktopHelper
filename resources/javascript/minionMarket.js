@@ -166,7 +166,7 @@ async function deleteListing (id) {
       throw new Error("Listing not found");
     }
 
-    if (String(listing.seller_id) !== String(discordIdVar)) {
+    if (String(listing.seller_id) != String(discordIdVar)) {
       throw new Error("Hey, you're not the owner of this listing! >:D");
     }
 

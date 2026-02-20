@@ -57,6 +57,7 @@ async function loadUserSettings() {
 	if (!res.length) return;
 
 	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification] = res[0].values[0];
+
 	console.log("-- Loaded User Settings --");
 	console.log("name:", name);
 	console.log("apikey:", apiKey);
@@ -67,13 +68,17 @@ async function loadUserSettings() {
 	console.log("apiKeyUseAmount", apiKeyUseAmount);
 	console.log("discordNotifications", doDiscordNotification);
 
+	// ✅ Assign ALL variables first
+	privateWebhookURLVar = webhookUrl;
+	playerNameVar = name;
+	apiKeyVar = apiKey;
+	discordIdVar = discordId;
+	apiKeyTimestampVar = apiKeyTimestamp;
+	apiKeyUseAmountVar = apiKeyUseAmount;
+	discordNotificationVar = doDiscordNotification;
+
+	// ✅ UI updates
 	const timeRemaining = Number(apiKeyTimestamp) - Date.now();
-
-	if (timeRemaining <= 0 && !apiKeyExpiredSent) {
-		apiKeyExpiredSent = true;
-		sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings."); 
-	}
-
 	if (currentPage == "settings") {
 		document.getElementById("discordNotificationCheckBox").checked = !!doDiscordNotification;
 		document.getElementById("sbNameInput").value = name || "";
@@ -87,13 +92,11 @@ async function loadUserSettings() {
 		}
 	}
 
-	privateWebhookURLVar = webhookUrl;
-	playerNameVar = name;
-	apiKeyVar = apiKey;
-	discordIdVar = discordId;
-	apiKeyTimestampVar = apiKeyTimestamp;
-	apiKeyUseAmountVar = apiKeyUseAmount;
-	discordNotificationVar = doDiscordNotification;
+	// ✅ Now safe — privateWebhookURLVar & discordIdVar are already set above
+	if (timeRemaining <= 0 && !apiKeyExpiredSent) {
+		apiKeyExpiredSent = true;
+		sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings.");
+	}
 
 	if (name && !uuid) {
 		uuidVar = await getPlayerUuid(name);

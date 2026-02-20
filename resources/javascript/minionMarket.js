@@ -244,7 +244,7 @@ async function buyListing(id) {
     setStatus("Purchase successful!\n Adding you and seller to discord channel");
     let sellerbuyerurl = await createDiscordChannel([String(listing.seller_id), String(discordIdVar)], true);
     let sellerId = String(listing.seller_id);
-    await sendNotification(`<@${sellerId}> New purchase!`, `<@${discordIdVar}> bought ${newOrder.quantity}x from your listing.`, sellerbuyerurl, false, false, true);
+    await sendNotification(`<@${sellerId}> New purchase!`, `<@${discordIdVar}> bought ${newOrder.quantity}x ${listing.minion_name} from your listing! \nCoordinate between each other here. \nFeel free to delete the channel when your done!`, sellerbuyerurl, false, false, true);
 
 
     await refreshListings();

@@ -57,13 +57,13 @@ async function createDiscordChannel(playerIdsInput) {
   return data.webhookUrl;
 }
 
-async function sendDiscordMessage(content, webhookUrl = privateWebhookURLVar, pingUser = true) {
+async function sendDiscordMessage(content, webhookUrl = privateWebhookURLVar, pingUser = discordPingVar) {
   const url = String(webhookUrl ?? "").trim();
   if (!url || url === "null" || url === "undefined") {
     throw new Error("No webhook URL set. Create the private channel first.");
   }
 
-  const msg = pingUser ? `<@${discordIdVar}> ${content}` : content;
+  const msg = pingUser === 1 ? `<@${discordIdVar}> ${content}` : content;
 
   const res = await fetch(url, {
     method: "POST",

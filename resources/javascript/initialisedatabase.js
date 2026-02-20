@@ -45,6 +45,7 @@ let saveDb;
 
 		// true = 1, false = 0
 		if (!cols.some(c => c[1] == "doDiscordNotification")) db.run("ALTER TABLE user_info ADD COLUMN doDiscordNotification INTEGER DEFAULT 0");
+		if (!cols.some(c => c[1] == "doDiscordNotificationPing")) db.run("ALTER TABLE user_info ADD COLUMN doDiscordNotificationPing INTEGER DEFAULT 0");
 
 		await saveDb();
 

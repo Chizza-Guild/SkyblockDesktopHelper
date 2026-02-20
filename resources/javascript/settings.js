@@ -13,6 +13,7 @@ let apiKeyExpiredSent = false; // Don't save to the database, local variable.
 let auctionNotifierVar;
 let quickforgeVar;
 let discordNotificationVar;
+let discordPingVar;
 
 async function saveUserSettings() {
 	try {
@@ -20,6 +21,7 @@ async function saveUserSettings() {
 		const apiKey = document.getElementById("apiKeyInput").value;
 		const discordId = document.getElementById("discordIdInput").value;
 		const doDiscordNotification = document.getElementById("discordNotificationCheckBox").checked ? 1 : 0;
+		const doDiscordPing = document.getElementById("discordPingCheckBox").checked ? 1 : 0;
 
 		if (apiKeyVar != apiKey) {
 			apiKeyTimestampVar = Date.now() + 86400000 * 2; // Two days from now
@@ -31,8 +33,8 @@ async function saveUserSettings() {
 			privateWebhookURLVar = null;
 		}
 
-		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-			[1, name, apiKey, uuidVar || null, discordId, privateWebhookURLVar || null, apiKeyTimestampVar || null, apiKeyUseAmountVar || 0, doDiscordNotification]);
+		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+			[1, name, apiKey, uuidVar || null, discordId, privateWebhookURLVar || null, apiKeyTimestampVar || null, apiKeyUseAmountVar || 0, doDiscordNotification, doDiscordPing]);
 		
 		await saveDb();
 
@@ -53,10 +55,10 @@ async function saveUserSettings() {
 }
 
 async function loadUserSettings() {
-	const res = db.exec("SELECT id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification FROM user_info WHERE id = 1");
+	const res = db.exec("SELECT id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
-	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification] = res[0].values[0];
+	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing] = res[0].values[0];
 
 	console.log("-- Loaded User Settings --");
 	console.log("name:", name);
@@ -67,6 +69,7 @@ async function loadUserSettings() {
 	console.log("apiKeyTimestamp", apiKeyTimestamp);
 	console.log("apiKeyUseAmount", apiKeyUseAmount);
 	console.log("discordNotifications", doDiscordNotification);
+	console.log("discordPing", doDiscordNotificationPing);
 
 	// ✅ Assign ALL variables first
 	privateWebhookURLVar = webhookUrl;
@@ -76,11 +79,13 @@ async function loadUserSettings() {
 	apiKeyTimestampVar = apiKeyTimestamp;
 	apiKeyUseAmountVar = apiKeyUseAmount;
 	discordNotificationVar = doDiscordNotification;
+	discordPingVar = doDiscordNotificationPing;
 
-	// ✅ UI updates
+	// UI updates
 	const timeRemaining = Number(apiKeyTimestamp) - Date.now();
 	if (currentPage == "settings") {
 		document.getElementById("discordNotificationCheckBox").checked = !!doDiscordNotification;
+		document.getElementById("discordPingCheckBox").checked = !!doDiscordNotificationPing;
 		document.getElementById("sbNameInput").value = name || "";
 		document.getElementById("apiKeyInput").value = apiKey || "";
 		document.getElementById("discordIdInput").value = discordId || "";
@@ -92,7 +97,7 @@ async function loadUserSettings() {
 		}
 	}
 
-	// ✅ Now safe — privateWebhookURLVar & discordIdVar are already set above
+	// privateWebhookURLVar & discordIdVar are already set above
 	if (timeRemaining <= 0 && !apiKeyExpiredSent) {
 		apiKeyExpiredSent = true;
 		sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings.");

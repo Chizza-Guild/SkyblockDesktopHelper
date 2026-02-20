@@ -12,7 +12,7 @@ function normalizePlayerIds(input) {
   return [String(input)].filter(Boolean);
 }
 
-async function createDiscordChannel(playerIdsInput) {
+async function createDiscordChannel(playerIdsInput, ignoreNewChannelMsg = false) {
   const playerIds = normalizePlayerIds(playerIdsInput);
 
   if (playerIds.length === 0) {
@@ -49,11 +49,13 @@ async function createDiscordChannel(playerIdsInput) {
   }
 
   // Welcome message
-  await sendDiscordMessage(
-    `Hello 👋, Your private notifications channel is ready! 🎉\nWelcome from the Chizza Skyblock Helper Team!`,
-    data.webhookUrl
-  );
 
+  if(!ignoreNewChannelMsg) {
+    await sendDiscordMessage(
+      `Hello 👋, Your private notifications channel is ready! 🎉\nWelcome from the Chizza Skyblock Helper Team!`,
+      data.webhookUrl
+    );
+  }
   return data.webhookUrl;
 }
 
@@ -77,8 +79,8 @@ async function sendDiscordMessage(content, webhookUrl = privateWebhookURLVar, pi
 }
 
 async function makePrivateDiscordChannel() {
-  // discordIdVar is a string → normalizePlayerIds will wrap it correctly
-  privateWebhookURLVar = await createDiscordChannel(discordIdVar);
+  // discordIdVar is a string → normalizePlayerIds will wrap it correctly Make sure any other ids are strings.
+  privateWebhookURLVar = await createDiscordChannel([discordIdVar]);
 
   db.run("UPDATE user_info SET privateWebhookURL = ? WHERE id = 1", [privateWebhookURLVar]);
   await saveDb();
@@ -86,14 +88,14 @@ async function makePrivateDiscordChannel() {
   console.log("Discord channel created and webhook URL saved:", privateWebhookURLVar);
 }
 
-async function sendNotification(title, body, webhookUrl = privateWebhookURLVar, ignoreSettings = false) {
+async function sendNotification(title, body, webhookUrl = privateWebhookURLVar, ignoreSettings = false, pingUser = discordPingVar, ignoreNewChatMsg = false) {
   await Neutralino.os.showNotification(`${title}`, `${body}`);
 
   if (discordNotificationVar == 1 || ignoreSettings) {
     const url = String(webhookUrl ?? "").trim();
 
     if (!url || url === "null" || url === "undefined") {
-      webhookUrl = await createDiscordChannel(discordIdVar);
+      webhookUrl = await createDiscordChannel(discordIdVar, ignoreNewChatMsg);
       privateWebhookURLVar = webhookUrl;
 
       db.run("UPDATE user_info SET privateWebhookURL = ? WHERE id = 1", [webhookUrl]);
@@ -102,7 +104,7 @@ async function sendNotification(title, body, webhookUrl = privateWebhookURLVar, 
       console.log("Auto-created Discord channel and saved webhook URL:", webhookUrl);
     }
 
-    await sendDiscordMessage(`${title}\n${body}`, webhookUrl);
+    await sendDiscordMessage(`${title}\n${body}`, webhookUrl, pingUser);
   }
 }
 

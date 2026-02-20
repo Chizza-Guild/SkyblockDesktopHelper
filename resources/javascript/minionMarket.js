@@ -115,10 +115,6 @@ async function createListing() {
   if (quantity <= 0) return setStatus("Quantity must be > 0", true);
 
   // NOTE: discordIdVar/playerNameVar assumed to exist globally in your page
-  const sellerIdNum = Number(discordIdVar);
-  if (!Number.isFinite(sellerIdNum) || !Number.isInteger(sellerIdNum)) {
-    return setStatus("seller_id (discordIdVar) must be a valid whole number", true);
-  }
 
   const row = {
     minion_Id: minionId, // text
@@ -126,7 +122,7 @@ async function createListing() {
     sell_price: price, // int8
     quantity: quantity, // int8
     ends_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    seller_id: sellerIdNum,
+    seller_id: discordIdVar,
     seller_name: playerNameVar ?? "",
     status: "active",
     minion_data: {
@@ -245,7 +241,12 @@ async function buyListing(id) {
       body: patchBody,
     });
 
-    setStatus("Purchase successful!");
+    setStatus("Purchase successful!\n Adding you and seller to discord channel");
+    let sellerbuyerurl = await createDiscordChannel([String(listing.seller_id), String(discordIdVar)], true);
+    let sellerId = String(listing.seller_id);
+    await sendNotification(`<@${sellerId}> New purchase!`, `<@${discordIdVar}> bought ${newOrder.quantity}x from your listing.`, sellerbuyerurl, false, false, true);
+
+
     await refreshListings();
   } catch (e) {
     console.error("buyListing failed:", e);
@@ -323,7 +324,8 @@ function listingCardHTML(row) {
     <div style="background:#c2c2c2;border:1px solid #2a2a2a;border-radius:12px;padding:14px;color:#070707;">
       <h3 style="margin:0 0 6px;font-size:16px;">${esc(name)}</h3>
       <p style="margin:0;font-size:13px;">
-        Tier ${esc(tier)} | Price: ${esc(price)} | Qty: ${esc(qty)}${esc(infused)}${esc(free)}
+        Tier ${esc(tier)} | Price: ${esc(price)} | Qty: ${esc(qty)}${esc(infused)}${esc(free)} \n
+        Seller: ${esc(row.seller_name ?? "Unknown")} (ID: ${esc(row.seller_id ?? "N/A")})
       </p>
 
       <div style="display:flex;gap:10px;margin-top:12px;">

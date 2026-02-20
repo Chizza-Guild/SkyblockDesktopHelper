@@ -8,11 +8,12 @@ let discordIdVar;
 let privateWebhookURLVar;
 let apiKeyTimestampVar;
 let apiKeyUseAmountVar;
-let apiKeyExpiredSent = false;
+let apiKeyExpiredSent = false; // Don't save to the database, local variable.
 
 let auctionNotifierVar;
 let quickforgeVar;
 let discordNotificationVar;
+
 async function saveUserSettings() {
 	try {
 		const name = document.getElementById("sbNameInput").value;
@@ -21,7 +22,7 @@ async function saveUserSettings() {
 		const doDiscordNotification = document.getElementById("discordNotificationCheckBox").checked ? 1 : 0;
 
 		if (apiKeyVar != apiKey) {
-			apiKeyTimestampVar = Date.now() + 86400000 * 2;
+			apiKeyTimestampVar = Date.now() + 86400000 * 2; // Two days from now
 			db.run("UPDATE user_info SET apiKeyUseAmount = 0 WHERE ID = 1;");
 		}
 
@@ -30,7 +31,6 @@ async function saveUserSettings() {
 			privateWebhookURLVar = null;
 		}
 
-		// Use null for undefined values
 		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
 			[1, name, apiKey, uuidVar || null, discordId, privateWebhookURLVar || null, apiKeyTimestampVar || null, apiKeyUseAmountVar || 0, doDiscordNotification]);
 		
@@ -53,7 +53,6 @@ async function saveUserSettings() {
 }
 
 async function loadUserSettings() {
-	// Fixed: Include privateWebhookURL in SELECT to match destructuring
 	const res = db.exec("SELECT id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification FROM user_info WHERE id = 1");
 	if (!res.length) return;
 
@@ -129,32 +128,4 @@ async function loadFeatureSettings() {
 
 	auctionNotifierVar = auctionNotifier;
 	quickforgeVar = quickforge;
-}
-
-async function getPlayerUuid(playerName) {
-	// Move this to api_fetching.js
-	try {
-		const response = await fetch(CoflnetUrl + "/search/player/" + encodeURIComponent(playerName));
-		const players = await response.json();
-		const output = players[0].uuid;
-
-		db.run("UPDATE user_info SET uuid = ? WHERE id = 1", [output]);
-		await saveDb();
-
-		return output;
-	} catch (error) {
-		alert(error);
-	}
-}
-
-async function increaseApiUsage() {
-	// Since the Hypixel API is limited to 5000 uses, keeping track of them is an advantage
-	try {
-		db.run("UPDATE user_info SET apiKeyUseAmount = COALESCE(apiKeyUseAmount, 0) + 1 WHERE ID = 1;");
-		await saveDb();
-		apiKeyUseAmountVar++;
-		if (currentPage == "settings") document.getElementById("apiKeyUsageCount").innerText = `${apiKeyUseAmountVar || 0}/5000`;
-	} catch (error) {
-		alert(error);
-	}
 }

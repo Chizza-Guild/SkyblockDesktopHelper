@@ -52,3 +52,30 @@ async function getProfiles(uuid) {
 
 	return data;
 }
+
+async function getPlayerUuid(playerName) {
+	try {
+		const response = await fetch(CoflnetUrl + "/search/player/" + encodeURIComponent(playerName));
+		const players = await response.json();
+		const output = players[0].uuid;
+
+		db.run("UPDATE user_info SET uuid = ? WHERE id = 1", [output]);
+		await saveDb();
+
+		return output;
+	} catch (error) {
+		alert(error);
+	}
+}
+
+async function increaseApiUsage() {
+	// Since the Hypixel API is limited to 5000 uses, keeping track of them is an advantage
+	try {
+		db.run("UPDATE user_info SET apiKeyUseAmount = COALESCE(apiKeyUseAmount, 0) + 1 WHERE ID = 1;");
+		await saveDb();
+		apiKeyUseAmountVar++;
+		if (currentPage == "settings") document.getElementById("apiKeyUsageCount").innerText = `${apiKeyUseAmountVar || 0}/5000`;
+	} catch (error) {
+		alert(error);
+	}
+}

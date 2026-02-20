@@ -1,15 +1,13 @@
 ## Plans for Version 1.1.0 Release
 
 - Change tray icon logo
-- Fully working minion market
-- Complete minions JSON
 - Add a downtime area for notifs ( ex 6pm - 6am or smth) or sends quitely (no ping on discord then repings at morning or smth) --> Let the user pick this
 
 Minion calc (pink-ry)
 - Finish minionData.json (rev, tara void sunflower) 
 - New json for all upgrades
 - Be able to calculate minions for the best things. Money Collection Skill, etc. (if t1 isnt craftable. Check market, and if not on market just put an arbitrary number)
-- add minion slot calculater too.
+- add minion slot calculator too.
 
 Minion Market (ry) 
 - Update bot so you can make a channel with multiple people with supabase edge func.
@@ -22,7 +20,6 @@ Future stuff for this :
 In Item Price Tracker: (mlg)
 
 - Make "Enable Price Tracking" enabled by default. If its disabled, do some red warnings
-- Add Price Tracking to the settings, on-off
 - Prevent tracking the same item twice
 - each press on item price tracker fetches from the api, fix
 
@@ -35,8 +32,6 @@ In Item Price Tracker: (mlg)
 - add "no items being sold" to the auction notifier if there are no results
 - in settings, toggle notifications (TODO)
 
-- optimise api calling so price api is called every 2 mins, profile api is called every 15 mins or when profile viewer is opened etc. --> check cache first, but the user can request new
-- test ifthe  forgetimer works correctly and once sends the notifications
 - make forgetimer load the cache. and use the map for everything
 - run the forgetimer fetch like hourly (api_fetching)
 - In the auction notifier, don't print "current bid" if it's BIN

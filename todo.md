@@ -10,8 +10,9 @@ Minion calc (pink-ry)
 - add minion slot calculator too.
 
 Minion Market (ry) 
-- Update bot so you can make a channel with multiple people with supabase edge func.
-- When buyer presses buy, send notification to seller. Make a setting in settings that can make it so it can auto create a channel with buyer and seller. Or the seller can make a channel on their own.
+- Update bot so you can make a channel with multiple people with supabase edge func. (done)
+- When buyer presses buy, send notification to seller. Make a setting in settings that can make it so it can auto create a channel with buyer and seller. Or the seller can make a channel on their own. (no settings, but creates a channel (good enough for 1.1)
+    In order for settings to work id have to save the ids and private weburls on supabase so when the buyer clicks buy, it talks to supabase and calls smth to go onto the sellers discord, but that also may make privacy concers but idk.
 - make a generated uuid for each user so the buyer cant just use the sellers discord id to delete their listings. smth with supabase. or OAUTH2 (version 1.2)
 
 Future stuff for this :

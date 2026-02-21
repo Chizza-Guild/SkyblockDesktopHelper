@@ -11,8 +11,10 @@ Minion calc (pink-ry)
 
 Minion Market (ry) 
 - Update bot so you can make a channel with multiple people with supabase edge func. (done)
-- When buyer presses buy, send notification to seller. Make a setting in settings that can make it so it can auto create a channel with buyer and seller. Or the seller can make a channel on their own. (no settings, but creates a channel (good enough for 1.1)
-    In order for settings to work id have to save the ids and private weburls on supabase so when the buyer clicks buy, it talks to supabase and calls smth to go onto the sellers discord, but that also may make privacy concers but idk.
+- When buyer presses buy, send notification to seller. Make a setting in settings that can make it so it can auto create a channel with buyer and seller. Or the seller can make a channel on their own. 
+
+no settings, but creates a channel (good enough for 1.1)
+    In order for settings to work id have to save the ids and private weburls on supabase so when the buyer clicks buy, it talks to supabase and calls smth to go onto the sellers discord, or we also have the seller constantly check to see if their is , but that also may make privacy concers but idk.
 - make a generated uuid for each user so the buyer cant just use the sellers discord id to delete their listings. smth with supabase. or OAUTH2 (version 1.2)
 
 Future stuff for this :
@@ -41,9 +43,9 @@ In Item Price Tracker: (mlg)
 
 - Have an api endpoint in vercel maybe
 
-- Daily tasks tracker
+- RYRY Daily tasks tracker
 - VANG --> built-in event timers (Fiestas, farming contests (selectable crops), fallen stars, dark auctions etc.)
-- VANG --> mayors page (Current mayor and perks, last election results, next election candidates and votes etc.)
+- RYRY --> mayors page (Current mayor and perks, last election results, next election candidates and votes etc.)
 - VANG --> news, derailious videos, cowshed, popular reddit posts in one page
 - MLG --> improved PV (Vs skycrypt), that can save the current data as a snapshot
 - MLG --> calculate NW with the items in your island chests,
@@ -57,3 +59,15 @@ In Item Price Tracker: (mlg)
 - RYRY --> Carpentry skill calculator
 - RYRY --> Minion slot calculator
 - Greenhouse Calculator by mlg
+
+### Ideas (feel free to add)
+
+- Skyblock AI, train off of wiki. mostly just asking questions about different things. Maybe profile reviews too?
+
+- Guild "marketplace" for people to advertise guilds.
+
+- Money making guide marketplace.
+
+- 
+
+

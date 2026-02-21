@@ -8,6 +8,7 @@ In Item Price Tracker: (mlg)
 - Make "Enable Price Tracking" enabled by default. If its disabled, do some red warnings
 - Prevent tracking the same item twice
 - each press on item price tracker fetches from the api, fix
+- set threshhold price to the current lowest price to start.
 
 ### Plans for Version 1.2.0 Release
 
@@ -16,7 +17,10 @@ In Item Price Tracker: (mlg)
 - make a setting in settings to activate any Discord notifs or not
 - Fix forge timer not taking forge speedups to account (HOTM, Cole perk, etc.)
 - add "no items being sold" to the auction notifier if there are no results
-- in settings, toggle notifications (TODO)
+- in settings, toggle notifications
+- add modifiers for Price Tracking (recoms, and other ones like, etherwarp for aotv or enchants)
+
+
 
 Minion calc (ry) (1.2 or 1.1.x)
 - Finish minionData.json (rev, tara void sunflower) 
@@ -32,7 +36,7 @@ Minion calc (ry) (1.2 or 1.1.x)
 
 - Have an api endpoint in vercel maybe
 
-- RYRY Daily tasks tracker
+- RYRY --> Daily tasks tracker
 - VANG --> built-in event timers (Fiestas, farming contests (selectable crops), fallen stars, dark auctions etc.)
 - RYRY --> mayors page (Current mayor and perks, last election results, next election candidates and votes etc.)
 - VANG --> news, derailious videos, cowshed, popular reddit posts in one page
@@ -40,7 +44,7 @@ Minion calc (ry) (1.2 or 1.1.x)
 - MLG --> calculate NW with the items in your island chests,
 - add skyhelper bot features,
 - Farming helper, speed/pitch guide and profit calculator from farming fortune and blocks per second
-- MLG --> NPC buy Bazaar Sell flips
+- MLG --> NPC buy Bazaar Sell flips (btw the api has npc sell price if u didnt know)
 - MLG --> Bazaar buy npc sell flips
 - MLG --> Effective HP Calculator
 - MLG --> Drop calculator with fortune & pristine
@@ -68,6 +72,7 @@ Minion Market (ry)
 
 no settings, but creates a channel (good enough for 1.1)
     In order for settings to work id have to save the ids and private weburls on supabase so when the buyer clicks buy, it talks to supabase and calls smth to go onto the sellers discord, or we also have the seller constantly check to see if their is , but that also may make privacy concers but idk.
+    
 - make a generated uuid for each user so the buyer cant just use the sellers discord id to delete their listings. smth with supabase. or OAUTH2 (version 1.2)
 
 Future stuff for this :

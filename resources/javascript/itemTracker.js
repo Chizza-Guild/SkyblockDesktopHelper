@@ -91,8 +91,8 @@ function updatePriceType() {
 				<div style="display: flex; align-items: center; gap: 10px;">
 					<span style="font-weight: bold; color: #1976d2;">Bazaar</span>
 					<select id="orderTypeSelect" style="flex: 1; padding: 5px; background-color: #e3f2fd; border: 1px solid #1976d2; border-radius: 3px; font-weight: bold; color: #1976d2;">
-						<option value="buy">Buy Order (Instant Buy)</option>
-						<option value="sell">Sell Order (Instant Sell)</option>
+						<option value="buy">Sell Order (Instant Buy)</option>
+						<option value="sell">Buy Order (Instant Sell)</option>
 					</select>
 				</div>
 			`;
@@ -181,7 +181,7 @@ function loadTrackedItems() {
 
 			let priceTypeText;
 			if (priceType == "bazaar") {
-				priceTypeText = `Bazaar (${actualOrderType == "sell" ? "Sell Order" : "Buy Order"})`;
+				priceTypeText = `Bazaar (${actualOrderType == "sell" ? "Buy Order" : "Sell Order"})`;
 			} else {
 				priceTypeText = "Auction BIN";
 			}
@@ -287,7 +287,7 @@ async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresho
 		shouldNotify = true;
 	}
 
-	const orderTypeText = priceType == "bazaar" ? `${orderType == "sell" ? "Sell Order" : "Buy Order"}` : "";
+	const orderTypeText = priceType == "bazaar" ? `${orderType == "sell" ? "Buy Order" : "Sell Order"}` : "";
 	const message = `${orderTypeText} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
 	document.getElementById(itemTag).innerHTML = message;
 

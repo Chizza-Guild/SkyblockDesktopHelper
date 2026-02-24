@@ -12,9 +12,19 @@ async function toggleItemTrackerOnOff() {
 	initItemTracker();
 }
 
+async function toggleItemTrackerNotificationsOnOff() {
+	const theCheckbox = document.getElementById("itemTrackerNotificationsBox");
+	const output = theCheckbox.checked ? 1 : 0;
+	itemTrackerNotificationsVar = output;
+
+	db.run("UPDATE features SET itemTrackerNotifications = ? WHERE id = 1", [output]);
+	await saveDb();
+}
+
 async function initItemTracker() {
 	const lastRefresh = document.getElementById("itemTrackerLastRefresh");
 	document.getElementById("itemTrackerCheckbox").checked = itemTrackerVar == 1;
+	document.getElementById("itemTrackerNotificationsBox").checked = itemTrackerNotificationsVar == 1;
 
 	if (itemTrackerVar == 1) {
 		fetchItemPrices();

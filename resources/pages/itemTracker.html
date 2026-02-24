@@ -2,13 +2,13 @@
 
 <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px">
 	<div style="display: flex; flex-direction: row; align-items: center; justify-content: space-around">
-        <div style="display: flex; align-items: center; gap: 5px; flex-direction: row">
+		<div style="display: flex; align-items: center; gap: 5px; flex-direction: row">
 			<input type="checkbox" id="itemTrackerCheckbox" onchange="toggleItemTrackerOnOff()" />
 			<div>Enable Item Tracker</div>
 		</div>
 		<button onclick="itemTrackerOpenModal()">Add Item</button>
 		<div style="display: flex; align-items: center; gap: 5px; flex-direction: row">
-			<input type="checkbox" id="itemTrackerNotificationsBox" />
+			<input type="checkbox" id="itemTrackerNotificationsBox" onchange="toggleItemTrackerNotificationsOnOff()" />
 			<div>Enable Notifications</div>
 		</div>
 		<div id="itemTrackerLastRefresh">Loading...</div>

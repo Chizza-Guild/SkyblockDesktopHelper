@@ -10,10 +10,12 @@ let apiKeyTimestampVar;
 let apiKeyUseAmountVar;
 let apiKeyExpiredSent = false; // Don't save to the database, local variable.
 
-let auctionNotifierVar;
-let quickforgeVar;
 let discordNotificationVar;
 let discordPingVar;
+
+let auctionNotifierVar;
+let quickforgeVar;
+let itemTrackerVar;
 
 async function saveUserSettings() {
 	try {
@@ -33,9 +35,8 @@ async function saveUserSettings() {
 			privateWebhookURLVar = null;
 		}
 
-		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-			[1, name, apiKey, uuidVar || null, discordId, privateWebhookURLVar || null, apiKeyTimestampVar || null, apiKeyUseAmountVar || 0, doDiscordNotification, doDiscordPing]);
-		
+		db.run("INSERT OR REPLACE INTO user_info (id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [1, name, apiKey, uuidVar || null, discordId, privateWebhookURLVar || null, apiKeyTimestampVar || null, apiKeyUseAmountVar || 0, doDiscordNotification, doDiscordPing]);
+
 		await saveDb();
 
 		if (name != playerNameVar) {
@@ -55,8 +56,8 @@ async function saveUserSettings() {
 }
 
 async function loadUserSettings() {
-	const res = db.exec("SELECT id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing FROM user_info WHERE id = 1");
-	if (!res.length) return;
+	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
+	if (!res.length) return console.log("User database is broken.");
 
 	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing] = res[0].values[0];
 
@@ -71,7 +72,6 @@ async function loadUserSettings() {
 	console.log("discordNotifications", doDiscordNotification);
 	console.log("discordPing", doDiscordNotificationPing);
 
-	// ✅ Assign ALL variables first
 	privateWebhookURLVar = webhookUrl;
 	playerNameVar = name;
 	apiKeyVar = apiKey;
@@ -81,7 +81,6 @@ async function loadUserSettings() {
 	discordNotificationVar = doDiscordNotification;
 	discordPingVar = doDiscordNotificationPing;
 
-	// UI updates
 	const timeRemaining = Number(apiKeyTimestamp) - Date.now();
 	if (currentPage == "settings") {
 		document.getElementById("discordNotificationCheckBox").checked = !!doDiscordNotification;
@@ -97,7 +96,6 @@ async function loadUserSettings() {
 		}
 	}
 
-	// privateWebhookURLVar & discordIdVar are already set above
 	if (timeRemaining <= 0 && !apiKeyExpiredSent) {
 		apiKeyExpiredSent = true;
 		sendNotification("API Key Expired", "Your API key has expired. Please update it in the settings.");
@@ -121,19 +119,23 @@ async function saveFeatureSettings() {
 
 async function loadFeatureSettings() {
 	const res = db.exec("SELECT * FROM features WHERE id = 1");
-	if (!res.length) return;
+	if (!res.length) return console.log("Feature database is broken.");
 
-	const [id, auctionNotifier, quickforge] = res[0].values[0];
+	const [id, auctionNotifier, quickForge, itemTracker] = res[0].values[0];
 	console.log("-- Loaded Feature Settings --");
 	console.log("auctionNotifier", auctionNotifier);
-	console.log("quickforge", quickforge);
+	console.log("quickforge", quickForge);
+	console.log("itemtracker", itemTracker);
 
 	if (currentPage == "auctionNotifier") {
 		document.getElementById("aucNotyBtn").checked = auctionNotifier;
-	} else if (currentPage == "forgetimer") {
-		document.getElementById("quickforgeinput").value = quickforge;
+	} else if (currentPage == "forgeTimer") {
+		document.getElementById("quickforgeinput").value = quickForge;
+	} else if (currentPage == "itemTracker") {
+		document.getElementById("itemTrackerCheckbox").checked = itemTracker;
 	}
 
-	auctionNotifierVar = auctionNotifier;
-	quickforgeVar = quickforge;
+	auctionNotifierVar = auctionNotifier || 0;
+	quickforgeVar = quickForge || 0;
+	itemTrackerVar = itemTracker || 0;
 }

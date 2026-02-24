@@ -205,6 +205,13 @@ async function handleAddItem() {
 		}
 	}
 
+	const existing = db.exec("SELECT 1 FROM tracked_items WHERE item_tag = ? AND price_type = ? AND order_type = ? AND is_active = 1 LIMIT 1", [itemTag, priceType, orderType]);
+
+	if (existing.length && existing[0].values.length) {
+		alert("This item is already being tracked.");
+		return;
+	}
+
 	try {
 		db.run(
 			`INSERT INTO tracked_items (item_tag, item_name, price_type, threshold_type, threshold_price, is_active, order_type)

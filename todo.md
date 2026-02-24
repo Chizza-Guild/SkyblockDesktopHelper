@@ -1,14 +1,11 @@
 ## Plans for Version 1.1.0 Release
 
 - Change tray icon logo
-- Add a downtime area for notifs ( ex 6pm - 6am or smth) or sends quitely (no ping on discord then repings at morning or smth) --> Let the user pick this
-
-In Item Price Tracker: (mlg)
-
-- Prevent tracking the same item twice
+- TEST EVERY FUTURE PROPERLY SO IT DOESNT FLOP IN PROD
 
 ### Plans for Version 1.2.0 Release
 
+- Add a downtime area for notifs ( ex 6pm - 6am or smth) or sends quitely (no ping on discord then repings at morning or smth) --> Let the user pick this
 - bug: item tracker has some items missing in API response (like molten powder)
 - add OAuth2 so people don't put others discord IDs.
 - make a setting in settings to activate any Discord notifs or not

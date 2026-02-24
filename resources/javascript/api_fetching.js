@@ -9,7 +9,7 @@ let fetchItemLastRefresh;
 
 async function fetchPlayerData() {
 	// Player data fetching: Every 15 minutes
-	if (fetchPlayerInterval) clearInterval(fetchPlayerInterval);
+	if (fetchPlayerInterval) return;
 	fetchPlayerInterval = setInterval(
 		() => {
 			console.log("fetch player data ran");
@@ -18,19 +18,26 @@ async function fetchPlayerData() {
 	); // 1000ms * 60 seconds * 15 minutes
 }
 
-function fetchItemPrices() {
+async function fetchItemPrices() {
 	// Item price fetching: Every 5 minutes
 
-	function inside() {
+	async function inside() {
 		console.log("fetch item prices function ran");
-		checkAllTrackedPrices();
+		fetchAllItems();
 		fetchItemLastRefresh = getCurrentLocalTime();
-		if (currentPage == "itemTracker") document.getElementById("itemTrackerLastRefresh").innerText = "Last Refresh: " + fetchItemLastRefresh;
 	}
 
-	inside();
+	if (!fetchItemInterval) {
+		await inside();
+		populateItemsList();
+	}
 
-	if (fetchItemInterval) clearInterval(fetchItemInterval);
+	loadTrackedItems();
+	checkAllTrackedPrices();
+	if (currentPage == "itemTracker") document.getElementById("itemTrackerLastRefresh").innerText = "Last Refresh: " + fetchItemLastRefresh;
+
+	if (fetchItemInterval) return;
+
 	fetchItemInterval = setInterval(
 		() => {
 			inside();

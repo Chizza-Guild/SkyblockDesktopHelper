@@ -16,6 +16,9 @@ let discordPingVar;
 let auctionNotifierVar;
 let quickforgeVar;
 let itemTrackerVar;
+let auctionNotifierNotificationsVar;
+let quickForgeNotificationsVar;
+let itemTrackerNotificationsVar;
 
 async function saveUserSettings() {
 	try {
@@ -108,7 +111,7 @@ async function loadUserSettings() {
 	}
 }
 
-async function saveFeatureSettings() {
+async function saveFeatureSettings() { // TODO: BROKEN
 	try {
 		db.run("INSERT OR REPLACE INTO features (id, auctionNotifier) VALUES (1, ?)", [auctionNotifierVar]);
 		await saveDb();
@@ -121,21 +124,30 @@ async function loadFeatureSettings() {
 	const res = db.exec("SELECT * FROM features WHERE id = 1");
 	if (!res.length) return console.log("Feature database is broken.");
 
-	const [id, auctionNotifier, quickForge, itemTracker] = res[0].values[0];
+	const [id, auctionNotifier, quickForge, itemTracker, auctionNotifierNotifications, quickForgeNotifications, itemTrackerNotifications] = res[0].values[0];
 	console.log("-- Loaded Feature Settings --");
 	console.log("auctionNotifier", auctionNotifier);
 	console.log("quickforge", quickForge);
 	console.log("itemtracker", itemTracker);
+	console.log("auctionNotifierNotifications", auctionNotifierNotifications);
+	console.log("quickForgeNotifications", quickForgeNotifications);
+	console.log("itemTrackerNotifications", itemTrackerNotifications);
+
+	// TODO: Add notification toggling for auction notifier and forge timer
 
 	if (currentPage == "auctionNotifier") {
-		document.getElementById("aucNotyBtn").checked = auctionNotifier;
+		document.getElementById("aucNotyBtn").checked = auctionNotifier == 1;
 	} else if (currentPage == "forgeTimer") {
-		document.getElementById("quickforgeinput").value = quickForge;
+		document.getElementById("quickforgeinput").value = quickForge == 1;
 	} else if (currentPage == "itemTracker") {
-		document.getElementById("itemTrackerCheckbox").checked = itemTracker;
+		document.getElementById("itemTrackerCheckbox").checked = itemTracker == 1;
+		document.getElementById("itemTrackerNotificationsBox").checked = itemTrackerNotifications == 1;
 	}
 
 	auctionNotifierVar = auctionNotifier || 0;
 	quickforgeVar = quickForge || 0;
 	itemTrackerVar = itemTracker || 0;
+	auctionNotifierNotificationsVar = auctionNotifierNotifications || 0;
+	quickForgeNotificationsVar = quickForgeNotifications || 0;
+	itemTrackerNotificationsVar = itemTrackerNotifications || 0;
 }

@@ -1,20 +1,32 @@
-let priceTrackerActive = false;
-let priceCheckInterval = null;
 let lastNotifiedPrices = new Map();
+let priceCache = new Map();
 let allItems = [];
 
+async function toggleItemTrackerOnOff() {
+	const theCheckbox = document.getElementById("itemTrackerCheckbox");
+	const output = theCheckbox.checked ? 1 : 0;
+	itemTrackerVar = output;
+
+	db.run("UPDATE features SET itemtracker = ? WHERE id = 1", [output]);
+	await saveDb();
+	initItemTracker();
+}
+
 async function initItemTracker() {
-	await fetchAllItems();
-	populateItemsList();
+	const lastRefresh = document.getElementById("itemTrackerLastRefresh");
+	document.getElementById("itemTrackerCheckbox").checked = itemTrackerVar == 1;
 
-	const savedState = localStorage.getItem("priceTrackerActive");
-	priceTrackerActive = savedState == "true";
-	const checkbox = document.getElementById("trackerActiveBtn");
-	if (checkbox) checkbox.checked = priceTrackerActive;
-
-	loadTrackedItems();
-
-	if (priceTrackerActive) fetchItemPrices();
+	if (itemTrackerVar == 1) {
+		fetchItemPrices();
+		lastRefresh.style.color = "unset";
+	} else {
+		if (fetchItemInterval) {
+			clearInterval(fetchItemInterval);
+			fetchItemInterval = null;
+		}
+		lastRefresh.innerHTML = "Disabled";
+		lastRefresh.style.color = "red";
+	}
 }
 
 async function fetchAllItems() {
@@ -39,10 +51,65 @@ async function fetchAllItems() {
 				type: item.flags,
 			}));
 
+		await refreshTrackedItemPrices();
+
 		console.log(`Loaded ${allItems.length} items from API`);
 	} catch (err) {
 		console.error("Error fetching items:", err);
 		allItems = [];
+	}
+}
+
+async function refreshTrackedItemPrices() {
+	try {
+		const result = db.exec("SELECT item_tag, price_type, order_type FROM tracked_items WHERE is_active = 1");
+		if (!result.length || !result[0].values.length) return;
+
+		for (const row of result[0].values) {
+			const [itemTag, priceType, orderType] = row;
+			await fetchAndCachePrice(itemTag, priceType, orderType || "buy");
+		}
+
+		const time = getCurrentLocalTime();
+		if (currentPage == "itemTracker") document.getElementById("itemTrackerLastRefresh").innerText = "Last Refresh: " + time;
+
+		await checkAllTrackedPrices();
+	} catch (err) {
+		console.error("Failed refreshing tracked prices:", err);
+	}
+}
+
+async function fetchAndCachePrice(itemTag, priceType, orderType = "buy") {
+	try {
+		if (priceType == "bazaar") {
+			const response = await fetch(`${CoflnetUrl}/bazaar/${encodeURIComponent(itemTag)}/snapshot`);
+			if (!response.ok) return;
+
+			const data = await response.json();
+
+			const price = orderType == "sell" ? data.sellPrice || data.quickStatus?.sellPrice : data.buyPrice || data.quickStatus?.buyPrice;
+
+			if (price) {
+				const key = `${itemTag}|${priceType}|${orderType}`;
+				priceCache.set(key, price);
+			}
+		} else if (priceType == "bin") {
+			const response = await fetch(`${CoflnetUrl}/auctions/tag/${encodeURIComponent(itemTag)}/active/bin`);
+			if (!response.ok) return;
+
+			const data = await response.json();
+
+			if (Array.isArray(data) && data.length > 0) {
+				const prices = data.map(a => a.startingBid || a.bin || a.price).filter(p => p > 0);
+
+				if (prices.length > 0) {
+					const key = `${itemTag}|${priceType}|buy`;
+					priceCache.set(key, Math.min(...prices));
+				}
+			}
+		}
+	} catch (err) {
+		console.error("Price fetch failed:", err);
 	}
 }
 
@@ -127,8 +194,6 @@ async function handleAddItem() {
 		return;
 	}
 
-    console.log(foundItem,"founditem");
-
 	const itemTag = foundItem.tag;
 	const priceType = foundItem.type == "BAZAAR" ? "bazaar" : "bin";
 
@@ -148,8 +213,6 @@ async function handleAddItem() {
 		);
 		await saveDb();
 		loadTrackedItems();
-
-		console.log("Item added successfully");
 	} catch (err) {
 		console.error("Failed to add item:", err);
 		alert("Failed to add item. Please try again.");
@@ -158,7 +221,6 @@ async function handleAddItem() {
 
 function loadTrackedItems() {
 	const listContainer = document.getElementById("trackedItemsList");
-	if (!listContainer) return;
 
 	try {
 		const result = db.exec("SELECT * FROM tracked_items ORDER BY created_at DESC");
@@ -178,13 +240,6 @@ function loadTrackedItems() {
 
 			const itemDiv = document.createElement("div");
 			itemDiv.style.cssText = "border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #f9f9f9";
-
-			let priceTypeText;
-			if (priceType == "bazaar") {
-				priceTypeText = `Bazaar (${actualOrderType == "sell" ? "Buy Order" : "Sell Order"})`;
-			} else {
-				priceTypeText = "Auction BIN";
-			}
 
 			itemDiv.innerHTML = `
 				<div style="display: flex; justify-content: space-between; align-items: center;">
@@ -210,9 +265,7 @@ function loadTrackedItems() {
 }
 
 async function deleteTrackedItem(id) {
-	if (!confirm("Are you sure you want to delete this tracked item?")) {
-		return;
-	}
+	if (!confirm("Are you sure you want to delete this tracked item?")) return;
 
 	try {
 		db.run("DELETE FROM tracked_items WHERE id = ?", [id]);
@@ -225,46 +278,16 @@ async function deleteTrackedItem(id) {
 	}
 }
 
-function togglePriceTracking() {
-	priceTrackerActive = document.getElementById("trackerActiveBtn").checked;
-	localStorage.setItem("priceTrackerActive", priceTrackerActive ? "true" : "false");
-
-	if (priceTrackerActive) {
-		fetchItemPrices();
-		alert("Price tracking started! You'll receive notifications when prices cross your thresholds.");
-	} else {
-		stopPriceTracking();
-		alert("Price tracking stopped.");
-	}
-}
-
-function stopPriceTracking() {
-	if (priceCheckInterval) {
-		clearInterval(priceCheckInterval);
-		priceCheckInterval = null;
-	}
-}
-
 async function checkAllTrackedPrices() {
-	if (!priceTrackerActive) return;
+	if (!itemTrackerVar) return;
 
 	try {
 		const result = db.exec("SELECT * FROM tracked_items WHERE is_active = 1");
 		if (!result.length || !result[0].values.length) return;
 
-		const items = result[0].values;
-
-		for (const item of items) {
-			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, isActive, createdAt, orderType] = item;
-
-			const actualOrderType = orderType || "buy";
-
-			try {
-				await checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice, actualOrderType);
-				await sleep(500);
-			} catch (err) {
-				console.error(`Failed to check price for ${stripMinecraftCodes(itemName)}:`, err);
-			}
+		for (const item of result[0].values) {
+			const [id, itemTag, itemName, priceType, thresholdType, thresholdPrice, , , orderType] = item;
+			await checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice, orderType || "buy");
 		}
 	} catch (err) {
 		console.error("Failed to check tracked prices:", err);
@@ -273,74 +296,30 @@ async function checkAllTrackedPrices() {
 
 async function checkItemPriceAndNotify(id, itemTag, itemName, priceType, thresholdType, thresholdPrice, orderType = "buy") {
 	const currentPrice = await fetchItemPrice(itemTag, priceType, orderType);
-
-	if (currentPrice == null) {
-		console.log(`Could not fetch price for ${stripMinecraftCodes(itemName)}`);
-		return;
-	}
+	if (currentPrice == null) return;
 
 	let shouldNotify = false;
 
-	if (thresholdType == "below" && currentPrice < thresholdPrice) {
-		shouldNotify = true;
-	} else if (thresholdType == "above" && currentPrice > thresholdPrice) {
-		shouldNotify = true;
-	}
+	if (thresholdType == "below" && currentPrice < thresholdPrice) shouldNotify = true;
+	if (thresholdType == "above" && currentPrice > thresholdPrice) shouldNotify = true;
 
 	const orderTypeText = priceType == "bazaar" ? `${orderType == "sell" ? "Buy Order" : "Sell Order"}` : "";
 	const message = `${orderTypeText} is now ${currentPrice.toLocaleString()} coins (threshold: ${thresholdPrice.toLocaleString()})`;
+
 	document.getElementById(itemTag).innerHTML = message;
 
 	if (shouldNotify) {
 		const lastPrice = lastNotifiedPrices.get(id);
-		if (lastPrice && Math.abs(currentPrice - lastPrice) / lastPrice < 0.05) {
-			return;
-		}
+		if (lastPrice && Math.abs(currentPrice - lastPrice) / lastPrice < 0.05) return;
 
-		await sendNotification("Price Alert!", message, true);
+		if (itemTrackerNotificationsVar == 1) await sendNotification("Price Alert!", message, true);
 		lastNotifiedPrices.set(id, currentPrice);
-		console.log(`Notification sent for ${stripMinecraftCodes(itemName)}: ${message}`);
 	}
 }
 
 async function fetchItemPrice(itemTag, priceType, orderType = "buy") {
-	try {
-		if (priceType == "bazaar") {
-			const response = await fetch(`${CoflnetUrl}/bazaar/${encodeURIComponent(itemTag)}/snapshot`);
-
-			if (!response.ok) {
-				console.error(`Bazaar API returned ${response.status}`);
-				return null;
-			}
-
-			const data = await response.json();
-
-			if (orderType == "sell") {
-				return data.sellPrice || data.quickStatus?.sellPrice || null;
-			} else {
-				return data.buyPrice || data.quickStatus?.buyPrice || null;
-			}
-		} else if (priceType == "bin") {
-			const response = await fetch(`${CoflnetUrl}/auctions/tag/${encodeURIComponent(itemTag)}/active/bin`);
-
-			if (!response.ok) {
-				console.error(`Auction API returned ${response.status}`);
-				return null;
-			}
-
-			const data = await response.json();
-
-			if (Array.isArray(data) && data.length > 0) {
-				const prices = data.map(auction => auction.startingBid || auction.bin || auction.price).filter(p => p > 0);
-				return prices.length > 0 ? Math.min(...prices) : null;
-			}
-
-			return null;
-		}
-	} catch (err) {
-		console.error(`Error fetching ${priceType} price for ${itemTag}:`, err);
-		return null;
-	}
+	const key = `${itemTag}|${priceType}|${orderType}`;
+	return priceCache.get(key) ?? null;
 }
 
 function itemTrackerOpenModal() {

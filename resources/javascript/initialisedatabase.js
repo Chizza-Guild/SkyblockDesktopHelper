@@ -57,9 +57,12 @@ let saveDb;
 
 		// ADDS NEW COLUMNS TO THE FEATURE TABLE
 		const featureCols = db.exec("PRAGMA table_info(features)")[0].values;
-		if (!featureCols.some(c => c[1] == "auctionNotifier")) db.run("ALTER TABLE features ADD COLUMN auctionNotifier INTEGER DEFAULT 0");
-		if (!featureCols.some(c => c[1] == "quickforge")) db.run("ALTER TABLE features ADD COLUMN quickforge INTEGER DEFAULT 0");
-		if (!featureCols.some(c => c[1] == "itemtracker")) db.run("ALTER TABLE features ADD COLUMN itemtracker INTEGER DEFAULT 0");
+		if (!featureCols.some(c => c[1] == "auctionNotifier")) db.run("ALTER TABLE features ADD COLUMN auctionNotifier INTEGER DEFAULT 1");
+		if (!featureCols.some(c => c[1] == "quickforge")) db.run("ALTER TABLE features ADD COLUMN quickforge INTEGER DEFAULT 1");
+		if (!featureCols.some(c => c[1] == "itemtracker")) db.run("ALTER TABLE features ADD COLUMN itemtracker INTEGER DEFAULT 1");
+		if (!featureCols.some(c => c[1] == "auctionNotifierNotifications")) db.run("ALTER TABLE features ADD COLUMN auctionNotifierNotifications INTEGER DEFAULT 1");
+		if (!featureCols.some(c => c[1] == "quickForgeNotifications")) db.run("ALTER TABLE features ADD COLUMN quickForgeNotifications INTEGER DEFAULT 1");
+		if (!featureCols.some(c => c[1] == "itemTrackerNotifications")) db.run("ALTER TABLE features ADD COLUMN itemTrackerNotifications INTEGER DEFAULT 1");
 		await saveDb();
 
 		// TRACKED ITEMS TABLE HERE

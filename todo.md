@@ -5,9 +5,7 @@
 
 In Item Price Tracker: (mlg)
 
-- Make "Enable Price Tracking" enabled by default. If its disabled, do some red warnings
 - Prevent tracking the same item twice
-- each press on item price tracker fetches from the api, fix
 
 ### Plans for Version 1.2.0 Release
 

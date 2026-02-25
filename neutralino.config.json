@@ -32,7 +32,7 @@
 			"center": true,
 			"fullScreen": false,
 			"alwaysOnTop": false,
-			"icon": "/resources/icons/appIcon.png",
+			"icon": "/resources/icons/skyblockhelperlogo.png",
 			"enableInspector": true,
 			"borderless": false,
 			"maximize": false,

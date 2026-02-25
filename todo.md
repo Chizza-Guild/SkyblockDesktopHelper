@@ -13,7 +13,7 @@
 - add "no items being sold" to the auction notifier if there are no results
 - in settings, toggle notifications
 - add modifiers for Price Tracking (recoms, and other ones like, etherwarp for aotv or enchants)
-
+- Add shortcuts and math in item tracker price (like typing 45m instead of 45000000)
 
 
 Minion calc (ry) (1.2 or 1.1.x)

@@ -64,6 +64,7 @@ async function fetchAllItems() {
 		await refreshTrackedItemPrices();
 
 		console.log(`Loaded ${allItems.length} items from API`);
+        populateItemsList();
 	} catch (err) {
 		console.error("Error fetching items:", err);
 		allItems = [];
@@ -125,8 +126,6 @@ async function fetchAndCachePrice(itemTag, priceType, orderType = "buy") {
 
 function populateItemsList() {
 	const datalist = document.getElementById("itemsList");
-	if (!datalist) return;
-
 	datalist.innerHTML = "";
 
 	if (allItems.length == 0) {

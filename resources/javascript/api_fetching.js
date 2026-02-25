@@ -27,11 +27,8 @@ async function fetchItemPrices() {
 		fetchItemLastRefresh = getCurrentLocalTime();
 	}
 
-	if (!fetchItemInterval) {
-		await inside();
-		populateItemsList();
-	}
-
+	if (!fetchItemInterval) await inside();
+    
 	loadTrackedItems();
 	checkAllTrackedPrices();
 	if (currentPage == "itemTracker") document.getElementById("itemTrackerLastRefresh").innerText = "Last Refresh: " + fetchItemLastRefresh;

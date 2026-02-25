@@ -25,12 +25,7 @@
 	<div>API Key total usage count:</div>
 	<div id="apiKeyUsageCount"></div>
 </div>
-
-<h2>Feature Settings</h2>
-
-<div>Forge Notifications: (TODO)</div>
-<div>Item Tracker Notifications: (TODO)</div>
-<div>Auction Notifier Notifications: (TODO)</div>
+<button onclick="factoryResetApp()">Factory Reset App</button>
 
 <h2>Discord</h2>
 <h4>
@@ -48,8 +43,9 @@
 	<div>Discord ID:</div>
 	<input id="discordIdInput" type="text" placeholder="Discord ID Here" />
 </div>
-<div>Discord Notifications: <input type="checkbox" id="discordNotificationCheckBox"/></div>
-<div>Discord Ping: (TODO) <input type="checkbox" id="discordPingCheckBox"/></div>
+
+<div>Discord Notifications: <input type="checkbox" id="discordNotificationCheckBox" /></div>
+<div>Discord Ping: (TODO) <input type="checkbox" id="discordPingCheckBox" /></div>
 
 <button id="save" onclick="saveUserSettings()">Save</button>
 

@@ -31,42 +31,50 @@ let saveDb;
 			console.log("Created new database");
 		}
 
-		// USER INFO TABLE HERE
-		db.run(`CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY CHECK (id = 1));`);
-		db.run("INSERT OR IGNORE INTO user_info (id) VALUES (1)");
-		await saveDb();
+		await createDatabases();
+		loadUserSettings();
+		loadFeatureSettings();
+	} catch (err) {
+		console.error("Initialization failed:", err);
+	}
+})();
 
-		// ADDS NEW COLUMNS TO USER INFO TABLE
-		const cols = db.exec("PRAGMA table_info(user_info)")[0].values;
-		if (!cols.some(c => c[1] == "uuid")) db.run("ALTER TABLE user_info ADD COLUMN uuid TEXT");
-		if (!cols.some(c => c[1] == "name")) db.run("ALTER TABLE user_info ADD COLUMN name TEXT");
-		if (!cols.some(c => c[1] == "apiKey")) db.run("ALTER TABLE user_info ADD COLUMN apiKey TEXT");
-		if (!cols.some(c => c[1] == "discordId")) db.run("ALTER TABLE user_info ADD COLUMN discordId TEXT");
-		if (!cols.some(c => c[1] == "privateWebhookURL")) db.run("ALTER TABLE user_info ADD COLUMN privateWebhookURL TEXT");
-		if (!cols.some(c => c[1] == "apiKeyTimestamp")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyTimestamp INTEGER");
-		if (!cols.some(c => c[1] == "apiKeyUseAmount")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyUseAmount INTEGER DEFAULT 0");
+async function createDatabases() {
+	// CREATE USER INFO TABLE HERE
+	db.run(`CREATE TABLE IF NOT EXISTS user_info (id INTEGER PRIMARY KEY CHECK (id = 1));`);
+	db.run("INSERT OR IGNORE INTO user_info (id) VALUES (1)");
+	await saveDb();
 
-		if (!cols.some(c => c[1] == "doDiscordNotification")) db.run("ALTER TABLE user_info ADD COLUMN doDiscordNotification INTEGER DEFAULT 0");
-		if (!cols.some(c => c[1] == "doDiscordNotificationPing")) db.run("ALTER TABLE user_info ADD COLUMN doDiscordNotificationPing INTEGER DEFAULT 0");
-		await saveDb();
+	// ADDS NEW COLUMNS TO USER INFO TABLE
+	const cols = db.exec("PRAGMA table_info(user_info)")[0].values;
+	if (!cols.some(c => c[1] == "uuid")) db.run("ALTER TABLE user_info ADD COLUMN uuid TEXT");
+	if (!cols.some(c => c[1] == "name")) db.run("ALTER TABLE user_info ADD COLUMN name TEXT");
+	if (!cols.some(c => c[1] == "apiKey")) db.run("ALTER TABLE user_info ADD COLUMN apiKey TEXT");
+	if (!cols.some(c => c[1] == "discordId")) db.run("ALTER TABLE user_info ADD COLUMN discordId TEXT");
+	if (!cols.some(c => c[1] == "privateWebhookURL")) db.run("ALTER TABLE user_info ADD COLUMN privateWebhookURL TEXT");
+	if (!cols.some(c => c[1] == "apiKeyTimestamp")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyTimestamp INTEGER");
+	if (!cols.some(c => c[1] == "apiKeyUseAmount")) db.run("ALTER TABLE user_info ADD COLUMN apiKeyUseAmount INTEGER DEFAULT 0");
+	if (!cols.some(c => c[1] == "doDiscordNotification")) db.run("ALTER TABLE user_info ADD COLUMN doDiscordNotification INTEGER DEFAULT 0");
+	if (!cols.some(c => c[1] == "doDiscordNotificationPing")) db.run("ALTER TABLE user_info ADD COLUMN doDiscordNotificationPing INTEGER DEFAULT 0");
+	await saveDb();
 
-		// FEATURE ACTIVATION TABLE HERE
-		db.run(`CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY CHECK (id = 1));`);
-		db.run("INSERT OR IGNORE INTO features (id) VALUES (1)");
-		await saveDb();
+	// CREATE FEATURES TABLE HERE
+	db.run(`CREATE TABLE IF NOT EXISTS features (id INTEGER PRIMARY KEY CHECK (id = 1));`);
+	db.run("INSERT OR IGNORE INTO features (id) VALUES (1)");
+	await saveDb();
 
-		// ADDS NEW COLUMNS TO THE FEATURE TABLE
-		const featureCols = db.exec("PRAGMA table_info(features)")[0].values;
-		if (!featureCols.some(c => c[1] == "auctionNotifier")) db.run("ALTER TABLE features ADD COLUMN auctionNotifier INTEGER DEFAULT 1");
-		if (!featureCols.some(c => c[1] == "quickforge")) db.run("ALTER TABLE features ADD COLUMN quickforge INTEGER DEFAULT 1");
-		if (!featureCols.some(c => c[1] == "itemtracker")) db.run("ALTER TABLE features ADD COLUMN itemtracker INTEGER DEFAULT 1");
-		if (!featureCols.some(c => c[1] == "auctionNotifierNotifications")) db.run("ALTER TABLE features ADD COLUMN auctionNotifierNotifications INTEGER DEFAULT 1");
-		if (!featureCols.some(c => c[1] == "quickForgeNotifications")) db.run("ALTER TABLE features ADD COLUMN quickForgeNotifications INTEGER DEFAULT 1");
-		if (!featureCols.some(c => c[1] == "itemTrackerNotifications")) db.run("ALTER TABLE features ADD COLUMN itemTrackerNotifications INTEGER DEFAULT 1");
-		await saveDb();
+	// ADDS NEW COLUMNS TO THE FEATURES TABLE
+	const featureCols = db.exec("PRAGMA table_info(features)")[0].values;
+	if (!featureCols.some(c => c[1] == "auctionNotifier")) db.run("ALTER TABLE features ADD COLUMN auctionNotifier INTEGER DEFAULT 1");
+	if (!featureCols.some(c => c[1] == "quickforge")) db.run("ALTER TABLE features ADD COLUMN quickforge INTEGER DEFAULT 1");
+	if (!featureCols.some(c => c[1] == "itemtracker")) db.run("ALTER TABLE features ADD COLUMN itemtracker INTEGER DEFAULT 1");
+	if (!featureCols.some(c => c[1] == "auctionNotifierNotifications")) db.run("ALTER TABLE features ADD COLUMN auctionNotifierNotifications INTEGER DEFAULT 1");
+	if (!featureCols.some(c => c[1] == "quickForgeNotifications")) db.run("ALTER TABLE features ADD COLUMN quickForgeNotifications INTEGER DEFAULT 1");
+	if (!featureCols.some(c => c[1] == "itemTrackerNotifications")) db.run("ALTER TABLE features ADD COLUMN itemTrackerNotifications INTEGER DEFAULT 1");
+	await saveDb();
 
-		// TRACKED ITEMS TABLE HERE
-		db.run(`CREATE TABLE IF NOT EXISTS tracked_items (
+	// CREATE TRACKED ITEMS TABLE HERE
+	db.run(`CREATE TABLE IF NOT EXISTS tracked_items (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			item_tag TEXT NOT NULL,
 			item_name TEXT NOT NULL,
@@ -76,23 +84,30 @@ let saveDb;
 			is_active INTEGER DEFAULT 1,
 			created_at TEXT DEFAULT CURRENT_TIMESTAMP
 		)`);
-		await saveDb();
+	await saveDb();
 
-		// ADDS NEW COLUMNS TO TRACKED ITEMS TABLE
-		const trackedItemsCols = db.exec("PRAGMA table_info(tracked_items)");
-		if (trackedItemsCols.length > 0) {
-			const hasOrderType = trackedItemsCols[0].values.some(c => c[1] == "order_type");
-			if (!hasOrderType) {
-				db.run("ALTER TABLE tracked_items ADD COLUMN order_type TEXT DEFAULT 'buy'");
-				await saveDb();
-			}
+	// ADDS NEW COLUMNS TO TRACKED ITEMS TABLE
+	const trackedItemsCols = db.exec("PRAGMA table_info(tracked_items)");
+	if (trackedItemsCols.length > 0) {
+		const hasOrderType = trackedItemsCols[0].values.some(c => c[1] == "order_type");
+		if (!hasOrderType) {
+			db.run("ALTER TABLE tracked_items ADD COLUMN order_type TEXT DEFAULT 'buy'");
+			await saveDb();
 		}
-
-		console.log("Database initialized successfully!");
-
-		loadUserSettings();
-		loadFeatureSettings();
-	} catch (err) {
-		console.error("Initialization failed:", err);
 	}
-})();
+
+	console.log("Database initialized successfully!");
+}
+
+async function factoryResetApp() {
+	if (!confirm("Are you sure you would like to delete all your settings and data?")) return;
+
+	db.run("DROP TABLE IF EXISTS user_info");
+	db.run("DROP TABLE IF EXISTS features");
+	db.run("DROP TABLE IF EXISTS tracked_items");
+	await saveDb();
+
+	await createDatabases();
+
+	await Neutralino.app.restartProcess();
+}

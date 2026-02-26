@@ -11,7 +11,7 @@ async function renderPage(page) {
 	}
 
 	currentPage = page;
-	let newAppTitle = "Skyblock Desktop App - ";
+	let newAppTitle = "Chizza Skyblock Helper - ";
 
 	await fetch(`/pages/${page}.html`)
 		.then(response => response.text())

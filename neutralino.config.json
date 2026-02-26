@@ -24,7 +24,7 @@
 	},
 	"modes": {
 		"window": {
-			"title": "Skyblock Desktop App",
+			"title": "Chizza Skyblock Helper",
 			"width": 800,
 			"height": 500,
 			"minWidth": 400,
@@ -58,7 +58,7 @@
 		}
 	},
 	"cli": {
-		"binaryName": "skyblock-desktop-app",
+		"binaryName": "chizza-skyblock-helper",
 		"resourcesPath": "/resources/",
 		"extensionsPath": "/extensions/",
 		"clientLibrary": "/resources/system/neutralino.js",

@@ -27,45 +27,36 @@ jobs:
                   pkg_version="${{ steps.pkg.outputs.version }}"
                   tag_version="${{ steps.tag.outputs.latest }}"
                   tag_version="${tag_version#v}"
-
                   if [ "$pkg_version" = "$tag_version" ]; then
                       echo "should_run=false" >> $GITHUB_OUTPUT
                   else
                       echo "should_run=true" >> $GITHUB_OUTPUT
                   fi
-
     build:
         needs: version-check
         if: needs.version-check.outputs.should_run == 'true'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-
             - uses: actions/setup-node@v4
               with:
                   node-version: 24
-
             - name: Install dependencies
               run: npm install
-
             - name: Install Neutralino CLI
               run: npm install -g @neutralinojs/neu
-
             - name: Build le app
               run: |
                   npm run buildaction
-
             - name: Package artifacts
               run: |
                   mkdir -p artifacts
-                  cp -r dist/skyblock-app/* artifacts/
+                  cp -r dist/chizza-skyblock-helper/* artifacts/
                   ls -lah artifacts/
-
             - uses: actions/upload-artifact@v4
               with:
                   name: neutralino-builds
                   path: artifacts/
-
     release:
         needs: [build, version-check]
         runs-on: ubuntu-latest
@@ -74,11 +65,9 @@ jobs:
               with:
                   name: neutralino-builds
                   path: dist
-
             - name: Display files to be released
               run: |
                   ls -lah dist/
-
             - uses: softprops/action-gh-release@v2
               with:
                   tag_name: v${{ needs.version-check.outputs.version }}

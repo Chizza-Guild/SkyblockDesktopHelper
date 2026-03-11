@@ -3,8 +3,8 @@
 	"version": "1.1.0",
 	"description": " A cross platform desktop app aimed for helping Skyblock players. ",
 	"scripts": {
-		"start": "npx tsc && neu run",
-		"buildaction": "neu update && npx tsc && neu build"
+		"start": "neu run",
+		"buildaction": "neu update && neu build"
 	},
 	"dependencies": {
 		"@supabase/supabase-js": "^2.89.0"

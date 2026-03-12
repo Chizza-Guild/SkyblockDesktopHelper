@@ -59,7 +59,7 @@ async function saveUserSettings() {
 }
 
 async function loadUserSettings() {
-	const res = db.exec("SELECT * FROM user_info WHERE id = 1");
+	const res = db.exec("SELECT id, name, apiKey, uuid, discordId, privateWebhookURL, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing FROM user_info WHERE id = 1");
 	if (!res.length) return console.log("User database is broken.");
 
 	const [id, name, apiKey, uuid, discordId, webhookUrl, apiKeyTimestamp, apiKeyUseAmount, doDiscordNotification, doDiscordNotificationPing] = res[0].values[0];
@@ -121,7 +121,7 @@ async function saveFeatureSettings() { // TODO: BROKEN
 }
 
 async function loadFeatureSettings() {
-	const res = db.exec("SELECT * FROM features WHERE id = 1");
+	const res = db.exec("SELECT id, auctionNotifier, quickForge, itemTracker, auctionNotifierNotifications, quickForgeNotifications, itemTrackerNotifications FROM features WHERE id = 1");
 	if (!res.length) return console.log("Feature database is broken.");
 
 	const [id, auctionNotifier, quickForge, itemTracker, auctionNotifierNotifications, quickForgeNotifications, itemTrackerNotifications] = res[0].values[0];
